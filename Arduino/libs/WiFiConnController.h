@@ -6,7 +6,7 @@
 class WiFiConnController
 {
 public:
-    // WiFiConnController(char[] ssid, char[] pw);
+    WiFiConnController(char ssid[], char pw[]);
 
 private:
 };
