@@ -38,44 +38,44 @@ void loop()
   // červená
   if (!CervenaLED.is_active && !ZelenaLED.is_active && !OrangovaLED.is_active && CervenaLED.offIntervalPassed(CERVENA_INTERVAL))
   {
-    CervenaLED.change_state(HIGH);
+    CervenaLED.changeState(HIGH);
   }
   else if (CervenaLED.is_active && !OrangovaLED.is_active && CervenaLED.onIntervalPassed(CERVENA_INTERVAL))
   {
-    CervenaLED.change_state(LOW);
+    CervenaLED.changeState(LOW);
   }
 
   // červená + oranžová
   if (c_o && !CervenaLED.is_active && !ZelenaLED.is_active && !OrangovaLED.is_active && OrangovaLED.offIntervalPassed(CERVENA_ORANZOVA_INTERVAL))
   {
-    CervenaLED.change_state(HIGH);
-    OrangovaLED.change_state(HIGH);
+    CervenaLED.changeState(HIGH);
+    OrangovaLED.changeState(HIGH);
   }
   else if (c_o && OrangovaLED.is_active && CervenaLED.is_active && OrangovaLED.onIntervalPassed(CERVENA_ORANZOVA_INTERVAL))
   {
-    CervenaLED.change_state(LOW);
-    OrangovaLED.change_state(LOW);
+    CervenaLED.changeState(LOW);
+    OrangovaLED.changeState(LOW);
     c_o = false;
   }
 
   // zelená
   if (!ZelenaLED.is_active && !CervenaLED.is_active && !OrangovaLED.is_active && ZelenaLED.offIntervalPassed(ZELENA_INTERVAL))
   {
-    ZelenaLED.change_state(HIGH);
+    ZelenaLED.changeState(HIGH);
   }
   else if (ZelenaLED.is_active && ZelenaLED.onIntervalPassed(ZELENA_INTERVAL))
   {
-    ZelenaLED.change_state(LOW);
+    ZelenaLED.changeState(LOW);
   }
 
   // oranžová
   if (!c_o && !CervenaLED.is_active && !ZelenaLED.is_active && !OrangovaLED.is_active && OrangovaLED.offIntervalPassed(ORANZOVA_INTERVAL))
   {
-    OrangovaLED.change_state(HIGH);
+    OrangovaLED.changeState(HIGH);
   }
   else if (!c_o && OrangovaLED.is_active && OrangovaLED.onIntervalPassed(ORANZOVA_INTERVAL))
   {
-    OrangovaLED.change_state(LOW);
+    OrangovaLED.changeState(LOW);
     c_o = true;
   }
 }

@@ -14,7 +14,7 @@ void LEDController::init()
     return;
 }
 
-void LEDController::change_state(unsigned short new_state)
+void LEDController::changeState(unsigned short new_state)
 {
     digitalWrite(pin_num, new_state);
     is_active = new_state;

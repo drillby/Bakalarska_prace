@@ -9,7 +9,7 @@ public:
     unsigned short pin_num;
     unsigned short is_active;
     void init();
-    void change_state(unsigned short new_state);
+    void changeState(unsigned short new_state);
     bool onIntervalPassed(unsigned long interval);
     bool offIntervalPassed(unsigned long interval);
 
