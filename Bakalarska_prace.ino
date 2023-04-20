@@ -24,9 +24,6 @@ LEDController ZelenaLED(ZELENA);
 // má svítit červená a oranžová zároveň
 bool c_o;
 
-// délka sekvence semaforu v sekundách
-const int cycleLen = 10;
-
 void setup()
 {
   CervenaLED.init();
