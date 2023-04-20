@@ -15,4 +15,11 @@ private:
     void _withWPA(char ssid[], char pw[], unsigned short ip[4]);
 };
 
+enum EncryptionType
+{
+    NO_ENCRYPTION = 0,
+    WEP_ENCRYPTION = 1,
+    WPA_ENCRYPTION = 2
+};
+
 #endif
