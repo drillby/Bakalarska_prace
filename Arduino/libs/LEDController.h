@@ -5,11 +5,11 @@
 class LEDController
 {
 public:
-    LEDController(int pin_number);
-    int pin_num;
-    int is_active;
+    LEDController(unsigned short pin_number);
+    unsigned short pin_num;
+    unsigned short is_active;
     void init();
-    void change_state(int new_state);
+    void change_state(unsigned short new_state);
     bool onIntervalPassed(unsigned long interval);
     bool offIntervalPassed(unsigned long interval);
 

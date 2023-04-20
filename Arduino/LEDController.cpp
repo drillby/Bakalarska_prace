@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "libs/LEDController.h"
 
-LEDController::LEDController(int pin_number)
+LEDController::LEDController(unsigned short pin_number)
 {
     pin_num = pin_number;
     _prev_time = 0;
@@ -14,7 +14,7 @@ void LEDController::init()
     return;
 }
 
-void LEDController::change_state(int new_state)
+void LEDController::change_state(unsigned short new_state)
 {
     digitalWrite(pin_num, new_state);
     is_active = new_state;
