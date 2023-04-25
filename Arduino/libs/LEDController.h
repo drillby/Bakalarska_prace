@@ -10,8 +10,8 @@ public:
     uint8_t is_active;
     void init();
     void changeState(uint8_t new_state);
-    bool onIntervalPassed(unsigned int interval);
-    bool offIntervalPassed(unsigned int interval);
+    bool onIntervalPassed(unsigned long interval);
+    bool offIntervalPassed(unsigned long interval);
 
 private:
     unsigned long _prev_time;
