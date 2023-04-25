@@ -2,18 +2,31 @@
 #define LEDController_h
 #include "Arduino.h"
 
+/// @brief Třída LEDController je zodpovědná za ovládání stavu a časování bliknutí
+/// @param pin_number číslo PINu na kterém je LED zapojená
 class LEDController
 {
 public:
+    /// @brief Třída LEDController je zodpovědná za ovládání stavu a časování bliknutí
+    /// @param pin_number číslo PINu na kterém je LED zapojená
     LEDController(uint8_t pin_number);
     uint8_t pin_num;
     uint8_t is_active;
     void init();
+    /// @brief slouží ke změně stavu LED
+    /// @param new_state nový stav LED, může být 1, nebo 0
     void changeState(uint8_t new_state);
+    /// @brief kontroluje zda uběhl interval během kterého má LED svítit
+    /// @param interval doba v ms po kterou má být LED rozsvícená
+    /// @return true pokud interval doby zapnutí uběhl
     bool onIntervalPassed(unsigned long interval);
+    /// @brief kontroluje zda uběhl interval během kterého má LED být zhasnutá
+    /// @param interval doba v ms po kterou má být LED zhasnutá
+    /// @return true pokud interval doby vyppnutí uběhl
     bool offIntervalPassed(unsigned long interval);
 
 private:
+    /// @brief čas kdy se uskutečnílo předchozí měření času intervalu
     unsigned long _prev_time;
 };
 #endif
