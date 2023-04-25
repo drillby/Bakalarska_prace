@@ -10,7 +10,9 @@ public:
     void connect();
     char *p_ssid;
     uint8_t ip[4];
-    bool is_connected;
+    uint8_t status;
+    bool hasWiFiModule();
+    bool hasLatestFirmware();
 
 private:
     char *_p_pw;

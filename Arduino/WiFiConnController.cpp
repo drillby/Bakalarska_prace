@@ -7,6 +7,7 @@ WiFiConnController::WiFiConnController(char *ssid, char *pw, uint8_t device_ip[4
     *_p_pw = *pw;
     ip[4] = device_ip[4];
     _encryption = encryption;
+    status = WL_IDLE_STATUS;
 }
 
 void WiFiConnController::connect()
@@ -36,6 +37,16 @@ void WiFiConnController::connect()
         break;
     }
     }
+}
+
+bool hasWiFiModule()
+{
+    return WiFi.status() == WL_NO_MODULE;
+}
+
+bool hasLatestFirmware()
+{
+    return WiFi.firmwareVersion() < WIFI_FIRMWARE_LATEST_VERSION;
 }
 
 void WiFiConnController::_noEncryption()
