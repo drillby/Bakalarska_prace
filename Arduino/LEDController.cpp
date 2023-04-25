@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "libs/LEDController.h"
 
-LEDController::LEDController(unsigned short pin_number)
+LEDController::LEDController(uint8_t pin_number)
 {
     pin_num = pin_number;
     _prev_time = 0;
@@ -14,14 +14,14 @@ void LEDController::init()
     return;
 }
 
-void LEDController::changeState(unsigned short new_state)
+void LEDController::changeState(uint8_t new_state)
 {
     digitalWrite(pin_num, new_state);
     is_active = new_state;
     return;
 }
 
-bool LEDController::onIntervalPassed(unsigned long interval)
+bool LEDController::onIntervalPassed(unsigned int interval)
 {
     unsigned long curr_time = millis();
     if (curr_time - _prev_time >= interval)
@@ -32,7 +32,7 @@ bool LEDController::onIntervalPassed(unsigned long interval)
     return false;
 }
 
-bool LEDController::offIntervalPassed(unsigned long interval)
+bool LEDController::offIntervalPassed(unsigned int interval)
 {
     unsigned long curr_time = millis();
     if (curr_time - _prev_time >= interval)
