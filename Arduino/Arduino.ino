@@ -6,7 +6,9 @@ LEDController CervenaLED(CERVENA);
 LEDController OrangovaLED(ORANZOVA);
 LEDController ZelenaLED(ZELENA);
 
+// nemůžu použít definované pole -> problémy s kompilací
 uint8_t test[] = ARDU_IP;
+
 WiFiConnController ConnController(WIFI_SSID, WIFI_PW, test, NO_ENCRYPTION);
 
 // má svítit červená a oranžová zároveň
@@ -14,6 +16,8 @@ bool c_o;
 
 void setup()
 {
+  ConnController.connect();
+
   CervenaLED.init();
   OrangovaLED.init();
   ZelenaLED.init();
