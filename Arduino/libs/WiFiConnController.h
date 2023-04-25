@@ -6,13 +6,18 @@
 class WiFiConnController
 {
 public:
-    WiFiConnController(char ssid[], char pw[], unsigned short ip[4], unsigned short encryption);
-    void init();
+    WiFiConnController(char *ssid, char *pw, uint8_t device_ip[], uint8_t encryption);
+    void connect();
+    char *p_ssid;
+    uint8_t ip[4];
+    bool is_connected;
 
 private:
-    void _noEncryption(char ssid[], char pw[], unsigned short ip[4]);
-    void _withWEP(char ssid[], char pw[], unsigned short ip[4]);
-    void _withWPA(char ssid[], char pw[], unsigned short ip[4]);
+    char *_p_pw;
+    uint8_t _encryption;
+    void _noEncryption();
+    void _withWEP();
+    void _withWPA();
 };
 
 enum EncryptionType

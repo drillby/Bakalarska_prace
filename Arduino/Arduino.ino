@@ -1,25 +1,13 @@
 #include "libs/LEDController.h"
-#include <WiFiNINA.h>
-
-// PIN zelené diody
-#define ZELENA 5
-// PIN oranžové diody
-#define ORANZOVA 6
-// PIN červwné diody
-#define CERVENA 7
-
-// jak dlouho má červená dioda svítit
-#define CERVENA_INTERVAL 3000
-// jak dlouho má svítit červená a oranžová dioda zároveň
-#define CERVENA_ORANZOVA_INTERVAL 1000
-// jak dlouho má oranžová dioda svítit
-#define ORANZOVA_INTERVAL 1000
-// jak dlouho má zelená dioda svítit
-#define ZELENA_INTERVAL CERVENA_INTERVAL + CERVENA_ORANZOVA_INTERVAL
+#include "libs/WiFiConnController.h"
+#include "config.h"
 
 LEDController CervenaLED(CERVENA);
 LEDController OrangovaLED(ORANZOVA);
 LEDController ZelenaLED(ZELENA);
+
+uint8_t test[] = ARDU_IP;
+WiFiConnController ConnController(WIFI_SSID, WIFI_PW, test, NO_ENCRYPTION);
 
 // má svítit červená a oranžová zároveň
 bool c_o;
