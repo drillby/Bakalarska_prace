@@ -27,10 +27,6 @@ public:
 
 private:
     char *_p_pw;
-    uint8_t _encryption;
-    void _noEncryption();
-    void _withWEP();
-    void _withWPA();
 };
 
 #endif
