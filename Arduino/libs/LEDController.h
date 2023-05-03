@@ -10,8 +10,11 @@ public:
     /// @brief Třída LEDController je zodpovědná za ovládání stavu a časování bliknutí
     /// @param pin_number číslo PINu na kterém je LED zapojená
     LEDController(uint8_t pin_number);
+    /// @brief číslo PINu ve kterém je LED zapojena
     uint8_t pin_num;
+    /// @brief aktuální stav LED
     uint8_t is_active;
+    /// @brief slouží pro nastavení PINu jako outputu, musí být zavolána v setup()
     void init();
     /// @brief slouží ke změně stavu LED
     /// @param new_state nový stav LED, může být 1, nebo 0
