@@ -6,22 +6,83 @@ LEDController CervenaLED(CERVENA);
 LEDController OrangovaLED(ORANZOVA);
 LEDController ZelenaLED(ZELENA);
 
-// nemůžu použít definované pole -> problémy s kompilací
-uint8_t test[] = ARDU_IP;
+uint8_t arduino_ip[4] = ARDU_IP; // nemůžu použít definované pole -> problémy s kompilací
 
-WiFiConnController ConnController(WIFI_SSID, WIFI_PW, test, NO_ENCRYPTION);
+WiFiConnController ConnController(WIFI_SSID, WIFI_PW, arduino_ip, NO_ENCRYPTION);
 
 // má svítit červená a oranžová zároveň
 bool c_o;
 
+/// @brief funkce pro abstrakci blikání LEDek při kontrole Arduina
+/// @param LEDs pole inicializovaných LEDController objektů
+/// @param size velikost pole
+/// @param delay_time doba po kterou budou LEDky svítit v ms
+void checkUpBlink(LEDController LEDs[], uint8_t size, unsigned long delay_time)
+{
+  for (uint8_t i = 0; i < size; i++)
+  {
+    LEDs[i].changeState(HIGH);
+  }
+  delay(delay_time);
+  for (uint8_t i = 0; i < size; i++)
+  {
+    LEDs[i].changeState(LOW);
+  }
+  delay(delay_time);
+}
+
 void setup()
 {
-  ConnController.connect();
-
   CervenaLED.init();
   OrangovaLED.init();
   ZelenaLED.init();
   c_o = false;
+
+  LEDController LEDs_check_up[3] = {CervenaLED, OrangovaLED, ZelenaLED};
+  unsigned long LEDs_check_up_size = sizeof(LEDs_check_up) / sizeof(LEDController);
+
+  LEDController LEDs_passed[1] = {ZelenaLED};
+  unsigned long LEDs_passed_size = sizeof(LEDs_passed) / sizeof(LEDController);
+
+  LEDController LEDs_warning[1] = {OrangovaLED};
+  unsigned long LEDs_warning_size = sizeof(LEDs_warning) / sizeof(LEDController);
+
+  LEDController LEDs_error[1] = {CervenaLED};
+  unsigned long LEDs_error_size = sizeof(LEDs_error) / sizeof(LEDController);
+
+  unsigned long delay_time = 1000;
+
+  // začátek kontrolní sekvence Arduina
+  // bliknutí všech LED je pouze vizuální ukazatel, že začala tato sekvence
+  checkUpBlink(LEDs_check_up, LEDs_check_up_size, delay_time);
+
+  // kontrola zda Arduino obsahuje WiFi modul
+  if (!ConnController.hasWiFiModule())
+  {
+    while (true)
+    {
+      checkUpBlink(LEDs_error, LEDs_error_size, delay_time);
+    }
+  }
+  checkUpBlink(LEDs_passed, LEDs_passed_size, delay_time);
+
+  // kontrola zda Arduino má nejnovější WiFi firmware
+  if (!ConnController.hasLatestFirmware())
+  {
+    checkUpBlink(LEDs_warning, LEDs_warning_size, delay_time);
+  }
+  else
+  {
+    checkUpBlink(LEDs_passed, LEDs_passed_size, delay_time);
+  }
+
+  // ConnController.connect();
+
+  // TODO:testovací dotaz na server
+
+  // konec kontrolní sekvence Arduina
+  // bliknutí všech LED je pouze vizuální ukazatel, že začala tato skončila
+  checkUpBlink(LEDs_check_up, LEDs_check_up_size, delay_time);
 }
 void loop()
 {
