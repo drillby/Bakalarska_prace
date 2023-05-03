@@ -39,14 +39,14 @@ void WiFiConnController::connect()
     }
 }
 
-bool hasWiFiModule()
+bool WiFiConnController::hasWiFiModule()
 {
-    return WiFi.status() == WL_NO_MODULE;
+    return !(WiFi.status() == WL_NO_MODULE);
 }
 
-bool hasLatestFirmware()
+bool WiFiConnController::hasLatestFirmware()
 {
-    return WiFi.firmwareVersion() < WIFI_FIRMWARE_LATEST_VERSION;
+    return WiFi.firmwareVersion() == WIFI_FIRMWARE_LATEST_VERSION;
 }
 
 void WiFiConnController::_noEncryption()
