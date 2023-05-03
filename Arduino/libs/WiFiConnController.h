@@ -11,8 +11,7 @@ public:
     /// @param ssid název WiFi sítě
     /// @param pw heslo do WiFi sítě
     /// @param device_ip IP adresa pod kterou se Arduino pokusí přihlásit
-    /// @param encryption druh zabezpečení WiFi sítě: 0 -> bez zabezpečení, 1 -> WEP, 2 -> WPA
-    WiFiConnController(char *ssid, char *pw, uint8_t device_ip[], uint8_t encryption);
+    WiFiConnController(char *ssid, char *pw, uint8_t device_ip[]);
     /// @brief pokusí se připojit Arduino k WiFi, musí být zavolána v setup()
     /// @return None
     void connect();
@@ -32,13 +31,6 @@ private:
     void _noEncryption();
     void _withWEP();
     void _withWPA();
-};
-
-enum EncryptionType
-{
-    NO_ENCRYPTION = 0,
-    WEP_ENCRYPTION = 1,
-    WPA_ENCRYPTION = 2
 };
 
 #endif

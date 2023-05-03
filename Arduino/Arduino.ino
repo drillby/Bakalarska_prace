@@ -8,7 +8,7 @@ LEDController ZelenaLED(ZELENA);
 
 uint8_t arduino_ip[4] = ARDU_IP; // nemůžu použít definované pole -> problémy s kompilací
 
-WiFiConnController ConnController(WIFI_SSID, WIFI_PW, arduino_ip, NO_ENCRYPTION);
+WiFiConnController ConnController(WIFI_SSID, WIFI_PW, arduino_ip);
 
 // má svítit červená a oranžová zároveň
 bool c_o;
