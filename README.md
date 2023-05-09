@@ -23,3 +23,7 @@ doc. Ing. Monika Hromasová Ph.D.
 - Realizace výukové úlohy
 - Vytvoření programu pro řízení
 - Realizace 3D tisku v prototypovém centru TF
+
+## Live demo:
+
+<a href="./frontend">zde</a>
