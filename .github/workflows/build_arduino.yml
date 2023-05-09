@@ -12,8 +12,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: arduino/compile-sketches@v1
         with:
-            sketch-paths: |
-              - ./
-            libraries: |
-              - name: WiFiNINA
-              - name: 
+          sketch-paths: |
+            - ./
+          libraries: |
+            - name: WiFiNINA
+            - name:
