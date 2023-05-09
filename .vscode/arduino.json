@@ -1,8 +1,4 @@
 {
-    "configuration": "mode=on",
     "board": "arduino:megaavr:uno2018",
-    "programmer": "medbg",
-    "port": "/dev/ttyACM0",
-    "sketch": "Arduino/Arduino.ino",
-    "intelliSenseGen": "enable"
+    "port": "/dev/ttyACM0"
 }
