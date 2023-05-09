@@ -7,7 +7,7 @@ api_cors_config = {
     "methods": ["GET", "POST"],
     "allow_headers": ["Authorization", "Content-Type", "Access-Control-Allow-Origin"],
 }
-# CORS(app, resources={"/*": api_cors_config})
+CORS(app, resources={"/*": api_cors_config})
 
 
 @app.route("/", methods=["GET"])
