@@ -9,11 +9,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: arduino/compile-sketches@v1
+      - name: Checkout branch
+        uses: actions/checkout@v3
+
+      - name: Compile sketch
+        uses: arduino/compile-sketches@v1
         with:
           sketch-paths: |
             - ./
           libraries: |
             - name: WiFiNINA
-            - name:
