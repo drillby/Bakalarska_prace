@@ -2,3 +2,4 @@
 config.*
 *.docx
 *.pdf
+node_modules
