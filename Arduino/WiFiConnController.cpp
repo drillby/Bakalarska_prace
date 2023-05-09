@@ -1,16 +1,25 @@
 #include "Arduino.h"
 #include "libs/WiFiConnController.h"
 
-WiFiConnController::WiFiConnController(char *ssid, char *pw, uint8_t device_ip[4])
+WiFiConnController::WiFiConnController(String ssid, String pw, uint8_t device_ip[4])
 {
-    *p_ssid = *ssid;
-    *_p_pw = *pw;
+    p_ssid = ssid;
+    _p_pw = pw;
     ip[4] = device_ip[4];
     status = WL_IDLE_STATUS;
 }
 
-void WiFiConnController::connect()
+void WiFiConnController::connect(uint8_t num_of_tries)
 {
+    for (uint8_t i = 0; i <= num_of_tries; i++)
+    {
+        if (status == WL_CONNECTED)
+        {
+            break;
+        }
+        status = WiFi.begin(p_ssid.c_str(), _p_pw.c_str());
+        delay(10000);
+    }
 }
 
 bool WiFiConnController::hasWiFiModule()
