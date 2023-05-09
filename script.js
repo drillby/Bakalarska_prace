@@ -1,8 +1,7 @@
 function testAPI() {
-	console.log("test");
 	fetch("http://127.0.0.1:8080")
 		.then((response) => response.json())
-		.then((data) => console.log(data))
+		.then((data) => updateElement("api-test", data.data))
 		.catch((error) => console.error(error));
 }
 
