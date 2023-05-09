@@ -7,8 +7,10 @@ LEDController OrangovaLED(ORANZOVA);
 LEDController ZelenaLED(ZELENA);
 
 uint8_t arduino_ip[4] = ARDU_IP; // nemůžu použít definované pole -> problémy s kompilací
+String ssid_ = WIFI_SSID;
+String pw_ = WIFI_PW;
 
-WiFiConnController ConnController(WIFI_SSID, WIFI_PW, arduino_ip);
+WiFiConnController ConnController(ssid_, pw_, arduino_ip); // ! v případě nedostatku místa refaktorovat String na char *
 
 // má svítit červená a oranžová zároveň
 bool c_o;
@@ -76,7 +78,16 @@ void setup()
     checkUpBlink(LEDs_passed, LEDs_passed_size, delay_time);
   }
 
-  // ConnController.connect();
+  ConnController.connect(3);
+
+  if (ConnController.status != WL_CONNECTED)
+  {
+    while (true)
+    {
+      checkUpBlink(LEDs_error, LEDs_error_size, delay_time);
+    }
+  }
+  checkUpBlink(LEDs_passed, LEDs_passed_size, delay_time);
 
   // TODO:testovací dotaz na server
 
