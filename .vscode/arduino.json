@@ -1,6 +1,5 @@
 {
 	"board": "arduino:megaavr:uno2018",
 	"port": "/dev/ttyACM0",
-	"sketch": "main.ino",
-	"programmer": "medbg"
+	"sketch": "Bakalarska_prace.ino"
 }
