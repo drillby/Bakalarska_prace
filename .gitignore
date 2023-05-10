@@ -3,3 +3,6 @@ config.*
 *.docx
 *.pdf
 node_modules
+*.pyc
+__pycache__
+.pytest_cache
