@@ -17,7 +17,7 @@
 // jak dlouho má zelená dioda svítit
 #define ZELENA_INTERVAL CERVENA_INTERVAL + CERVENA_ORANZOVA_INTERVAL
 // SSID WiFi na kterou se Arduino připojí
-#define WIFI_SSID "SSID"
+#define WIFI_SSID "Zizice_doma"
 // heslo k WiFi
-#define WIFI_PW "PW"
+#define WIFI_PW "Pavel_Olinka"
 #endif

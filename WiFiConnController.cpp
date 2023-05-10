@@ -1,11 +1,10 @@
 #include "Arduino.h"
 #include "libs/WiFiConnController.h"
 
-WiFiConnController::WiFiConnController(String ssid, String pw, uint8_t device_ip[4])
+WiFiConnController::WiFiConnController(String ssid, String pw)
 {
     p_ssid = ssid;
     _p_pw = pw;
-    ip[4] = device_ip[4];
     status = WL_IDLE_STATUS;
 }
 
