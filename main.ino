@@ -6,11 +6,10 @@ LEDController CervenaLED(CERVENA);
 LEDController OrangovaLED(ORANZOVA);
 LEDController ZelenaLED(ZELENA);
 
-uint8_t arduino_ip[4] = ARDU_IP; // nemůžu použít definované pole -> problémy s kompilací
 String ssid_ = WIFI_SSID;
 String pw_ = WIFI_PW;
 
-WiFiConnController ConnController(ssid_, pw_, arduino_ip); // ! v případě nedostatku místa refaktorovat String na char *
+WiFiConnController ConnController(ssid_, pw_); // ! v případě nedostatku místa refaktorovat String na char *
 
 // má svítit červená a oranžová zároveň
 bool c_o;
