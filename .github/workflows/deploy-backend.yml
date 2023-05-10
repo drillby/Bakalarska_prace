@@ -6,6 +6,7 @@ name: Deploy to Azure
 
 on:
   pull_request:
+    types: [closed]
     branches:
       - backend
   workflow_dispatch:
