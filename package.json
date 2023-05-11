@@ -4,5 +4,8 @@
 	},
 	"devDependencies": {
 		"typescript": "^5.0.4"
+	},
+	"dependencies": {
+		"chart.js": "^4.3.0"
 	}
 }
