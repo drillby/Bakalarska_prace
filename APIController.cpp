@@ -35,6 +35,18 @@ void APIController::sendRequest(uint8_t req_type, String endpoint, bool keep_ali
 
 void APIController::_getRequest(String endpoint, bool keep_alive)
 {
+    client.println("GET " + String(endpoint) + " HTTP/1.1");
+    client.println("Host: " + String(url));
+    client.println("Accept: application/json");
+    if (keep_alive)
+    {
+        client.println("Connection: keep-alive");
+    }
+    else
+    {
+        client.println("Connection: close");
+    }
+    client.println();
 }
 
 void APIController::_postRequest(String endpoint, bool keep_alive)
