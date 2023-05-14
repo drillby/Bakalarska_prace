@@ -1,5 +1,6 @@
 #include "libs/LEDController.h"
 #include "libs/WiFiConnController.h"
+#include "libs/APIController.h"
 #include "config.h"
 
 LEDController CervenaLED(CERVENA);
@@ -9,7 +10,9 @@ LEDController ZelenaLED(ZELENA);
 String ssid_ = WIFI_SSID;
 String pw_ = WIFI_PW;
 
-WiFiConnController ConnController(ssid_, pw_); // ! v případě nedostatku místa refaktorovat String na char *
+WiFiConnController ConnController(WIFI_SSID, WIFI_PW); // ! v případě nedostatku místa refaktorovat String na char *
+
+APIController FlaskAPI(SERVER_ADDRESS, SERVER_PORT);
 
 // má svítit červená a oranžová zároveň
 bool c_o;
@@ -80,6 +83,17 @@ void setup()
   ConnController.connect(3);
 
   if (ConnController.status != WL_CONNECTED)
+  {
+    while (true)
+    {
+      checkUpBlink(LEDs_error, LEDs_error_size, delay_time);
+    }
+  }
+  checkUpBlink(LEDs_passed, LEDs_passed_size, delay_time);
+
+  FlaskAPI.connect(3);
+
+  if (FlaskAPI.is_connected == false)
   {
     while (true)
     {

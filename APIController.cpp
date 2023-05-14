@@ -6,6 +6,7 @@ APIController::APIController(String server_url, uint8_t server_port)
     url = server_url;
     port = server_port;
     WiFiClient client;
+    is_connected = false;
 }
 
 void APIController::connect(uint8_t num_of_tries)
@@ -14,6 +15,7 @@ void APIController::connect(uint8_t num_of_tries)
     {
         if (client.connected())
         {
+            is_connected = true;
             break;
         }
         client.connect(url.c_str(), port);

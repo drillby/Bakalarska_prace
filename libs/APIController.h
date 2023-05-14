@@ -10,9 +10,11 @@ public:
     void sendRequest(uint8_t req_type, String endpoint, bool keep_alive);
     String url;
     uint8_t port;
+    bool is_connected;
 
 private:
-    void _getRequest(String endpoint, bool keep_alive);
+    void
+    _getRequest(String endpoint, bool keep_alive);
     void _postRequest(String endpoint, bool keep_alive);
     char _readRespose();
     WiFiClient client;
