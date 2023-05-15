@@ -77,3 +77,8 @@ bool APIController::isOKResCode()
     String res = _readRespose();
     return res.indexOf("200") != -1;
 }
+
+void APIController::disconect()
+{
+    client.stop();
+}
