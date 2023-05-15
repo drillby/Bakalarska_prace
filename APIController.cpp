@@ -1,9 +1,18 @@
 #include "Arduino.h"
 #include "libs/APIController.h"
+#include <WiFi.h>
 
-APIController::APIController(String server_url, uint8_t server_port)
+APIController::APIController(String server_address, uint8_t server_port)
 {
-    url = server_url;
+    url = server_address;
+    port = server_port;
+    WiFiClient client;
+    is_connected = false;
+}
+
+APIController::APIController(int ip_address[4], uint8_t server_port)
+{
+    ip = ip_address;
     port = server_port;
     WiFiClient client;
     is_connected = false;
@@ -11,15 +20,32 @@ APIController::APIController(String server_url, uint8_t server_port)
 
 void APIController::connect(uint8_t num_of_tries)
 {
-    for (uint8_t i = 0; i <= num_of_tries; i++)
+    if (url != "")
     {
-        if (client.connected())
+        for (uint8_t i = 0; i <= num_of_tries; i++)
         {
-            is_connected = true;
-            break;
+            if (client.connected())
+            {
+                is_connected = true;
+                break;
+            }
+            client.connect(url.c_str(), port);
+            delay(10000);
         }
-        client.connect(url.c_str(), port);
-        delay(10000);
+    }
+    else
+    {
+        IPAddress serverIP(ip[0], ip[1], ip[2], ip[3]);
+        for (uint8_t i = 0; i <= num_of_tries; i++)
+        {
+            if (client.connected())
+            {
+                is_connected = true;
+                break;
+            }
+            client.connect(serverIP, port);
+            delay(10000);
+        }
     }
 }
 
