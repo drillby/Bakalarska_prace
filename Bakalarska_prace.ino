@@ -77,6 +77,7 @@ void setup()
     checkUpBlink(LEDs_passed, delay_time);
   }
 
+  // pokus o připojení na WiFi
   ConnController.connect(3);
 
   if (ConnController.status != WL_CONNECTED)
@@ -88,6 +89,7 @@ void setup()
   }
   checkUpBlink(LEDs_passed, delay_time);
 
+  // pokus o připojení k REST API serveru
   FlaskAPI.connect(3);
 
   if (FlaskAPI.is_connected == false)
