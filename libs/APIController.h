@@ -6,15 +6,16 @@ class APIController
 {
 public:
     APIController(String server_url, uint8_t server_port);
+    APIController(int ip_address[4], uint8_t server_port);
     void connect(uint8_t num_of_tries);
     void sendRequest(uint8_t req_type, String endpoint, bool keep_alive);
-    String url;
+    int *ip = 0;
+    String url = "";
     uint8_t port;
     bool is_connected;
 
 private:
-    void
-    _getRequest(String endpoint, bool keep_alive);
+    void _getRequest(String endpoint, bool keep_alive);
     void _postRequest(String endpoint, bool keep_alive);
     char _readRespose();
     WiFiClient client;
