@@ -12,8 +12,9 @@ String wiif_pw = WIFI_PW;
 
 WiFiConnController ConnController(wifi_ssid, wiif_pw); // ? v případě nedostatku místa refaktorovat String na char *
 
-int server_address[4] = {192, 168, 132, 103};
-APIController FlaskAPI(server_address, 4);
+uint8_t local_server[4] = LOCAL_SERVER;
+IPAddress server_address(local_server[0], local_server[1], local_server[2], local_server[3]);
+APIController FlaskAPI(server_address, SERVER_PORT);
 
 // má svítit červená a oranžová zároveň
 bool c_o;

@@ -5,13 +5,13 @@
 class APIController
 {
 public:
-    APIController(String server_url, uint8_t server_port);
-    APIController(int ip_address[4], uint8_t server_port);
+    APIController(String server_url, uint16_t server_port);
+    APIController(IPAddress ip_address, uint16_t server_port);
     void connect(uint8_t num_of_tries);
     void sendRequest(uint8_t req_type, String endpoint, bool keep_alive);
-    int *ip = 0;
+    IPAddress ip;
     String url = "";
-    uint8_t port;
+    uint16_t port;
     bool is_connected;
 
 private:
