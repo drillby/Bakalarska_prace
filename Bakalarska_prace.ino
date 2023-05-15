@@ -1,3 +1,5 @@
+// sudo minicom -D /dev/ttyACM0 -b 115200
+
 #include "libs/LEDController.h"
 #include "libs/WiFiConnController.h"
 #include "libs/APIController.h"
@@ -39,6 +41,8 @@ void checkUpBlink(LEDController LEDs[], uint8_t size, unsigned int delay_time)
 
 void setup()
 {
+  Serial.begin(9600);
+
   CervenaLED.init();
   OrangovaLED.init();
   ZelenaLED.init();
@@ -106,7 +110,15 @@ void setup()
   }
   checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
-  // TODO:testovací dotaz na server
+  FlaskAPI.sendRequest(GET_REQUEST, "/", false);
+  if (!FlaskAPI.isOKResCode())
+  {
+    while (true)
+    {
+      checkUpBlink(LEDs_error, LEDs_error_size, delay_time);
+    }
+  }
+  checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
   // konec kontrolní sekvence Arduina
   // bliknutí všech LED je pouze vizuální ukazatel, že začala tato skončila

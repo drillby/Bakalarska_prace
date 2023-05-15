@@ -63,11 +63,17 @@ void APIController::_postRequest(String endpoint, bool keep_alive)
 {
 }
 
-char APIController::_readRespose()
+String APIController::_readRespose()
 {
     while (!client.available())
     {
         ;
     }
-    return client.read();
+    return client.readStringUntil('\n');
+}
+
+bool APIController::isOKResCode()
+{
+    String res = _readRespose();
+    return res.indexOf("200") != -1;
 }

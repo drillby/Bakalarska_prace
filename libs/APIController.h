@@ -9,6 +9,7 @@ public:
     APIController(IPAddress ip_address, uint16_t server_port);
     void connect(uint8_t num_of_tries);
     void sendRequest(uint8_t req_type, String endpoint, bool keep_alive);
+    bool isOKResCode();
     IPAddress ip;
     String url = "";
     uint16_t port;
@@ -17,7 +18,7 @@ public:
 private:
     void _getRequest(String endpoint, bool keep_alive);
     void _postRequest(String endpoint, bool keep_alive);
-    char _readRespose();
+    String _readRespose();
     WiFiClient client;
 };
 
