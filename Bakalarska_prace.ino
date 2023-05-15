@@ -7,12 +7,13 @@ LEDController CervenaLED(CERVENA);
 LEDController OrangovaLED(ORANZOVA);
 LEDController ZelenaLED(ZELENA);
 
-String ssid_ = WIFI_SSID;
-String pw_ = WIFI_PW;
+String wifi_ssid = WIFI_SSID;
+String wiif_pw = WIFI_PW;
 
-WiFiConnController ConnController(WIFI_SSID, WIFI_PW); // ! v případě nedostatku místa refaktorovat String na char *
+WiFiConnController ConnController(wifi_ssid, wiif_pw); // ? v případě nedostatku místa refaktorovat String na char *
 
-APIController FlaskAPI(SERVER_ADDRESS, SERVER_PORT);
+int server_address[4] = {192, 168, 132, 103};
+APIController FlaskAPI(server_address, 4);
 
 // má svítit červená a oranžová zároveň
 bool c_o;
@@ -21,9 +22,8 @@ bool c_o;
 /// @param LEDs pole inicializovaných LEDController objektů
 /// @param size velikost pole
 /// @param delay_time doba po kterou budou LEDky svítit v ms
-void checkUpBlink(LEDController LEDs[], unsigned int delay_time)
+void checkUpBlink(LEDController LEDs[], uint8_t size, unsigned int delay_time)
 {
-  unsigned int size = sizeof(LEDs) / sizeof(LEDs[0]);
   for (uint8_t i = 0; i < size; i++)
   {
     LEDs[i].changeState(HIGH);
@@ -44,37 +44,41 @@ void setup()
   c_o = false;
 
   LEDController LEDs_check_up[3] = {CervenaLED, OrangovaLED, ZelenaLED};
+  uint8_t LEDs_check_size = sizeof(LEDs_check_up) / sizeof(LEDController);
 
   LEDController LEDs_passed[1] = {ZelenaLED};
+  uint8_t LEDs_pass_size = sizeof(LEDs_passed) / sizeof(LEDController);
 
   LEDController LEDs_warning[1] = {OrangovaLED};
+  uint8_t LEDs_warning_size = sizeof(LEDs_warning) / sizeof(LEDController);
 
   LEDController LEDs_error[1] = {CervenaLED};
+  uint8_t LEDs_error_size = sizeof(LEDs_error) / sizeof(LEDController);
 
   unsigned long delay_time = 1000;
 
   // začátek kontrolní sekvence Arduina
   // bliknutí všech LED je pouze vizuální ukazatel, že začala tato sekvence
-  checkUpBlink(LEDs_check_up, delay_time);
+  checkUpBlink(LEDs_check_up, LEDs_check_size, delay_time);
 
   // kontrola zda Arduino obsahuje WiFi modul
   if (!ConnController.hasWiFiModule())
   {
     while (true)
     {
-      checkUpBlink(LEDs_error, delay_time);
+      checkUpBlink(LEDs_error, LEDs_error_size, delay_time);
     }
   }
-  checkUpBlink(LEDs_passed, delay_time);
+  checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
   // kontrola zda Arduino má nejnovější WiFi firmware
   if (!ConnController.hasLatestFirmware())
   {
-    checkUpBlink(LEDs_warning, delay_time);
+    checkUpBlink(LEDs_warning, LEDs_warning_size, delay_time);
   }
   else
   {
-    checkUpBlink(LEDs_passed, delay_time);
+    checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
   }
 
   // pokus o připojení na WiFi
@@ -84,28 +88,28 @@ void setup()
   {
     while (true)
     {
-      checkUpBlink(LEDs_error, delay_time);
+      checkUpBlink(LEDs_error, LEDs_error_size, delay_time);
     }
   }
-  checkUpBlink(LEDs_passed, delay_time);
+  checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
   // pokus o připojení k REST API serveru
-  FlaskAPI.connect(3);
+  FlaskAPI.connect(3, IP_ADDRESS);
 
   if (FlaskAPI.is_connected == false)
   {
     while (true)
     {
-      checkUpBlink(LEDs_error, delay_time);
+      checkUpBlink(LEDs_error, LEDs_error_size, delay_time);
     }
   }
-  checkUpBlink(LEDs_passed, delay_time);
+  checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
   // TODO:testovací dotaz na server
 
   // konec kontrolní sekvence Arduina
   // bliknutí všech LED je pouze vizuální ukazatel, že začala tato skončila
-  checkUpBlink(LEDs_check_up, delay_time);
+  checkUpBlink(LEDs_check_up, LEDs_check_size, delay_time);
 }
 void loop()
 {
