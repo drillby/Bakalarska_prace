@@ -17,4 +17,4 @@ api_cors_config = {
 CORS(app, resources={"/api/*": api_cors_config})
 
 # importing API views
-# from api import delete_views, get_views, post_views
+from api.endpoints import views
