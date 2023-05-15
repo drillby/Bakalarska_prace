@@ -94,7 +94,7 @@ void setup()
   checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
   // pokus o připojení k REST API serveru
-  FlaskAPI.connect(3, IP_ADDRESS);
+  FlaskAPI.connect(3);
 
   if (FlaskAPI.is_connected == false)
   {
