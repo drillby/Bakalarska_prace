@@ -1,0 +1,36 @@
+#include "Arduino.h"
+#include "libs/ProxomitySensorController.h"
+
+ProximitySensorController::ProximitySensorController(
+    uint8_t trig_pin, uint8_t echo_pin, uint16_t min_offset)
+{
+    t_pin = trig_pin;
+    e_pin = echo_pin;
+    offset = min_offset;
+}
+
+void ProximitySensorController::setUp()
+{
+    pinMode(t_pin, OUTPUT);
+    pinMode(e_pin, INPUT);
+    unsigned long avg = 0;
+    uint8_t num_of_rep = 20;
+    for (uint8_t i = 0; i <= num_of_rep; i++)
+    {
+        avg += measure(5);
+    }
+    base_len = avg / num_of_rep;
+}
+
+uint8_t ProximitySensorController::measure(uint8_t measurement_time)
+{
+    digitalWrite(t_pin, HIGH);
+    delay(measurement_time);
+    digitalWrite(t_pin, LOW);
+    unsigned long time = pulseIn(e_pin, HIGH, 1000);
+    return (time / 2) / 29.1;
+}
+
+bool ProximitySensorController::compare(uint16_t mesured_len)
+{
+}
