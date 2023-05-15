@@ -12,11 +12,11 @@ void WiFiConnController::connect(uint8_t num_of_tries)
 {
     for (uint8_t i = 0; i <= num_of_tries; i++)
     {
+        status = WiFi.begin(p_ssid.c_str(), _p_pw.c_str());
         if (status == WL_CONNECTED)
         {
             break;
         }
-        status = WiFi.begin(p_ssid.c_str(), _p_pw.c_str());
         delay(10000);
     }
 }

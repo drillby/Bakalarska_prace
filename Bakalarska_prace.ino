@@ -101,7 +101,7 @@ void setup()
   // pokus o připojení k REST API serveru
   FlaskAPI.connect(3);
 
-  if (FlaskAPI.is_connected == false)
+  if (!FlaskAPI.is_connected)
   {
     while (true)
     {
