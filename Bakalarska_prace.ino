@@ -21,8 +21,9 @@ bool c_o;
 /// @param LEDs pole inicializovaných LEDController objektů
 /// @param size velikost pole
 /// @param delay_time doba po kterou budou LEDky svítit v ms
-void checkUpBlink(LEDController LEDs[], uint8_t size, unsigned long delay_time)
+void checkUpBlink(LEDController LEDs[], unsigned int delay_time)
 {
+  unsigned int size = sizeof(LEDs) / sizeof(LEDs[0]);
   for (uint8_t i = 0; i < size; i++)
   {
     LEDs[i].changeState(HIGH);
@@ -43,41 +44,37 @@ void setup()
   c_o = false;
 
   LEDController LEDs_check_up[3] = {CervenaLED, OrangovaLED, ZelenaLED};
-  unsigned long LEDs_check_up_size = sizeof(LEDs_check_up) / sizeof(LEDController);
 
   LEDController LEDs_passed[1] = {ZelenaLED};
-  unsigned long LEDs_passed_size = sizeof(LEDs_passed) / sizeof(LEDController);
 
   LEDController LEDs_warning[1] = {OrangovaLED};
-  unsigned long LEDs_warning_size = sizeof(LEDs_warning) / sizeof(LEDController);
 
   LEDController LEDs_error[1] = {CervenaLED};
-  unsigned long LEDs_error_size = sizeof(LEDs_error) / sizeof(LEDController);
 
   unsigned long delay_time = 1000;
 
   // začátek kontrolní sekvence Arduina
   // bliknutí všech LED je pouze vizuální ukazatel, že začala tato sekvence
-  checkUpBlink(LEDs_check_up, LEDs_check_up_size, delay_time);
+  checkUpBlink(LEDs_check_up, delay_time);
 
   // kontrola zda Arduino obsahuje WiFi modul
   if (!ConnController.hasWiFiModule())
   {
     while (true)
     {
-      checkUpBlink(LEDs_error, LEDs_error_size, delay_time);
+      checkUpBlink(LEDs_error, delay_time);
     }
   }
-  checkUpBlink(LEDs_passed, LEDs_passed_size, delay_time);
+  checkUpBlink(LEDs_passed, delay_time);
 
   // kontrola zda Arduino má nejnovější WiFi firmware
   if (!ConnController.hasLatestFirmware())
   {
-    checkUpBlink(LEDs_warning, LEDs_warning_size, delay_time);
+    checkUpBlink(LEDs_warning, delay_time);
   }
   else
   {
-    checkUpBlink(LEDs_passed, LEDs_passed_size, delay_time);
+    checkUpBlink(LEDs_passed, delay_time);
   }
 
   ConnController.connect(3);
@@ -86,10 +83,10 @@ void setup()
   {
     while (true)
     {
-      checkUpBlink(LEDs_error, LEDs_error_size, delay_time);
+      checkUpBlink(LEDs_error, delay_time);
     }
   }
-  checkUpBlink(LEDs_passed, LEDs_passed_size, delay_time);
+  checkUpBlink(LEDs_passed, delay_time);
 
   FlaskAPI.connect(3);
 
@@ -97,16 +94,16 @@ void setup()
   {
     while (true)
     {
-      checkUpBlink(LEDs_error, LEDs_error_size, delay_time);
+      checkUpBlink(LEDs_error, delay_time);
     }
   }
-  checkUpBlink(LEDs_passed, LEDs_passed_size, delay_time);
+  checkUpBlink(LEDs_passed, delay_time);
 
   // TODO:testovací dotaz na server
 
   // konec kontrolní sekvence Arduina
   // bliknutí všech LED je pouze vizuální ukazatel, že začala tato skončila
-  checkUpBlink(LEDs_check_up, LEDs_check_up_size, delay_time);
+  checkUpBlink(LEDs_check_up, delay_time);
 }
 void loop()
 {
