@@ -8,6 +8,8 @@ public:
     uint16_t measure(uint8_t measurement_time);
     void setUp();
     bool compare(uint16_t mesured_len);
+    bool aboveMax(uint16_t mesured_len);
+    bool belowMin(uint16_t mesured_len);
     uint8_t t_pin;
     uint8_t e_pin;
     uint16_t mi_offset;
