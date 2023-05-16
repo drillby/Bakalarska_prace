@@ -17,4 +17,4 @@ api_cors_config = {
 CORS(app, resources={"/api/*": api_cors_config})
 
 # importing API views
-from api.endpoints import views
+from api.endpoints import arduino
