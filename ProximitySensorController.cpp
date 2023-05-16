@@ -11,7 +11,7 @@ ProximitySensorController::ProximitySensorController(
     last_trig = millis();
 }
 
-void ProximitySensorController::setUp()
+void ProximitySensorController::init()
 {
     pinMode(t_pin, OUTPUT);
     pinMode(e_pin, INPUT);

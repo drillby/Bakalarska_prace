@@ -130,7 +130,7 @@ void setup()
   mesured_height = 0;
 
   // inicializace senzoru a nastavení výšky ve které se senzor nachází
-  SensorController.setUp();
+  SensorController.init();
 
   // konec kontrolní sekvence Arduina
   // bliknutí všech LED je pouze vizuální ukazatel, že začala tato skončila
