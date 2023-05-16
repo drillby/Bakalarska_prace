@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request
 
 from api import app
 
@@ -10,3 +10,9 @@ def run_test():
             "server": "running",
         }
     )
+
+
+@app.route("/write_db", methods=["POST"])
+def write_to_db():
+    print(request.json)
+    return jsonify({"status": "OK"})
