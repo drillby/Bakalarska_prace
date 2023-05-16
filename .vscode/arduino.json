@@ -1,5 +1,6 @@
 {
+    "configuration": "mode=on",
     "board": "arduino:megaavr:uno2018",
-    "port": "/dev/ttyACM0",
-    "sketch": "Bakalarska_prace.ino"
+    "sketch": "Bakalarska_prace.ino",
+    "port": "/dev/ttyACM0"
 }
