@@ -1,8 +1,10 @@
 .venv
 config.*
+config
 *.docx
 *.pdf
 *pyc
 __pycache__
 .pytest_cache
 node_modules
+thesis
