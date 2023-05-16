@@ -49,8 +49,6 @@ void checkUpBlink(LEDController LEDs[], uint8_t size, unsigned int delay_time)
 
 void setup()
 {
-  Serial.begin(9600);
-
   CervenaLED.init();
   OrangovaLED.init();
   ZelenaLED.init();
