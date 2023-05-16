@@ -188,7 +188,7 @@ void loop()
   if (SensorController.compare(mesured_height))
   {
     Serial.println("Detekováno");
-    String req_body = "{'is_red_light':" + String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
+    String req_body = "{\"is_red_light\":" + String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
     FlaskAPI.sendRequest(POST_REQUEST, "/write_db", req_body);
     FlaskAPI.disconect();
     FlaskAPI.connect(0);
