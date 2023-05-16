@@ -46,10 +46,8 @@ void checkUpBlink(LEDController LEDs[], uint8_t size, unsigned int delay_time)
   }
   delay(delay_time);
 }
-uint8_t prujezd;
 void setup()
 {
-  Serial.begin(9600);
   CervenaLED.init();
   OrangovaLED.init();
   ZelenaLED.init();
@@ -136,7 +134,6 @@ void setup()
   // konec kontrolní sekvence Arduina
   // bliknutí všech LED je pouze vizuální ukazatel, že začala tato skončila
   checkUpBlink(LEDs_check_up, LEDs_check_size, delay_time);
-  prujezd = 0;
 }
 void loop()
 {
@@ -188,8 +185,5 @@ void loop()
   mesured_height = SensorController.measure(MESUREMENT_TIME);
   if (SensorController.compare(mesured_height))
   {
-    prujezd++;
-    Serial.print("Průjezd č.: ");
-    Serial.println(prujezd);
   }
 }
