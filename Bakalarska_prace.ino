@@ -3,7 +3,11 @@
 #include "libs/LEDController.h"
 #include "libs/WiFiConnController.h"
 #include "libs/APIController.h"
-#include "config.h"
+#include "libs/ProxomitySensorController.h"
+#include "config/APIConfig.h"
+#include "config/LEDsconfig.h"
+#include "config/WiFiConfig.h"
+#include "config/SensorConfig.h"
 
 LEDController CervenaLED(CERVENA);
 LEDController OrangovaLED(ORANZOVA);
@@ -17,6 +21,8 @@ WiFiConnController ConnController(wifi_ssid, wiif_pw); // ? v případě nedosta
 uint8_t local_server[4] = LOCAL_SERVER;
 IPAddress server_address(local_server[0], local_server[1], local_server[2], local_server[3]);
 APIController FlaskAPI(server_address, SERVER_PORT);
+
+ProximitySensorController SensorController(TRIGGER, ECHO, TRIGGER_OFFSET_MIN, TRIGGER_OFFSET_MAX);
 
 // má svítit červená a oranžová zároveň
 bool c_o;
@@ -120,6 +126,8 @@ void setup()
   }
   checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
+  SensorController.setUp();
+
   // konec kontrolní sekvence Arduina
   // bliknutí všech LED je pouze vizuální ukazatel, že začala tato skončila
   checkUpBlink(LEDs_check_up, LEDs_check_size, delay_time);
@@ -171,4 +179,5 @@ void loop()
     OrangovaLED.changeState(LOW);
     c_o = true;
   }
+  Serial.println(SensorController.measure(10));
 }

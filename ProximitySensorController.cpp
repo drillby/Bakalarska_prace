@@ -2,11 +2,12 @@
 #include "libs/ProxomitySensorController.h"
 
 ProximitySensorController::ProximitySensorController(
-    uint8_t trig_pin, uint8_t echo_pin, uint16_t min_offset)
+    uint8_t trig_pin, uint8_t echo_pin, uint16_t min_offset, uint16_t max_offset)
 {
     t_pin = trig_pin;
     e_pin = echo_pin;
-    offset = min_offset;
+    mi_offset = min_offset;
+    ma_offset = max_offset;
 }
 
 void ProximitySensorController::setUp()
@@ -27,7 +28,7 @@ uint8_t ProximitySensorController::measure(uint8_t measurement_time)
     digitalWrite(t_pin, HIGH);
     delay(measurement_time);
     digitalWrite(t_pin, LOW);
-    unsigned long time = pulseIn(e_pin, HIGH, 1000);
+    unsigned long time = pulseIn(e_pin, HIGH);
     return (time / 2) / 29.1;
 }
 
