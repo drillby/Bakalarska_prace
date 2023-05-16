@@ -23,7 +23,7 @@ void ProximitySensorController::setUp()
     base_len = avg / num_of_rep;
 }
 
-uint8_t ProximitySensorController::measure(uint8_t measurement_time)
+uint16_t ProximitySensorController::measure(uint8_t measurement_time)
 {
     digitalWrite(t_pin, HIGH);
     delay(measurement_time);
