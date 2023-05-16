@@ -21,8 +21,6 @@ public:
     /// @param mesured_len zvdálenost na porovnání
     /// @return true pokud vzdálenost je v rozsahu a předchozí stav nebyl a uběhla minimálně požadovaná doba (0.5s)
     bool compare(uint16_t mesured_len);
-    bool aboveMax(uint16_t mesured_len);
-    bool belowMin(uint16_t mesured_len);
     uint8_t t_pin;
     uint8_t e_pin;
     uint16_t mi_offset;

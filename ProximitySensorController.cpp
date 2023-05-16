@@ -48,13 +48,3 @@ bool ProximitySensorController::compare(uint16_t mesured_len)
 
     return !wasPrevious && inBounds && time;
 }
-
-bool ProximitySensorController::aboveMax(uint16_t mesured_len)
-{
-    return mesured_len > ma_offset;
-}
-
-bool ProximitySensorController::belowMin(uint16_t mesured_len)
-{
-    return mi_offset > mesured_len;
-}
