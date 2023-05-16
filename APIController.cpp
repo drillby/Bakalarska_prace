@@ -61,7 +61,7 @@ void APIController::_getRequest(String endpoint, bool keep_alive)
 
 void APIController::_postRequest(String endpoint, bool keep_alive, String body)
 {
-    client.println("GET " + String(endpoint) + " HTTP/1.1");
+    client.println("POST " + String(endpoint) + " HTTP/1.1");
     client.println("Host: " + String(url));
     client.println("Accept: application/json");
     if (keep_alive)
@@ -72,7 +72,7 @@ void APIController::_postRequest(String endpoint, bool keep_alive, String body)
     {
         client.println("Connection: close");
     }
-    client.println("Content-Type: application/json");
+    client.println("Content-Type: */*");
     client.println("Content-Length: " + String(body.length()));
     client.println(body);
     client.println();
