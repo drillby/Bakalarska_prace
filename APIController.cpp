@@ -31,7 +31,7 @@ void APIController::connect(uint8_t num_of_tries)
     }
 }
 
-void APIController::sendRequest(uint8_t req_type, String endpoint, bool keep_alive)
+void APIController::sendRequest(uint8_t req_type, String endpoint, bool keep_alive, String body)
 {
     if (req_type == 1)
     {
@@ -39,7 +39,7 @@ void APIController::sendRequest(uint8_t req_type, String endpoint, bool keep_ali
     }
     else if (req_type == 2)
     {
-        _postRequest(endpoint, keep_alive);
+        _postRequest(endpoint, keep_alive, body);
     }
 }
 
@@ -59,8 +59,23 @@ void APIController::_getRequest(String endpoint, bool keep_alive)
     client.println();
 }
 
-void APIController::_postRequest(String endpoint, bool keep_alive)
+void APIController::_postRequest(String endpoint, bool keep_alive, String body)
 {
+    client.println("GET " + String(endpoint) + " HTTP/1.1");
+    client.println("Host: " + String(url));
+    client.println("Accept: application/json");
+    if (keep_alive)
+    {
+        client.println("Connection: keep-alive");
+    }
+    else
+    {
+        client.println("Connection: close");
+    }
+    client.println("Content-Type: application/json");
+    client.println("Content-Length: " + String(body.length()));
+    client.println(body);
+    client.println();
 }
 
 String APIController::_readRespose()

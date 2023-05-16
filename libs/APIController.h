@@ -20,7 +20,8 @@ public:
     /// @brief pošle HTTP požadavek na server
     /// @param endpoint koncová adresa požadavku
     /// @param keep_alive zda se má komunikace udržovat otevřená
-    void sendRequest(uint8_t req_type, String endpoint, bool keep_alive);
+    /// @param body JSON like objekt, příjmán pouze POST požadavkem
+    void sendRequest(uint8_t req_type, String endpoint, bool keep_alive, String body = "");
     /// @brief kontroluje zda odpověď serveru je OK 200
     /// @return 200 -> true
     bool isOKResCode();
@@ -39,7 +40,8 @@ private:
     /// @brief pošle HTTP GET požadavek na server
     /// @param endpoint koncová adresa požadavku
     /// @param keep_alive zda se má komunikace udržovat otevřená
-    void _postRequest(String endpoint, bool keep_alive);
+    /// @param body JSON like objekt
+    void _postRequest(String endpoint, bool keep_alive, String body);
     /// @brief přečte odpověď (1 řádek) ze serveru
     String _readRespose();
     WiFiClient client;
