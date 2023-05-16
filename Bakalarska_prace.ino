@@ -127,6 +127,8 @@ void setup()
   }
   checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
+  FlaskAPI.disconect();
+  FlaskAPI.connect(3);
   mesured_height = 0;
 
   // inicializace senzoru a nastavení výšky ve které se senzor nachází
@@ -187,8 +189,9 @@ void loop()
   if (SensorController.compare(mesured_height))
   {
     Serial.println("Detekováno");
-    String req_body = "{'is_red_light':" + String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
-    Serial.println(req_body);
-    FlaskAPI.sendRequest(POST_REQUEST, "/write_db", true, req_body);
+    // String req_body = "{'is_red_light':" + String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
+    // Serial.println(req_body);
+    FlaskAPI.sendRequest(GET_REQUEST, "/", true);
+    Serial.println(FlaskAPI.isOKResCode());
   }
 }

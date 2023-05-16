@@ -95,5 +95,6 @@ bool APIController::isOKResCode()
 
 void APIController::disconect()
 {
+    is_connected = false;
     client.stop();
 }
