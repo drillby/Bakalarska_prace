@@ -31,49 +31,34 @@ void APIController::connect(uint8_t num_of_tries)
     }
 }
 
-void APIController::sendRequest(uint8_t req_type, String endpoint, bool keep_alive, String body)
+void APIController::sendRequest(uint8_t req_type, String endpoint, String body)
 {
     if (req_type == 1)
     {
-        _getRequest(endpoint, keep_alive);
+        _getRequest(endpoint);
     }
     else if (req_type == 2)
     {
-        _postRequest(endpoint, keep_alive, body);
+        _postRequest(endpoint, body);
     }
 }
 
-void APIController::_getRequest(String endpoint, bool keep_alive)
+void APIController::_getRequest(String endpoint)
 {
     client.println("GET " + String(endpoint) + " HTTP/1.1");
     client.println("Host: " + String(url));
     client.println("Accept: application/json");
-    if (keep_alive)
-    {
-        client.println("Connection: keep-alive");
-    }
-    else
-    {
-        client.println("Connection: close");
-    }
+    client.println("Connection: close");
     client.println();
 }
 
-void APIController::_postRequest(String endpoint, bool keep_alive, String body)
+void APIController::_postRequest(String endpoint, String body)
 {
     client.println("POST " + String(endpoint) + " HTTP/1.1");
     client.println("Host: " + String(url));
     client.println("Accept: application/json");
-    if (keep_alive)
-    {
-        client.println("Connection: keep-alive");
-        client.println("Keep-Alive: timeout=30, max=100");
-    }
-    else
-    {
-        client.println("Connection: close");
-    }
-    client.println("Content-Type: */*");
+    client.println("Connection: close");
+    client.println("Content-Type: application/json");
     client.println("Content-Length: " + String(body.length()));
     client.println(body);
     client.println();

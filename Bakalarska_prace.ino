@@ -26,8 +26,7 @@ ProximitySensorController SensorController(TRIGGER, ECHO, TRIGGER_OFFSET_MIN, TR
 
 // má svítit červená a oranžová zároveň
 bool c_o;
-
-uint16_t mesured_height;
+uint8_t mesured_height;
 
 /// @brief funkce pro abstrakci blikání LEDek při kontrole Arduina
 /// @param LEDs pole inicializovaných LEDController objektů
@@ -117,7 +116,7 @@ void setup()
   checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
   // testovací HTTP požadavek
-  FlaskAPI.sendRequest(GET_REQUEST, "/", false);
+  FlaskAPI.sendRequest(GET_REQUEST, "/");
   if (!FlaskAPI.isOKResCode())
   {
     while (true)
@@ -189,9 +188,9 @@ void loop()
   if (SensorController.compare(mesured_height))
   {
     Serial.println("Detekováno");
-    // String req_body = "{'is_red_light':" + String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
-    // Serial.println(req_body);
-    FlaskAPI.sendRequest(GET_REQUEST, "/", true);
-    Serial.println(FlaskAPI.isOKResCode());
+    String req_body = "{'is_red_light':" + String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
+    FlaskAPI.sendRequest(POST_REQUEST, "/write_db", req_body);
+    FlaskAPI.disconect();
+    FlaskAPI.connect(0);
   }
 }

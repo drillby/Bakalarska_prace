@@ -19,9 +19,8 @@ public:
     void connect(uint8_t num_of_tries);
     /// @brief pošle HTTP požadavek na server
     /// @param endpoint koncová adresa požadavku
-    /// @param keep_alive zda se má komunikace udržovat otevřená
     /// @param body JSON like objekt, příjmán pouze POST požadavkem
-    void sendRequest(uint8_t req_type, String endpoint, bool keep_alive, String body = "");
+    void sendRequest(uint8_t req_type, String endpoint, String body = "");
     /// @brief kontroluje zda odpověď serveru je OK 200
     /// @return 200 -> true
     bool isOKResCode();
@@ -35,13 +34,11 @@ public:
 private:
     /// @brief pošle HTTP GET požadavek na server
     /// @param endpoint koncová adresa požadavku
-    /// @param keep_alive zda se má komunikace udržovat otevřená
-    void _getRequest(String endpoint, bool keep_alive);
+    void _getRequest(String endpoint);
     /// @brief pošle HTTP GET požadavek na server
     /// @param endpoint koncová adresa požadavku
-    /// @param keep_alive zda se má komunikace udržovat otevřená
     /// @param body JSON like objekt
-    void _postRequest(String endpoint, bool keep_alive, String body);
+    void _postRequest(String endpoint, String body);
     /// @brief přečte odpověď (1 řádek) ze serveru
     String _readRespose();
     WiFiClient client;
