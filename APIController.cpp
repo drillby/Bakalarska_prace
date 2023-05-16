@@ -67,6 +67,7 @@ void APIController::_postRequest(String endpoint, bool keep_alive, String body)
     if (keep_alive)
     {
         client.println("Connection: keep-alive");
+        client.println("Keep-Alive: timeout=30, max=100");
     }
     else
     {
