@@ -8,6 +8,7 @@ ProximitySensorController::ProximitySensorController(
     e_pin = echo_pin;
     mi_offset = min_offset;
     ma_offset = max_offset;
+    last_trig = millis();
 }
 
 void ProximitySensorController::setUp()
@@ -34,7 +35,18 @@ uint16_t ProximitySensorController::measure(uint8_t measurement_time)
 
 bool ProximitySensorController::compare(uint16_t mesured_len)
 {
-    return mi_offset < mesured_len < ma_offset;
+    bool inBounds = mesured_len <= base_len - mi_offset && mesured_len >= base_len - ma_offset;
+    bool wasPrevious = _prev_state <= base_len - mi_offset && _prev_state >= base_len - ma_offset;
+    _prev_state = mesured_len;
+
+    uint16_t now = millis();
+    bool time = now - last_trig >= 500;
+    if (inBounds)
+    {
+        last_trig = now;
+    }
+
+    return !wasPrevious && inBounds && time;
 }
 
 bool ProximitySensorController::aboveMax(uint16_t mesured_len)

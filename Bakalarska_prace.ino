@@ -27,6 +27,8 @@ ProximitySensorController SensorController(TRIGGER, ECHO, TRIGGER_OFFSET_MIN, TR
 // má svítit červená a oranžová zároveň
 bool c_o;
 
+uint16_t mesured_height;
+
 /// @brief funkce pro abstrakci blikání LEDek při kontrole Arduina
 /// @param LEDs pole inicializovaných LEDController objektů
 /// @param size velikost pole
@@ -116,6 +118,7 @@ void setup()
   }
   checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
+  // testovací HTTP požadavek
   FlaskAPI.sendRequest(GET_REQUEST, "/", false);
   if (!FlaskAPI.isOKResCode())
   {
@@ -126,6 +129,9 @@ void setup()
   }
   checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
+  mesured_height = 0;
+
+  // inicializace senzoru a nastavení výšky ve které se senzor nachází
   SensorController.setUp();
 
   // konec kontrolní sekvence Arduina
@@ -179,5 +185,8 @@ void loop()
     OrangovaLED.changeState(LOW);
     c_o = true;
   }
-  Serial.println(SensorController.measure(10));
+  mesured_height = SensorController.measure(MESUREMENT_TIME);
+  if (SensorController.compare(mesured_height))
+  {
+  }
 }

@@ -18,6 +18,7 @@ public:
 private:
     uint16_t base_len;
     uint16_t _prev_state;
+    uint16_t last_trig;
 };
 
 #endif
