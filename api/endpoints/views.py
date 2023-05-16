@@ -12,7 +12,7 @@ def run_test():
     )
 
 
-@app.route("/write_db", methods=["POST"])
+@app.route("/write_db")
 def write_to_db():
     print(request.json)
     return jsonify({"status": "OK"})
