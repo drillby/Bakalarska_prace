@@ -48,6 +48,7 @@ void checkUpBlink(LEDController LEDs[], uint8_t size, unsigned int delay_time)
 }
 void setup()
 {
+  Serial.begin(9600);
   CervenaLED.init();
   OrangovaLED.init();
   ZelenaLED.init();
@@ -185,7 +186,9 @@ void loop()
   mesured_height = SensorController.measure(MESUREMENT_TIME);
   if (SensorController.compare(mesured_height))
   {
+    Serial.println("Detekováno");
     String req_body = "{'is_red_light':" + String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
+    Serial.println(req_body);
     FlaskAPI.sendRequest(POST_REQUEST, "/write_db", true, req_body);
   }
 }
