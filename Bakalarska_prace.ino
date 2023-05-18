@@ -27,23 +27,6 @@ ProximitySensorController SensorController(TRIGGER, ECHO, TRIGGER_OFFSET_MIN, TR
 bool c_o;
 uint8_t mesured_height;
 
-/// @brief funkce pro abstrakci blikání LEDek při kontrole Arduina
-/// @param LEDs pole inicializovaných LEDController objektů
-/// @param size velikost pole
-/// @param delay_time doba po kterou budou LEDky svítit v ms
-void checkUpBlink(LEDController LEDs[], uint8_t size, unsigned int delay_time)
-{
-  for (uint8_t i = 0; i < size; i++)
-  {
-    LEDs[i].changeState(HIGH);
-  }
-  delay(delay_time);
-  for (uint8_t i = 0; i < size; i++)
-  {
-    LEDs[i].changeState(LOW);
-  }
-  delay(delay_time);
-}
 void setup()
 {
   CervenaLED.init();

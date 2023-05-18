@@ -32,4 +32,5 @@ private:
     /// @brief čas kdy se uskutečnílo předchozí měření času intervalu
     unsigned long _prev_time;
 };
+void checkUpBlink(LEDController LEDs[], uint8_t size, unsigned int delay_time);
 #endif

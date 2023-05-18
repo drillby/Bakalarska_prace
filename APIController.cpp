@@ -29,7 +29,7 @@ void APIController::connect(uint8_t num_of_tries)
             is_connected = true;
             break;
         }
-        delay(10000);
+        delay(conn_check_delay);
     }
 }
 
