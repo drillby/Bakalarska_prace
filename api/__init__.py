@@ -9,7 +9,7 @@ app = Flask(__name__, instance_relative_config=True)
 app.config.from_object("config.Config")
 
 # enabling CORS
-api_cors_config = {
+API_CORS_CONFIG = {
     "origins": ["*"],
     "methods": ["GET", "POST", "DELETE"],
     "allow_headers": [
@@ -18,7 +18,7 @@ api_cors_config = {
         "Access-Control-Allow-Origin",
     ],
 }
-CORS(app, resources={"/api/*": api_cors_config})
+CORS(app, resources={"/api/*": API_CORS_CONFIG})
 
 # importing API views
 from api.endpoints import arduino
