@@ -15,8 +15,7 @@ LEDController ZelenaLED(ZELENA);
 
 String wifi_ssid = WIFI_SSID;
 String wiif_pw = WIFI_PW;
-
-WiFiConnController ConnController(wifi_ssid, wiif_pw); // ? v případě nedostatku místa refaktorovat String na char *
+WiFiConnController ConnController(wifi_ssid, wiif_pw);
 
 uint8_t local_server[4] = LOCAL_SERVER;
 IPAddress server_address(local_server[0], local_server[1], local_server[2], local_server[3]);
@@ -47,7 +46,6 @@ void checkUpBlink(LEDController LEDs[], uint8_t size, unsigned int delay_time)
 }
 void setup()
 {
-  Serial.begin(9600);
   CervenaLED.init();
   OrangovaLED.init();
   ZelenaLED.init();
@@ -134,7 +132,7 @@ void setup()
   SensorController.init();
 
   // konec kontrolní sekvence Arduina
-  // bliknutí všech LED je pouze vizuální ukazatel, že začala tato skončila
+  // bliknutí všech LED je pouze vizuální ukazatel, že skončila tato sekvence
   checkUpBlink(LEDs_check_up, LEDs_check_size, delay_time);
 }
 void loop()
@@ -142,22 +140,26 @@ void loop()
   // chtěná sekvence = č -> č+o -> z -> o
 
   // červená
-  if (!CervenaLED.is_active && !ZelenaLED.is_active && !OrangovaLED.is_active && CervenaLED.offIntervalPassed(CERVENA_INTERVAL))
+  if (!CervenaLED.is_active && !ZelenaLED.is_active &&
+      !OrangovaLED.is_active && CervenaLED.offIntervalPassed(CERVENA_INTERVAL))
   {
     CervenaLED.changeState(HIGH);
   }
-  else if (CervenaLED.is_active && !OrangovaLED.is_active && CervenaLED.onIntervalPassed(CERVENA_INTERVAL))
+  else if (CervenaLED.is_active && !OrangovaLED.is_active &&
+           CervenaLED.onIntervalPassed(CERVENA_INTERVAL))
   {
     CervenaLED.changeState(LOW);
   }
 
   // červená + oranžová
-  if (c_o && !CervenaLED.is_active && !ZelenaLED.is_active && !OrangovaLED.is_active && OrangovaLED.offIntervalPassed(CERVENA_ORANZOVA_INTERVAL))
+  if (c_o && !CervenaLED.is_active && !ZelenaLED.is_active &&
+      !OrangovaLED.is_active && OrangovaLED.offIntervalPassed(CERVENA_ORANZOVA_INTERVAL))
   {
     CervenaLED.changeState(HIGH);
     OrangovaLED.changeState(HIGH);
   }
-  else if (c_o && OrangovaLED.is_active && CervenaLED.is_active && OrangovaLED.onIntervalPassed(CERVENA_ORANZOVA_INTERVAL))
+  else if (c_o && OrangovaLED.is_active && CervenaLED.is_active &&
+           OrangovaLED.onIntervalPassed(CERVENA_ORANZOVA_INTERVAL))
   {
     CervenaLED.changeState(LOW);
     OrangovaLED.changeState(LOW);
@@ -165,7 +167,8 @@ void loop()
   }
 
   // zelená
-  if (!ZelenaLED.is_active && !CervenaLED.is_active && !OrangovaLED.is_active && ZelenaLED.offIntervalPassed(ZELENA_INTERVAL))
+  if (!ZelenaLED.is_active && !CervenaLED.is_active && !OrangovaLED.is_active &&
+      ZelenaLED.offIntervalPassed(ZELENA_INTERVAL))
   {
     ZelenaLED.changeState(HIGH);
   }
@@ -175,7 +178,8 @@ void loop()
   }
 
   // oranžová
-  if (!c_o && !CervenaLED.is_active && !ZelenaLED.is_active && !OrangovaLED.is_active && OrangovaLED.offIntervalPassed(ORANZOVA_INTERVAL))
+  if (!c_o && !CervenaLED.is_active && !ZelenaLED.is_active && !OrangovaLED.is_active &&
+      OrangovaLED.offIntervalPassed(ORANZOVA_INTERVAL))
   {
     OrangovaLED.changeState(HIGH);
   }
@@ -184,11 +188,13 @@ void loop()
     OrangovaLED.changeState(LOW);
     c_o = true;
   }
+
+  // měření
   mesured_height = SensorController.measure(MESUREMENT_TIME);
   if (SensorController.compare(mesured_height))
   {
-    Serial.println("Detekováno");
-    String req_body = "{\"is_red_light\":" + String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
+    String req_body = "{\"is_red_light\":" +
+                      String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
     FlaskAPI.sendRequest(POST_REQUEST, "/write_db", req_body);
     FlaskAPI.disconect();
     FlaskAPI.connect(0);
