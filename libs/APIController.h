@@ -9,11 +9,11 @@ public:
     /// @brief inicializace objektu
     /// @param server_url url adresa serveru
     /// @param server_port port na kterém je server přístupný
-    APIController(String server_url, uint16_t server_port);
+    APIController(String server_url, uint16_t server_port, uint16_t connection_check_delay = 1000);
     /// @brief inicializace objektu
     /// @param ip_address ip adresa serveru
     /// @param server_port port na kterém je server přístupný
-    APIController(IPAddress ip_address, uint16_t server_port);
+    APIController(IPAddress ip_address, uint16_t server_port, uint16_t connection_check_delay = 1000);
     /// @brief připojení k serveru, musí být voláno v setup()
     /// @param num_of_tries počet pokusů o připojení
     void connect(uint8_t num_of_tries);
@@ -30,11 +30,13 @@ public:
     String url = "";
     uint16_t port;
     bool is_connected;
+    uint16_t conn_check_delay;
 
 private:
     /// @brief pošle HTTP GET požadavek na server
     /// @param endpoint koncová adresa požadavku
-    void _getRequest(String endpoint);
+    void
+    _getRequest(String endpoint);
     /// @brief pošle HTTP GET požadavek na server
     /// @param endpoint koncová adresa požadavku
     /// @param body JSON like objekt

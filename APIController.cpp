@@ -2,20 +2,22 @@
 #include "libs/APIController.h"
 #include <WiFi.h>
 
-APIController::APIController(String server_address, uint16_t server_port)
+APIController::APIController(String server_address, uint16_t server_port, uint16_t connection_check_delay)
 {
     url = server_address;
     port = server_port;
     WiFiClient client;
     is_connected = false;
+    conn_check_delay = connection_check_delay;
 }
 
-APIController::APIController(IPAddress ip_address, uint16_t server_port)
+APIController::APIController(IPAddress ip_address, uint16_t server_port, uint16_t connection_check_delay)
 {
     ip = ip_address;
     port = server_port;
     WiFiClient client;
     is_connected = false;
+    conn_check_delay = connection_check_delay;
 }
 
 void APIController::connect(uint8_t num_of_tries)
