@@ -18,7 +18,7 @@ API_CORS_CONFIG = {
         "Access-Control-Allow-Origin",
     ],
 }
-CORS(app, resources={"/api/*": API_CORS_CONFIG})
+CORS(app, resources={"/*": API_CORS_CONFIG})
 
 # importing API views
 from api.endpoints import arduino
