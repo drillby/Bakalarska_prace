@@ -12,7 +12,11 @@ app.config.from_object("config.Config")
 api_cors_config = {
     "origins": ["*"],
     "methods": ["GET", "POST", "DELETE"],
-    "allow_headers": ["Authorization", "Content-Type", "Access-Control-Allow-Origin", "Connection", "Keep-Alive"],
+    "allow_headers": [
+        "Authorization",
+        "Content-Type",
+        "Access-Control-Allow-Origin",
+    ],
 }
 CORS(app, resources={"/api/*": api_cors_config})
 
