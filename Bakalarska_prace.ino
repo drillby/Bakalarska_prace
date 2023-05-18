@@ -199,4 +199,36 @@ void loop()
     FlaskAPI.disconect();
     FlaskAPI.connect(0);
   }
+
+  // kontrola a pokus o opětovné připojení, pokud vypadne WiFi
+  if (!ConnController.isConnected())
+  {
+    CervenaLED.changeState(LOW);
+    OrangovaLED.changeState(LOW);
+    ZelenaLED.changeState(LOW);
+    c_o = true;
+    while (!ConnController.isConnected())
+    {
+      OrangovaLED.changeState(HIGH);
+      ConnController.connect(0);
+      OrangovaLED.changeState(LOW);
+      delay(ConnController.conn_check_delay);
+    }
+  }
+
+  // kontrola a pokus o opětovné připojení, pokud se nedaří navázat spojení se serverem
+  if (!FlaskAPI.is_connected)
+  {
+    CervenaLED.changeState(LOW);
+    OrangovaLED.changeState(LOW);
+    ZelenaLED.changeState(LOW);
+    c_o = true;
+    while (!FlaskAPI.is_connected)
+    {
+      OrangovaLED.changeState(HIGH);
+      FlaskAPI.connect(0);
+      OrangovaLED.changeState(LOW);
+      delay(FlaskAPI.conn_check_delay);
+    }
+  }
 }

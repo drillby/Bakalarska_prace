@@ -1,11 +1,12 @@
 #include "Arduino.h"
 #include "libs/WiFiConnController.h"
 
-WiFiConnController::WiFiConnController(String ssid, String pw)
+WiFiConnController::WiFiConnController(String ssid, String pw, uint16_t connection_check_delay)
 {
     p_ssid = ssid;
     _p_pw = pw;
     status = WL_IDLE_STATUS;
+    conn_check_delay = connection_check_delay;
 }
 
 void WiFiConnController::connect(uint8_t num_of_tries)
@@ -17,8 +18,13 @@ void WiFiConnController::connect(uint8_t num_of_tries)
         {
             break;
         }
-        delay(10000);
+        delay(conn_check_delay);
     }
+}
+
+uint8_t WiFiConnController::isConnected()
+{
+    return WiFi.status() == WL_CONNECTED;
 }
 
 bool WiFiConnController::hasWiFiModule()
