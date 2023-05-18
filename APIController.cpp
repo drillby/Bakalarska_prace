@@ -22,14 +22,29 @@ APIController::APIController(IPAddress ip_address, uint16_t server_port, uint16_
 
 void APIController::connect(uint8_t num_of_tries)
 {
-    for (uint8_t i = 0; i <= num_of_tries; i++)
+    if (url == "")
     {
-        if (client.connect(ip, port))
+        for (uint8_t i = 0; i <= num_of_tries; i++)
         {
-            is_connected = true;
-            break;
+            if (client.connect(ip, port))
+            {
+                is_connected = true;
+                break;
+            }
+            delay(conn_check_delay);
         }
-        delay(conn_check_delay);
+    }
+    else
+    {
+        for (uint8_t i = 0; i <= num_of_tries; i++)
+        {
+            if (client.connect(url.c_str(), port))
+            {
+                is_connected = true;
+                break;
+            }
+            delay(conn_check_delay);
+        }
     }
 }
 
