@@ -102,10 +102,11 @@ void APIController::disconect()
 
 void APIController::connectWebSocket()
 {
-    client.println("GET / HTTP/1.1");
+    client.println("GET /test HTTP/1.1");
     client.println("Host: " + String(url));
     client.println("Connection: Upgrade");
     client.println("Upgrade: websocket");
+    client.println("Sec-WebSocket-Version: 13");
     client.println();
 }
 
