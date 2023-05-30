@@ -18,6 +18,7 @@ API_CORS_CONFIG = {
         "Authorization",
         "Content-Type",
         "Access-Control-Allow-Origin",
+        "Sec-WebSocket-Version"
     ],
 }
 CORS(app, resources={"/*": API_CORS_CONFIG})
