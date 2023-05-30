@@ -20,7 +20,6 @@ WiFiConnController ConnController(wifi_ssid, wiif_pw);
 uint8_t local_server[4] = LOCAL_SERVER;
 IPAddress server_address(local_server[0], local_server[1], local_server[2], local_server[3]);
 APIController FlaskAPI(server_address, SERVER_PORT);
-
 ProximitySensorController SensorController(TRIGGER, ECHO, TRIGGER_OFFSET_MIN, TRIGGER_OFFSET_MAX);
 
 // má svítit červená a oranžová zároveň
@@ -29,6 +28,7 @@ uint8_t mesured_height;
 
 void setup()
 {
+  Serial.begin(115200);
   CervenaLED.init();
   OrangovaLED.init();
   ZelenaLED.init();
@@ -181,6 +181,7 @@ void loop()
   {
     String req_body = "{\"is_red_light\":" +
                       String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
+    Serial.println(req_body);
     FlaskAPI.sendWebSocketMessage(req_body);
     // FlaskAPI.sendRequest(POST_REQUEST, "/write_db", req_body);
     // FlaskAPI.disconect();

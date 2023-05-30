@@ -1,7 +1,7 @@
 {
-    "port": "/dev/ttyACM0",
     "configuration": "mode=on",
     "board": "arduino:megaavr:uno2018",
     "programmer": "medbg",
+    "port": "/dev/ttyACM0",
     "sketch": "Bakalarska_prace.ino"
 }

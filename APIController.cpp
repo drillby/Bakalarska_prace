@@ -106,6 +106,7 @@ void APIController::connectWebSocket()
     client.println("Host: " + String(url));
     client.println("Connection: Upgrade");
     client.println("Upgrade: websocket");
+    client.println("Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==");
     client.println("Sec-WebSocket-Version: 13");
     client.println();
 }
