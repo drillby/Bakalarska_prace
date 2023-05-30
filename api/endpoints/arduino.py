@@ -1,6 +1,6 @@
 from flask import jsonify, request
 
-from api import app
+from api import app, sock
 
 
 @app.route("/")
@@ -16,3 +16,10 @@ def run_test():
 def write_to_db():
     print(request.json)
     return jsonify({"status": "OK"})
+
+
+@sock.route("/test")
+def test_websocket(sock):
+    while True:
+        data = sock.receive()
+        print(data)
