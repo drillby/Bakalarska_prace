@@ -20,6 +20,7 @@
                 "/home/drillby/.arduino15/packages/arduino/hardware/megaavr/1.8.8/cores/arduino",
                 "/home/drillby/.arduino15/packages/arduino/hardware/megaavr/1.8.8/variants/uno2018",
                 "/home/drillby/Arduino/libraries/WiFiNINA/src",
+                "/home/drillby/Arduino/libraries/ArduinoHttpClient/src",
                 "/home/drillby/.arduino15/packages/arduino/hardware/megaavr/1.8.8/libraries/SPI/src",
                 "/home/drillby/.arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/lib/gcc/avr/7.3.0/include",
                 "/home/drillby/.arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/lib/gcc/avr/7.3.0/include-fixed",
