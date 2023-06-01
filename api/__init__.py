@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_sock import Sock
+from flask_socketio import SocketIO
 
 # creating the flask app
 app = Flask(__name__, instance_relative_config=True)
-sock = Sock(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 
 # loading configuraiton
@@ -19,6 +19,7 @@ API_CORS_CONFIG = {
         "Content-Type",
         "Access-Control-Allow-Origin",
         "Sec-WebSocket-Version"
+        "Sec-WebSocket-Key"
     ],
 }
 CORS(app, resources={"/*": API_CORS_CONFIG})

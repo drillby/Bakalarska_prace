@@ -1,6 +1,7 @@
 from flask import jsonify, request
+from simple_websocket.ws import Server as ws_req
 
-from api import app, sock
+from api import app, socketio
 
 
 @app.route("/")
@@ -17,9 +18,6 @@ def write_to_db():
     print(request.json)
     return jsonify({"status": "OK"})
 
-
-@sock.route("/test")
-def test_websocket(sock):
-    while True:
-        data = sock.receive()
-        print(data)
+@socketio.on("on_event", namespace="/test")
+def handle_message(message):
+    print(message)
