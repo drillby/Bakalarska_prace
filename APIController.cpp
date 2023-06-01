@@ -99,32 +99,3 @@ void APIController::disconect()
     is_connected = false;
     client.stop();
 }
-
-void APIController::connectWebSocket()
-{
-    client.println("GET /test HTTP/1.1");
-    client.println("Host: " + String(url));
-    client.println("Connection: Upgrade");
-    client.println("Upgrade: websocket");
-    client.println("Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==");
-    client.println("Sec-WebSocket-Version: 13");
-    client.println();
-}
-
-void APIController::sendWebSocketMessage(String message)
-{
-    // Send a WebSocket text message
-    client.write(0x81); // FIN, Text frame
-    size_t messageLength = strlen(message.c_str());
-    if (messageLength < 126)
-    {
-        client.write(messageLength);
-    }
-    else
-    {
-        client.write(126);
-        client.write(highByte(messageLength));
-        client.write(lowByte(messageLength));
-    }
-    client.print(message);
-}
