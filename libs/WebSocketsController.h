@@ -11,6 +11,7 @@ public:
     void connect(WiFiClient conn, String endpoint = "");
     void send(String msg);
     String receive();
+    bool isConnected();
     String url = "";
     IPAddress ip;
     uint16_t port;

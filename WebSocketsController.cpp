@@ -41,3 +41,8 @@ String WebSocketsController::receive()
     if (isMessage > 0)
         return _client.readString();
 }
+
+bool WebSocketsController::isConnected()
+{
+    return _client.connected() != 0;
+}
