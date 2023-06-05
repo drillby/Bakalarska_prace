@@ -18,6 +18,6 @@ def write_to_db():
     print(request.json)
     return jsonify({"status": "OK"})
 
-@socketio.on("on_event", namespace="/test")
+@socketio.on("message", namespace="/test")
 def handle_message(message):
     print(message)
