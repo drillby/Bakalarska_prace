@@ -19,7 +19,7 @@ public:
 private:
     WiFiClient _conn;
     WebSocketClient _client = WebSocketClient(_conn, (127, 0, 0, 1), 5000);
-    WebSocketClient _client = WebSocketClient(_conn, "localhost", 5000);
+    // WebSocketClient _client = WebSocketClient(_conn, "localhost", 5000);
 };
 
 #endif
