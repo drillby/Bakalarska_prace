@@ -114,7 +114,7 @@ void setup()
 
   FlaskAPI.disconect();
 
-  wsConn.connect();
+  wsConn.connect("/test");
 
   if (!wsConn.isConnected())
   {
@@ -195,6 +195,7 @@ void loop()
     String req_body = "{\"is_red_light\":" +
                       String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
     Serial.println(req_body);
+    wsConn.send(req_body);
     // FlaskAPI.sendRequest(POST_REQUEST, "/write_db", req_body);
     // FlaskAPI.disconect();
     // FlaskAPI.connect(0);
