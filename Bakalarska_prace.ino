@@ -3,7 +3,9 @@
 #include "libs/LEDController.h"
 #include "libs/WiFiConnController.h"
 #include "libs/APIController.h"
+#include "libs/WebSocketsController.h"
 #include "libs/ProxomitySensorController.h"
+
 #include "config/APIConfig.h"
 #include "config/LEDsconfig.h"
 #include "config/WiFiConfig.h"
@@ -20,6 +22,9 @@ WiFiConnController ConnController(wifi_ssid, wiif_pw);
 uint8_t local_server[4] = LOCAL_SERVER;
 IPAddress server_address(local_server[0], local_server[1], local_server[2], local_server[3]);
 APIController FlaskAPI(server_address, SERVER_PORT);
+
+WebSocketsController wsConn(server_address, SERVER_PORT);
+
 ProximitySensorController SensorController(TRIGGER, ECHO, TRIGGER_OFFSET_MIN, TRIGGER_OFFSET_MAX);
 
 // má svítit červená a oranžová zároveň
@@ -108,9 +113,17 @@ void setup()
   checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
   FlaskAPI.disconect();
-  FlaskAPI.connect(3);
 
-  FlaskAPI.connectWebSocket();
+  wsConn.connect();
+
+  if (!wsConn.isConnected())
+  {
+    while (true)
+    {
+      checkUpBlink(LEDs_error, LEDs_error_size, delay_time);
+    }
+  }
+  checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
   mesured_height = 0;
 
@@ -182,7 +195,6 @@ void loop()
     String req_body = "{\"is_red_light\":" +
                       String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
     Serial.println(req_body);
-    FlaskAPI.sendWebSocketMessage(req_body);
     // FlaskAPI.sendRequest(POST_REQUEST, "/write_db", req_body);
     // FlaskAPI.disconect();
     // FlaskAPI.connect(0);

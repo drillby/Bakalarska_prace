@@ -8,7 +8,7 @@ class WebSocketsController
 public:
     WebSocketsController(String server_url, uint16_t server_port);
     WebSocketsController(IPAddress server_url, uint16_t server_port);
-    void connect(WiFiClient conn, String endpoint = "");
+    void connect(String endpoint = "");
     void send(String msg);
     String receive();
     bool isConnected();

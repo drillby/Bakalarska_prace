@@ -13,9 +13,8 @@ WebSocketsController::WebSocketsController(IPAddress server_ip, uint16_t server_
     port = server_port;
 }
 
-void WebSocketsController::connect(WiFiClient conn, String endpoint)
+void WebSocketsController::connect(String endpoint)
 {
-    _conn = conn;
     if (url != "")
     {
         _client = WebSocketClient(_conn, url, port);

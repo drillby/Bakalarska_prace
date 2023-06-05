@@ -26,8 +26,6 @@ public:
     bool isOKResCode();
     /// @brief odpojí od serveru
     void disconect();
-    void connectWebSocket();
-    void sendWebSocketMessage(String message);
     IPAddress ip;
     String url = "";
     uint16_t port;
