@@ -4,6 +4,7 @@ from flask_socketio import SocketIO
 
 # creating the flask app
 app = Flask(__name__, instance_relative_config=True)
+app.config["SECRET"] = "secret!123"
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 
@@ -18,8 +19,8 @@ API_CORS_CONFIG = {
         "Authorization",
         "Content-Type",
         "Access-Control-Allow-Origin",
-        "Sec-WebSocket-Version"
-        "Sec-WebSocket-Key"
+        "Sec-WebSocket-Version",
+        "Sec-WebSocket-Key",
     ],
 }
 CORS(app, resources={"/*": API_CORS_CONFIG})

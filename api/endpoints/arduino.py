@@ -1,5 +1,6 @@
-from flask import jsonify, request
-from simple_websocket.ws import Server as ws_req
+from typing import Any, Dict
+
+from flask import Response, jsonify, request
 
 from api import app, socketio
 
@@ -18,6 +19,13 @@ def write_to_db():
     print(request.json)
     return jsonify({"status": "OK"})
 
+
+@socketio.on("connect", namespace="/test")
+def handle_connection(_: Any):
+    print("test")
+    return Response("Switching protocols", 101)
+
+
 @socketio.on("message", namespace="/test")
-def handle_message(message):
+def handle_message(message: Dict[str, Any]):
     print(message)
