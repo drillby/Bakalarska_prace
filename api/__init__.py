@@ -1,11 +1,13 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_sockets import Sockets
+from flask_sock import Sock
 
 # creating the flask app
 app = Flask(__name__, instance_relative_config=True)
 app.config["SECRET"] = "secret!123"
-sockets = Sockets(app)
+
+sockets = Sock(app)
+app.config['SOCK_SERVER_OPTIONS'] = {'ping_interval': 25}
 
 
 # loading configuraiton

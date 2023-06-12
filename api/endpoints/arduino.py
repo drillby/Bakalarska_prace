@@ -21,7 +21,8 @@ def write_to_db():
 
 @sockets.route("/test")
 def handle_message(ws):
-    while not ws.closed:
+    print(ws)
+    while True:
         msg = ws.receive()
         print(msg)
 
