@@ -1,11 +1,11 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_socketio import SocketIO
+from flask_sockets import Sockets
 
 # creating the flask app
 app = Flask(__name__, instance_relative_config=True)
 app.config["SECRET"] = "secret!123"
-socketio = SocketIO(app, cors_allowed_origins="*")
+sockets = Sockets(app)
 
 
 # loading configuraiton
