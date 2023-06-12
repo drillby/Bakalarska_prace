@@ -4,6 +4,7 @@
 #include "libs/WiFiConnController.h"
 #include "libs/APIController.h"
 #include "libs/ProxomitySensorController.h"
+#include "libs/MQTTController.h"
 
 #include "config/APIConfig.h"
 #include "config/LEDsconfig.h"
