@@ -29,6 +29,7 @@ public:
 
 private:
     String _p_pw;
+    WiFiClient _wifi;
 };
 
 #endif

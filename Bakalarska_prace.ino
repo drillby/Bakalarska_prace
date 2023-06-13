@@ -10,6 +10,7 @@
 #include "config/LEDsconfig.h"
 #include "config/WiFiConfig.h"
 #include "config/SensorConfig.h"
+#include "config/MQTTConfig.h"
 
 LEDController CervenaLED(CERVENA);
 LEDController OrangovaLED(ORANZOVA);
@@ -22,6 +23,10 @@ WiFiConnController ConnController(wifi_ssid, wiif_pw);
 uint8_t local_server[4] = LOCAL_SERVER;
 IPAddress server_address(local_server[0], local_server[1], local_server[2], local_server[3]);
 APIController FlaskAPI(server_address, SERVER_PORT);
+
+uint8_t mqtt_server[4] = MQTT_LOCAL;
+IPAddress mqtt_ip(mqtt_server[0], mqtt_server[1], mqtt_server[2], mqtt_server[3]);
+MQTTController MQTTSender(MQTT_SERVER, MQTT_PORT, MQTT_TOPIC);
 
 ProximitySensorController SensorController(TRIGGER, ECHO, TRIGGER_OFFSET_MIN, TRIGGER_OFFSET_MAX);
 
@@ -111,7 +116,15 @@ void setup()
   checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
   FlaskAPI.disconect();
-  // FlaskAPI.connect(1);
+
+  if (!MQTTSender.connect())
+  {
+    while (true)
+    {
+      checkUpBlink(LEDs_error, LEDs_error_size, delay_time);
+    }
+  }
+  checkUpBlink(LEDs_passed, LEDs_pass_size, delay_time);
 
   mesured_height = 0;
 
@@ -158,6 +171,7 @@ void loop()
       ZelenaLED.offIntervalPassed(ZELENA_INTERVAL))
   {
     ZelenaLED.changeState(HIGH);
+    MQTTSender.poll();
   }
   else if (ZelenaLED.is_active && ZelenaLED.onIntervalPassed(ZELENA_INTERVAL))
   {
@@ -183,6 +197,8 @@ void loop()
     String req_body = "{\"is_red_light\":" +
                       String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
     Serial.println(req_body);
+    MQTTSender.send(req_body);
+
     //  FlaskAPI.sendRequest(POST_REQUEST, "/write_db", req_body);
     //  FlaskAPI.disconect();
     //  FlaskAPI.connect(0);
