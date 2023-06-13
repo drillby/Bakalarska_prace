@@ -6,19 +6,19 @@ from flask_mqtt import Mqtt
 app = Flask(__name__, instance_relative_config=True)
 app.config["SECRET"] = "secret!123"
 
-app.config["MQTT_BROKER_URL"] = "broker.emqx.io"
+app.config["MQTT_BROKER_URL"] = "test.mosquitto.org"
 app.config["MQTT_BROKER_PORT"] = 1883
-app.config[
-    "MQTT_USERNAME"
-] = ""  # Set this item when you need to verify username and password
-app.config[
-    "MQTT_PASSWORD"
-] = ""  # Set this item when you need to verify username and password
+# app.config[
+#     "MQTT_USERNAME"
+# ] = ""  # Set this item when you need to verify username and password
+# app.config[
+#     "MQTT_PASSWORD"
+# ] = ""  # Set this item when you need to verify username and password
 app.config["MQTT_KEEPALIVE"] = 5  # Set KeepAlive time in seconds
 app.config["MQTT_TLS_ENABLED"] = False  # If your server supports TLS, set it True
-topic = "/flask/mqtt"
+topic = "mqtt"
 
-mqtt_reciever = Mqtt(app)
+mqtt_reciever = Mqtt(app, mqtt_logging=True)
 
 # loading configuraiton
 app.config.from_object("config.Config")
