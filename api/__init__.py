@@ -1,14 +1,24 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_sock import Sock
+from flask_mqtt import Mqtt
 
 # creating the flask app
 app = Flask(__name__, instance_relative_config=True)
 app.config["SECRET"] = "secret!123"
 
-sockets = Sock(app)
-app.config['SOCK_SERVER_OPTIONS'] = {'ping_interval': 25}
+app.config["MQTT_BROKER_URL"] = "broker.emqx.io"
+app.config["MQTT_BROKER_PORT"] = 1883
+app.config[
+    "MQTT_USERNAME"
+] = ""  # Set this item when you need to verify username and password
+app.config[
+    "MQTT_PASSWORD"
+] = ""  # Set this item when you need to verify username and password
+app.config["MQTT_KEEPALIVE"] = 5  # Set KeepAlive time in seconds
+app.config["MQTT_TLS_ENABLED"] = False  # If your server supports TLS, set it True
+topic = "/flask/mqtt"
 
+mqtt_reciever = Mqtt(app)
 
 # loading configuraiton
 app.config.from_object("config.Config")
