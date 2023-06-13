@@ -8,9 +8,8 @@ class MQTTController
 public:
     MQTTController(String broker, uint16_t port, String topic);
     MQTTController(IPAddress broker, uint16_t port, String topic);
-    void connect();
+    bool connect();
     void send(String msg);
-    String receive();
     void poll();
 
     String broker_url = "";
@@ -20,7 +19,7 @@ public:
 
 private:
     WiFiClient _wifi;
-    MqttClient _mqtt;
+    MqttClient _mqtt = MqttClient(_wifi);
 };
 
 #endif
