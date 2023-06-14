@@ -1,8 +1,9 @@
 from typing import Any, Dict
 
 from flask import Response, jsonify, request
+from paho.mqtt.client import Client, MQTTMessage
 
-from api import app, mqtt_reciever, topic
+from api import app, mqtt_reciever
 
 
 @app.route("/")
@@ -21,14 +22,13 @@ def write_to_db():
 
 
 @mqtt_reciever.on_connect()
-def handle_connect(client, userdata, flags, rc):
-    print(123)
-    print(rc)
-    mqtt_reciever.subscribe(topic)
+def handle_connect(client:Client, userdata, flags, rc):
+    if rc != 0:
+        return
+    mqtt_reciever.subscribe(app.config["MQTT_TOPIC"])
 
 
 @mqtt_reciever.on_message()
-def handle_message(client, userdata, message):
-    print(456)
+def handle_message(client: Client, userdata, message: MQTTMessage):
     data = dict(topic=message.topic, payload=message.payload.decode())
     print(data)
