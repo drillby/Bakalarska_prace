@@ -9,7 +9,6 @@ app = Flask(__name__, instance_relative_config=True)
 app.config.from_object("config.ServerConfig")
 app.config.from_object("config.DatabaseConfig")
 app.config.from_object("config.MQTTConfig")
-app.config.from_object("config.CORSConfig")
 
 # enable MQTT
 mqtt_reciever = Mqtt(app, mqtt_logging=True)
@@ -17,7 +16,7 @@ mqtt_reciever = Mqtt(app, mqtt_logging=True)
 
 # enabling CORS
 
-CORS(app, resources={"/*": app.config["API_CORS_CONFIG"]})
+CORS(app, resources={"/*": app.config["CORS_CONFIG"]})
 
 # importing API views
 from api.endpoints import arduino

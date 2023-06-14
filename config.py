@@ -6,6 +6,17 @@ class ServerConfig:
     PORT = 8000
     DEBUG = True
     RELOADER = False
+    CORS_CONFIG = {
+        "origins": ["*"],
+        "methods": ["GET", "POST", "DELETE"],
+        "allow_headers": [
+            "Authorization",
+            "Content-Type",
+            "Access-Control-Allow-Origin",
+            "Sec-WebSocket-Version",
+            "Sec-WebSocket-Key",
+        ],
+    }
 
 
 class MQTTConfig:
@@ -23,17 +34,3 @@ class MQTTConfig:
 
 class DatabaseConfig:
     ...
-
-
-class CORSConfig:
-    API_CORS_CONFIG = {
-        "origins": ["*"],
-        "methods": ["GET", "POST", "DELETE"],
-        "allow_headers": [
-            "Authorization",
-            "Content-Type",
-            "Access-Control-Allow-Origin",
-            "Sec-WebSocket-Version",
-            "Sec-WebSocket-Key",
-        ],
-    }
