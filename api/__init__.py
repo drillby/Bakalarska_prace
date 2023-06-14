@@ -6,6 +6,8 @@ from flask_mqtt import Mqtt
 app = Flask(__name__, instance_relative_config=True)
 
 # loading configuraiton
+app.config.from_object("config.ServerConfig")
+app.config.from_object("config.DatabaseConfig")
 app.config.from_object("config.MQTTConfig")
 
 # enable MQTT

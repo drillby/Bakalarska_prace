@@ -1,6 +1,13 @@
 import ssl
 
 
+class ServerConfig:
+    IP_ADDRESS = "192.168.132.103"
+    PORT = 8000
+    DEBUG = True
+    RELOADER = False
+
+
 class MQTTConfig:
     MQTT_BROKER_URL = "test.mosquitto.org"
     MQTT_BROKER_PORT = 8883
