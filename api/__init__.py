@@ -1,5 +1,3 @@
-import ssl
-
 from flask import Flask
 from flask_cors import CORS
 from flask_mqtt import Mqtt
@@ -10,7 +8,7 @@ app = Flask(__name__, instance_relative_config=True)
 # loading configuraiton
 app.config.from_object("config.MQTTConfig")
 
-# enable MQTT 
+# enable MQTT
 mqtt_reciever = Mqtt(app, mqtt_logging=True)
 
 

@@ -14,5 +14,6 @@ class MQTTConfig:
     # MQTT_TOPIC = "bp/arduino/proximity_sensor"
     MQTT_TOPIC = "test"
 
+
 class DatabaseConfig:
     ...
