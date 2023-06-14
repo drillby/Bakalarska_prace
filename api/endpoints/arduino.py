@@ -22,6 +22,7 @@ def write_to_db():
 @mqtt_reciever.on_connect()
 def handle_connect(client, userdata, flags, rc):
     print(123)
+    print(rc)
     mqtt_reciever.subscribe(topic)
 
 
