@@ -11,8 +11,7 @@ class MQTTConfig:
     MQTT_TLS_KEYFILE = "./cert/private.key"
     MQTT_TLS_CIPHERS = "ECDHE-RSA-AES128-GCM-SHA256"
     MQTT_TLS_VERSION = ssl.PROTOCOL_TLSv1_2
-    # MQTT_TOPIC = "bp/arduino/proximity_sensor"
-    MQTT_TOPIC = "test"
+    MQTT_TOPIC = "bp/arduino/proximity_sensor"
 
 
 class DatabaseConfig:
