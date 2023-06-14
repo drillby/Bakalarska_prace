@@ -36,7 +36,6 @@ uint8_t mesured_height;
 
 void setup()
 {
-  Serial.begin(115200);
   CervenaLED.init();
   OrangovaLED.init();
   ZelenaLED.init();
@@ -196,43 +195,6 @@ void loop()
   {
     String req_body = "{\"is_red_light\":" +
                       String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
-    Serial.println(req_body);
     MQTTSender.send(req_body);
-
-    //  FlaskAPI.sendRequest(POST_REQUEST, "/write_db", req_body);
-    //  FlaskAPI.disconect();
-    //  FlaskAPI.connect(0);
   }
-
-  // // kontrola a pokus o opětovné připojení, pokud vypadne WiFi
-  // if (!ConnController.isConnected())
-  // {
-  //   CervenaLED.changeState(LOW);
-  //   OrangovaLED.changeState(LOW);
-  //   ZelenaLED.changeState(LOW);
-  //   c_o = true;
-  //   while (!ConnController.isConnected())
-  //   {
-  //     OrangovaLED.changeState(HIGH);
-  //     ConnController.connect(0);
-  //     OrangovaLED.changeState(LOW);
-  //     delay(ConnController.conn_check_delay);
-  //   }
-  // }
-
-  // // kontrola a pokus o opětovné připojení, pokud se nedaří navázat spojení se serverem
-  // if (!FlaskAPI.is_connected)
-  // {
-  //   CervenaLED.changeState(LOW);
-  //   OrangovaLED.changeState(LOW);
-  //   ZelenaLED.changeState(LOW);
-  //   c_o = true;
-  //   while (!FlaskAPI.is_connected)
-  //   {
-  //     OrangovaLED.changeState(HIGH);
-  //     FlaskAPI.connect(0);
-  //     OrangovaLED.changeState(LOW);
-  //     delay(FlaskAPI.conn_check_delay);
-  //   }
-  // }
 }
