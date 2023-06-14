@@ -2,3 +2,8 @@
 config.*
 *.docx
 *.pdf
+__pycache__
+cert
+config
+thesis
+node_modules
