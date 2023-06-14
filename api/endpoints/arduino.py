@@ -19,6 +19,7 @@ def write_to_db():
     print(request.json)
     return jsonify({"status": "OK"})
 
+
 @mqtt_reciever.on_connect()
 def handle_connect(client, userdata, flags, rc):
     print(123)
