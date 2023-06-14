@@ -5,3 +5,6 @@ config.*
 node_modules
 *.pyc
 __pycache__
+thesis
+cert
+config
