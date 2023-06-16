@@ -1,3 +1,4 @@
+import json
 from typing import Dict, Union
 
 from paho.mqtt.client import Client, MQTTMessage
@@ -16,5 +17,6 @@ def handle_connect(
 
 @mqtt_reciever.on_message()
 def handle_message(client: Client, userdata: None, message: MQTTMessage):
-    data = dict(topic=message.topic, payload=message.payload.decode())
+    data = message.payload.decode()
+    data = json.loads(data)
     print(data)
