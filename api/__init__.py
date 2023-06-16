@@ -19,4 +19,4 @@ mqtt_reciever = Mqtt(app, mqtt_logging=True)
 CORS(app, resources={"/*": app.config["CORS_CONFIG"]})
 
 # importing API views
-from api.endpoints import arduino
+from api.endpoints import arduino, frondend, root
