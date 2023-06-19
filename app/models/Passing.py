@@ -1,6 +1,6 @@
 import datetime
 import uuid
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -8,8 +8,6 @@ db = SQLAlchemy()
 
 
 class Passing(db.Model):
-    """Table representation of CarPassing table in database"""
-
     __tablename__ = "CarPassing"
     id = db.Column(
         db.String(len(str(uuid.uuid1()))),
@@ -28,3 +26,10 @@ class Passing(db.Model):
 
     def __repr__(self) -> str:
         return f"<Passing id={self.id} date_time={self.date_time} is_red={self.is_red}>"
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "id": self.id,
+            "date_time": self.date_time,
+            "is_red": self.is_red,
+        }
