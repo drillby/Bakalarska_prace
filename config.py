@@ -3,6 +3,7 @@ import ssl
 
 class ServerConfig:
     IP_ADDRESS = "192.168.132.103"
+    TESTING = True
     PORT = 8000
     DEBUG = True
     RELOADER = False
@@ -13,8 +14,6 @@ class ServerConfig:
             "Authorization",
             "Content-Type",
             "Access-Control-Allow-Origin",
-            "Sec-WebSocket-Version",
-            "Sec-WebSocket-Key",
         ],
     }
 
@@ -33,4 +32,13 @@ class MQTTConfig:
 
 
 class DatabaseConfig:
-    ...
+    DB_TYPE = "mysql+pymysql"
+    DB_HOST = "192.168.132.156"
+    DB_PORT = 3306
+    DB_USER = "drillby"
+    DB_PW = "password"
+    DB_NAME = "Development"
+    DB_TABLE = "CarPassing"
+    SQLALCHEMY_DATABASE_URI = (
+        f"{DB_TYPE}://{DB_USER}:{DB_PW}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    )
