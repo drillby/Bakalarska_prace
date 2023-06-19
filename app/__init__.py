@@ -17,6 +17,7 @@ app.config.from_object("config.MQTTConfig")
 
 # enabling logging
 logging.config.dictConfig(app.config["LOGGING_CONFIG"])
+logging.getLogger("werkzeug").disabled = True
 app.logger.info("Logging initialized")
 
 mqtt_logger = logging.getLogger("mqtt")
@@ -29,9 +30,6 @@ app.logger.info("Database initialized")
 # enable MQTT
 mqtt_reciever = Mqtt(app, mqtt_logging=True)
 app.logger.info("MQTT initialized")
-
-mqtt_logger.info("MQTT initialized")
-api_logger.info("API initialized")
 
 
 # enabling CORS
