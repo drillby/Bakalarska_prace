@@ -3,7 +3,7 @@ from typing import Dict, Union
 
 from paho.mqtt.client import Client, MQTTMessage
 
-from api import Passing, app, db, mqtt_reciever
+from api import app, db, mqtt_reciever
 
 
 @mqtt_reciever.on_connect()
