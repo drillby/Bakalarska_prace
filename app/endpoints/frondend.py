@@ -1,4 +1,5 @@
 import datetime
+import random
 import tempfile
 from typing import List
 
@@ -72,3 +73,27 @@ def download_from_db():
     with tempfile.NamedTemporaryFile() as tmp:
         df.to_csv(tmp.name, header=header, index=False, sep=";")
         return send_file(tmp.name, as_attachment=True, download_name="passing_data.csv")
+
+
+@app.route("/generate_dummy_data/<int:num_to_gen>", methods=["POST"])
+def gen_dummy_data(num_to_gen: int):
+    for _ in range(num_to_gen):
+        # gebnerate random datetime
+        date_time = datetime.datetime.now() - datetime.timedelta(
+            seconds=random.randint(0, 60 * 60 * 24 * 365)
+        )
+        # generate random is_red
+        is_red = random.choice([True, False])
+
+        passing = Passing(date_time=date_time, is_red=is_red)
+        db.session.add(passing)
+        api_logger.info(f"Added entry to database: {repr(passing)}")
+    db.session.commit()
+    return jsonify(
+        {
+            "status": "ok",
+        }
+    )
+
+    # create test curl command:
+    # curl -X POST -H "Content-Type: application/json" http://192.168.132.103:8000/generate_dummy_data/10
