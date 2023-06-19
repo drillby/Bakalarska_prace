@@ -25,3 +25,6 @@ class Passing(db.Model):
         if date_time is not None:
             self.date_time = date_time
         self.is_red = is_red
+
+    def __repr__(self) -> str:
+        return f"<Passing {self.id} {self.date_time} {self.is_red}>"
