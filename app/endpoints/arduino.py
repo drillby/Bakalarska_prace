@@ -3,7 +3,7 @@ from typing import Dict, Union
 
 from paho.mqtt.client import Client, MQTTMessage
 
-from api import app, db, mqtt_reciever
+from app import app, db, mqtt_reciever
 
 
 @mqtt_reciever.on_connect()
@@ -11,9 +11,9 @@ def handle_connect(
     client: Client, userdata: None, flags: Dict[str, Union[str, int]], rc: int
 ):
     if rc != 0:
-        print("Failed to connect, return code %d\n", rc)
+        app.logger.error("Failed to connect to MQTT broker")
         return
-    print("Connected to MQTT broker")
+    app.logger.info("Connected to MQTT broker")
     mqtt_reciever.subscribe(app.config["MQTT_TOPIC"])
 
 
@@ -21,7 +21,9 @@ def handle_connect(
 def handle_message(client: Client, userdata: None, message: MQTTMessage):
     data = message.payload.decode()
     data = json.loads(data)
-    print(data)
+    if "is_red_light" not in data:
+        app.logger.fatal(f"Recieved data without is_red_light key. Recieved: {data}")
+        return
     if data["is_red_light"] == 1:
         is_red = True
     else:
@@ -30,4 +32,5 @@ def handle_message(client: Client, userdata: None, message: MQTTMessage):
         passing = Passing(is_red)
         db.session.add(passing)
         db.session.commit()
+        app.logger.info(f"Added entry to database: {passing}")
     return

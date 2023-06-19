@@ -16,6 +16,59 @@ class ServerConfig:
             "Access-Control-Allow-Origin",
         ],
     }
+    LOGGING_CONFIG = {
+        "version": 1,
+        "formatters": {
+            "default": {
+                "format": "%(asctime)s : %(levelname)s : %(module)s : %(funcName)s : %(lineno)d : %(message)s",
+                "datefmt": "%d/%m/%Y %H:%M:%S",
+            },
+            "mqtt": {
+                "format": "%(asctime)s : %(levelname)s : %(message)s",
+                "datefmt": "%d/%m/%Y %H:%M:%S",
+            },
+        },
+        "handlers": {
+            "mqtt": {
+                "class": "logging.handlers.RotatingFileHandler",
+                "formatter": "mqtt",
+                "filename": "./logs/mqtt.log",
+                "maxBytes": 1024 * 1024 * 100,
+                "backupCount": 20,
+            },
+            "app": {
+                "class": "logging.handlers.RotatingFileHandler",
+                "formatter": "default",
+                "filename": "./logs/app.log",
+                "maxBytes": 1024 * 1024 * 100,
+                "backupCount": 20,
+            },
+            "api": {
+                "class": "logging.handlers.RotatingFileHandler",
+                "formatter": "default",
+                "filename": "./logs/api.log",
+                "maxBytes": 1024 * 1024 * 100,
+                "backupCount": 20,
+            },
+        },
+        "loggers": {
+            "mqtt": {
+                "handlers": ["mqtt"],
+                "level": "INFO",
+                "propagate": True,
+            },
+            "app": {
+                "handlers": ["app"],
+                "level": "INFO",
+                "propagate": True,
+            },
+            "api": {
+                "handlers": ["api"],
+                "level": "INFO",
+                "propagate": True,
+            },
+        },
+    }
 
 
 class MQTTConfig:

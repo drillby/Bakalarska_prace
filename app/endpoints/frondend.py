@@ -1,6 +1,6 @@
 from flask import jsonify, request
 
-from api import app
+from app import app
 
 
 @app.route("/write_db", methods=["POST"])
