@@ -27,4 +27,4 @@ class Passing(db.Model):
         self.is_red = is_red
 
     def __repr__(self) -> str:
-        return f"<Passing {self.id} {self.date_time} {self.is_red}>"
+        return f"<Passing id={self.id} date_time={self.date_time} is_red={self.is_red}>"
