@@ -104,7 +104,7 @@ pip install -r requirements.txt
 
 ## Nastavení serveru
 
-**Poznámka:** Server není potřeba do velké míry přenastavovat. Stačí pouze nastavit databázi, MQTT broker a samozřejmě IP adresu a port, na kterém bude server naslouchat.
+**Poznámka:** Server není potřeba do velké míry přenastavovat. Stačí pouze nastavit databázi, MQTT broker a samozřejmě IP adresu a port, na kterém bude server naslouchat. Ostatní nastavení není potřeba měnit.
 
 V neposlední řadě je třeba vytvořit config soubor pro server. Vytvořte soubor `config.py` a v něm vytvořte třídu `ServerConfig`. Příklad třídy `ServerConfig`:
 
