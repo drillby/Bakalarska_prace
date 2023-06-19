@@ -35,8 +35,6 @@ def get_from_db():
     if is_red:
         query = query.filter(Passing.is_red == is_red)
 
-    query = query.all()
-
     api_logger.info(f"Recieved query: {query}")
     query: List[Passing] = query.all()
 
@@ -45,3 +43,32 @@ def get_from_db():
             "data": [passing.to_dict() for passing in query],
         }
     )
+
+
+@app.route("/download_data", methods=["GET"])
+def download_from_db():
+    from_datatime = request.args.get("from_datetime")
+    to_datetime = request.args.get("to_datetime")
+    on_datetime = request.args.get("on_datetime")
+    is_red = request.args.get("is_red")
+
+    query = db.session.query(Passing)
+    if from_datatime:
+        query = query.filter(Passing.date_time >= from_datatime)
+    if to_datetime:
+        query = query.filter(Passing.date_time <= to_datetime)
+    if on_datetime and (not from_datatime or not to_datetime):
+        query = query.filter(Passing.date_time == on_datetime)
+    if is_red:
+        query = query.filter(Passing.is_red == is_red)
+
+    api_logger.info(f"Recieved query: {query}")
+    query: List[Passing] = query.all()
+
+    header = ["id", "date_time", "is_red"]
+    df = pd.DataFrame(
+        [[passing.id, passing.date_time, passing.is_red] for passing in query]
+    )
+    with tempfile.NamedTemporaryFile() as tmp:
+        df.to_csv(tmp.name, header=header, index=False, sep=";")
+        return send_file(tmp.name, as_attachment=True, download_name="passing_data.csv")
