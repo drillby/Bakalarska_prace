@@ -3,7 +3,7 @@ import ssl
 
 class ServerConfig:
     IP_ADDRESS = "192.168.132.103"
-    TESTING = True
+    TESTING = False
     PORT = 8000
     DEBUG = True
     RELOADER = False
