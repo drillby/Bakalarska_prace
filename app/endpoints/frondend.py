@@ -4,7 +4,7 @@ import tempfile
 from typing import List
 
 import pandas as pd
-from flask import jsonify, request, send_file
+from flask import Response, jsonify, request, send_file
 
 from app import api_logger, app, db
 from app.models.Passing import Passing
@@ -18,13 +18,40 @@ def get_from_db():
     is_red = request.args.get("is_red")
 
     if from_datetime:
-        from_datetime = datetime.datetime.strptime(from_datetime, "%Y-%m-%d %H:%M:%S")
+        try:
+            from_datetime = datetime.datetime.strptime(
+                from_datetime, "%Y-%m-%d %H:%M:%S"
+            )
+        except ValueError:
+            api_logger.error(f"Invalid from_datetime format: {from_datetime}")
+            return Response(
+                "Invalid from_datetime format. Should be YYYY-MM-DD HH:MM:SS",
+                status=400,
+            )
     if to_datetime:
-        to_datetime = datetime.datetime.strptime(to_datetime, "%Y-%m-%d %H:%M:%S")
+        try:
+            to_datetime = datetime.datetime.strptime(to_datetime, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            api_logger.error(f"Invalid to_datetime format: {to_datetime}")
+            return Response(
+                "Invalid to_datetime format. Should be YYYY-MM-DD HH:MM:SS", status=400
+            )
     if on_datetime:
-        on_datetime = datetime.datetime.strptime(on_datetime, "%Y-%m-%d %H:%M:%S")
+        try:
+            on_datetime = datetime.datetime.strptime(on_datetime, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            api_logger.error(f"Invalid on_datetime format: {on_datetime}")
+            return Response(
+                "Invalid on_datetime format. Should be YYYY-MM-DD HH:MM:SS", status=400
+            )
     if is_red:
-        is_red = True if is_red == "True" else False
+        try:
+            is_red = True if is_red.strip().lower() == "true" else False
+        except ValueError:
+            api_logger.error(f"Invalid is_red format: {is_red}")
+            return Response(
+                "Invalid is_red format. Should be True or False", status=400
+            )
 
     query = db.session.query(Passing)
     if from_datetime:
@@ -48,20 +75,46 @@ def get_from_db():
 
 @app.route("/download_data", methods=["GET"])
 def download_from_db():
-    from_datatime = request.args.get("from_datetime")
+    from_datetime = request.args.get("from_datetime")
     to_datetime = request.args.get("to_datetime")
     on_datetime = request.args.get("on_datetime")
     is_red = request.args.get("is_red")
 
-    query = db.session.query(Passing)
-    if from_datatime:
-        query = query.filter(Passing.date_time >= from_datatime)
+    if from_datetime:
+        try:
+            from_datetime = datetime.datetime.strptime(
+                from_datetime, "%Y-%m-%d %H:%M:%S"
+            )
+        except ValueError:
+            api_logger.error(f"Invalid from_datetime format: {from_datetime}")
+            return Response(
+                "Invalid from_datetime format. Should be YYYY-MM-DD HH:MM:SS",
+                status=400,
+            )
     if to_datetime:
-        query = query.filter(Passing.date_time <= to_datetime)
-    if on_datetime and (not from_datatime or not to_datetime):
-        query = query.filter(Passing.date_time == on_datetime)
+        try:
+            to_datetime = datetime.datetime.strptime(to_datetime, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            api_logger.error(f"Invalid to_datetime format: {to_datetime}")
+            return Response(
+                "Invalid to_datetime format. Should be YYYY-MM-DD HH:MM:SS", status=400
+            )
+    if on_datetime:
+        try:
+            on_datetime = datetime.datetime.strptime(on_datetime, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            api_logger.error(f"Invalid on_datetime format: {on_datetime}")
+            return Response(
+                "Invalid on_datetime format. Should be YYYY-MM-DD HH:MM:SS", status=400
+            )
     if is_red:
-        query = query.filter(Passing.is_red == is_red)
+        try:
+            is_red = True if is_red.strip().lower() == "true" else False
+        except ValueError:
+            api_logger.error(f"Invalid is_red format: {is_red}")
+            return Response(
+                "Invalid is_red format. Should be True or False", status=400
+            )
 
     api_logger.info(f"Recieved query: {query}")
     query: List[Passing] = query.all()
@@ -92,6 +145,7 @@ def gen_dummy_data(num_to_gen: int):
     return jsonify(
         {
             "status": "ok",
+            "message": f"Generated {num_to_gen} entries",
         }
     )
 
