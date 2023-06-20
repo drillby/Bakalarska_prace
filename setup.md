@@ -10,7 +10,7 @@ Pro spuštění aplikace je potřeba mít nainstalovaný [Python 3.6](http://pyt
 
 ### Databáze
 
-Dále je třeba mít nastavenou SQL databázi. Pro nastavení databáze je potřeba vytvořit soubor `config.py` a v něm vytvořit třídu `DatabaseConfig` připojení k databázi. Příklad třídy `DatabaseConfig`:
+Dále je třeba mít nastavenou SQL databázi. Pro nastavení databáze je potřeba vytvořit soubor `config.py` a v něm vytvořit třídu `DatabaseConfig` pro připojení k databázi. Příklad třídy `DatabaseConfig`:
 
 ```python
 class DatabaseConfig:
@@ -37,7 +37,7 @@ Databáze musí mít tabulku `CarPassing` s následujícími sloupci:
 
 ### MQTT broker
 
-Dále je třeba mít nastavený MQTT broker. Pro nastavení MQTT brokera je potřeba vytvořit soubor `config.py` a v něm vytvořit třídu `MQTTConfig` připojení k MQTT brokeru. Příklad třídy `MQTTConfig`:
+Dále je třeba mít nastavený MQTT broker. Pro nastavení MQTT brokera je potřeba vytvořit soubor `config.py` a v něm vytvořit třídu `MQTTConfig` pro připojení k MQTT brokeru. Příklad třídy `MQTTConfig`:
 
 ```python
 class MQTTConfig:
