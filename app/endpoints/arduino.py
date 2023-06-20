@@ -23,7 +23,7 @@ def handle_message(client: Client, userdata: None, message: MQTTMessage):
     data = message.payload.decode()
     data = json.loads(data)
     if "is_red_light" not in data:
-        mqtt_logger.fatal(f"Recieved data without is_red_light key. Recieved: {data}")
+        mqtt_logger.error(f"Recieved data without is_red_light key. Recieved: {data}")
         return
     if data["is_red_light"] == 1:
         is_red = True
