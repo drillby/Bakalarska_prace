@@ -92,7 +92,7 @@ Je potřeba vytvořit složku config a v ní vytvořit následující soubrory:
 #endif
 ```
 
-- `LEDsconfig.h` - obsahuje nastavení pro LED diody
+- `LEDsConfig.h` - obsahuje nastavení pro LED diody
 
 ```c
 #ifndef LEDsConfig_h

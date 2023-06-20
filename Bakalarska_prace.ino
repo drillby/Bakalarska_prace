@@ -7,7 +7,7 @@
 #include "libs/MQTTController.h"
 
 #include "config/APIConfig.h"
-#include "config/LEDsconfig.h"
+#include "config/LEDsConfig.h"
 #include "config/WiFiConfig.h"
 #include "config/SensorConfig.h"
 #include "config/MQTTConfig.h"
