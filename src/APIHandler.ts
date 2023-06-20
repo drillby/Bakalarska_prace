@@ -24,7 +24,7 @@ export class APIHandler {
         // create response object
         const response = await fetch(`${this.baseURL}:${this.port}/get_data?${params}`);
         // create json object
-        const json = await response.json();
+        const json: tableRow[] = await response.json();
         // return json
         return json;
     }
