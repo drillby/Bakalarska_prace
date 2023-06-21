@@ -30,7 +30,7 @@ function handleSubmit(event: Event) {
         return;
     }
 
-    getTableEntries(values, { url: "localhost", port: 8000 }).then((data) => {
+    getTableEntries(values, { url: "192.168.132.103", port: 8000 }).then((data) => {
         console.log(data);
     });
 }
