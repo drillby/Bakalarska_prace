@@ -11,21 +11,40 @@ from app.models.Passing import Passing
 
 
 @app.route("/get_data", methods=["GET"])
-def get_from_db():
+def get_from_db() -> Response:
+    """REST endpoint for getting data from database
+    Typical endpoint call:
+    http://localhost:5000/get_data?from_date=2021-01-01T00:00:00Z&to_date=2021-01-01T23:59:59Z&color=all
+
+    Args:
+        from_date (str, optional): Begining of the time interval. Defaults to None. Accepts ISO 8601 format.
+        to_date (str, optional): End of the time interval. Defaults to None. Accepts ISO 8601 format.
+        on_date (str, optional): Date of the day. Defaults to None. Accepts ISO 8601 format.
+        color (str, optional): . Defaults to None. Accepts "all", "red", "green".
+
+
+    Returns:
+        Response: JSON with data from database or error message
+    """
     from_datetime = request.args.get("from_date")
     to_datetime = request.args.get("to_date")
     on_datetime = request.args.get("on_date")
     color = request.args.get("color")
 
+    # validate from_datetime format and convert to datetime
     if from_datetime:
         try:
-            from_datetime = datetime.datetime.fromisoformat(from_datetime.replace("Z", ""))
+            from_datetime = datetime.datetime.fromisoformat(
+                from_datetime.replace("Z", "")
+            )
         except ValueError:
             api_logger.error(f"Invalid from_datetime format: {from_datetime}")
             return Response(
                 "Invalid from_datetime format. Should be YYYY-MM-DD HH:MM:SS",
                 status=400,
             )
+
+    # validate to_datetime format and convert to datetime
     if to_datetime:
         try:
             to_datetime = datetime.datetime.fromisoformat(to_datetime.replace("Z", ""))
@@ -34,6 +53,8 @@ def get_from_db():
             return Response(
                 "Invalid to_datetime format. Should be YYYY-MM-DD HH:MM:SS", status=400
             )
+
+    # validate on_datetime format and convert to datetime
     if on_datetime:
         try:
             on_datetime = datetime.datetime.fromisoformat(on_datetime.replace("Z", ""))
@@ -42,11 +63,12 @@ def get_from_db():
             return Response(
                 "Invalid on_datetime format. Should be YYYY-MM-DD HH:MM:SS", status=400
             )
-    if color not in ["all", "red", "green"]:
-        return Response(
-                "Invalid is_red format. Should be True or False", status=400
-            )
 
+    # validate color format
+    if color not in ["all", "red", "green"]:
+        return Response("Invalid is_red format. Should be True or False", status=400)
+
+    # create query and filter it
     query = db.session.query(Passing)
     if from_datetime:
         query = query.filter(Passing.date_time >= from_datetime)
@@ -65,6 +87,7 @@ def get_from_db():
         query = query.filter(Passing.is_red == False)
 
     api_logger.info(f"Recieved query: {query}")
+    # execute query
     query: List[Passing] = query.all()
 
     return jsonify(
@@ -75,21 +98,40 @@ def get_from_db():
 
 
 @app.route("/download_data", methods=["GET"])
-def download_from_db():
+def download_from_db() -> Response:
+    """REST endpoint for getting data from database
+    Typical endpoint call:
+    http://localhost:5000/download_data?from_date=2021-01-01T00:00:00Z&to_date=2021-01-01T23:59:59Z&color=all
+
+    Args:
+        from_date (str, optional): Begining of the time interval. Defaults to None. Accepts ISO 8601 format.
+        to_date (str, optional): End of the time interval. Defaults to None. Accepts ISO 8601 format.
+        on_date (str, optional): Date of the day. Defaults to None. Accepts ISO 8601 format.
+        color (str, optional): . Defaults to None. Accepts "all", "red", "green".
+
+
+    Returns:
+        Response: JSON with data from database or error message
+    """
     from_datetime = request.args.get("from_date")
     to_datetime = request.args.get("to_date")
     on_datetime = request.args.get("on_date")
     color = request.args.get("color")
 
+    # validate from_datetime format and convert to datetime
     if from_datetime:
         try:
-            from_datetime = datetime.datetime.fromisoformat(from_datetime.replace("Z", ""))
+            from_datetime = datetime.datetime.fromisoformat(
+                from_datetime.replace("Z", "")
+            )
         except ValueError:
             api_logger.error(f"Invalid from_datetime format: {from_datetime}")
             return Response(
                 "Invalid from_datetime format. Should be YYYY-MM-DD HH:MM:SS",
                 status=400,
             )
+
+    # validate to_datetime format and convert to datetime
     if to_datetime:
         try:
             to_datetime = datetime.datetime.fromisoformat(to_datetime.replace("Z", ""))
@@ -98,6 +140,8 @@ def download_from_db():
             return Response(
                 "Invalid to_datetime format. Should be YYYY-MM-DD HH:MM:SS", status=400
             )
+
+    # validate on_datetime format and convert to datetime
     if on_datetime:
         try:
             on_datetime = datetime.datetime.fromisoformat(on_datetime.replace("Z", ""))
@@ -106,11 +150,12 @@ def download_from_db():
             return Response(
                 "Invalid on_datetime format. Should be YYYY-MM-DD HH:MM:SS", status=400
             )
-    if color not in ["all", "red", "green"]:
-        return Response(
-                "Invalid is_red format. Should be True or False", status=400
-            )
 
+    # validate color format
+    if color not in ["all", "red", "green"]:
+        return Response("Invalid is_red format. Should be True or False", status=400)
+
+    # create query and filter it
     query = db.session.query(Passing)
     if from_datetime:
         query = query.filter(Passing.date_time >= from_datetime)
@@ -129,13 +174,15 @@ def download_from_db():
         query = query.filter(Passing.is_red == False)
 
     api_logger.info(f"Recieved query: {query}")
+    # execute query
     query: List[Passing] = query.all()
 
+    # create dataframe
     header = ["id", "date_time", "is_red"]
     df = pd.DataFrame(
         [[passing.id, passing.date_time, passing.is_red] for passing in query]
     )
-    print(df)
+    # create temp file and send it
     with tempfile.NamedTemporaryFile() as tmp:
         df.to_csv(tmp.name, header=header, index=False, sep=";")
         return send_file(tmp.name, as_attachment=True, download_name="passing_data.csv")
@@ -148,13 +195,14 @@ def gen_dummy_data(num_to_gen: int):
         return Response("Cannot create negative entries.", 400)
 
     for _ in range(num_to_gen):
-        # gebnerate random datetime
+        # generate random datetime in last year
         date_time = datetime.datetime.now() - datetime.timedelta(
             seconds=random.randint(0, 60 * 60 * 24 * 365)
         )
         # generate random is_red
         is_red = random.choice([True, False])
 
+        # create and add entry to database
         passing = Passing(date_time=date_time, is_red=is_red)
         db.session.add(passing)
         api_logger.info(f"Added entry to database: {repr(passing)}")
@@ -165,6 +213,3 @@ def gen_dummy_data(num_to_gen: int):
             "message": f"Generated {num_to_gen} entries",
         }
     )
-
-    # create test curl command:
-    # curl -X POST -H "Content-Type: application/json" http://192.168.132.103:8000/generate_dummy_data/10

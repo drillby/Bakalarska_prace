@@ -11,6 +11,18 @@ from app.models.Passing import Passing
 def handle_connect(
     client: Client, userdata: None, flags: Dict[str, Union[str, int]], rc: int
 ):
+    """
+    Handles the connection to the MQTT broker.
+
+    Args:
+        client (paho.mqtt.client.Client): The MQTT client instance.
+        userdata (None): The user data.
+        flags (Dict[str, Union[str, int]]): The flags associated with the connection.
+        rc (int): The result code of the connection.
+
+    Returns:
+        None
+    """
     if rc != 0:
         mqtt_logger.error("Failed to connect to MQTT broker")
         return
@@ -20,6 +32,17 @@ def handle_connect(
 
 @mqtt_reciever.on_message()
 def handle_message(client: Client, userdata: None, message: MQTTMessage):
+    """
+    Handles an incoming MQTT message and uploads entry to database.
+
+    Args:
+        client (paho.mqtt.client.Client): The MQTT client instance.
+        userdata (None): The user data.
+        message (MQTTMessage): The incoming message.
+
+    Returns:
+        None
+    """
     data = message.payload.decode()
     data = json.loads(data)
     if "is_red_light" not in data:

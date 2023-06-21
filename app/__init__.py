@@ -19,7 +19,6 @@ app.config.from_object("config.MQTTConfig")
 logging.config.dictConfig(app.config["LOGGING_CONFIG"])
 logging.getLogger("werkzeug").disabled = True
 app.logger.info("Logging initialized")
-
 mqtt_logger = logging.getLogger("mqtt")
 api_logger = logging.getLogger("api")
 
