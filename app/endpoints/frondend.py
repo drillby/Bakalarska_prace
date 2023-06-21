@@ -26,6 +26,8 @@ def get_from_db() -> Response:
     Returns:
         Response: JSON with data from database or error message
     """
+
+    # get query parameters
     from_datetime = request.args.get("from_date")
     to_datetime = request.args.get("to_date")
     on_datetime = request.args.get("on_date")
@@ -113,6 +115,8 @@ def download_from_db() -> Response:
     Returns:
         Response: JSON with data from database or error message
     """
+
+    # get query parameters
     from_datetime = request.args.get("from_date")
     to_datetime = request.args.get("to_date")
     on_datetime = request.args.get("on_date")
