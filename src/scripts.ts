@@ -30,7 +30,7 @@ function handleSubmit(event: Event) {
     }
 
     getTableEntries(values, { url: "192.168.132.156", port: 8000 }).then((data) => {
-        console.log(data);
+        displayData(data);
     });
 }
 
@@ -94,13 +94,13 @@ async function getTableEntries(formVals: formValues, serverConf: serverConfig): 
         params.append("on_date", formVals.on_date.toISOString());
     params.append("color", formVals.color.toString());
 
-    console.log(params.toString());
     // create response object
     const response = await fetch(`http://${serverConf.url}:${serverConf.port}/get_data?${params}`);
     // create json object
     const json: tableRow[] = await response.json();
     // return json
-    return json;
+    // @ts-ignore
+    return json.data;
 }
 
 
@@ -116,7 +116,6 @@ async function downloadTableEntries(formVals: formValues, serverConf: serverConf
         params.append("on_date", formVals.on_date.toISOString());
     params.append("color", formVals.color.toString());
 
-    console.log(params.toString());
     // create response object
     fetch(`http://${serverConf.url}:${serverConf.port}/download_data?${params}`).then(res => res.blob()).then(blob => {
         const url = window.URL.createObjectURL(blob);
@@ -131,4 +130,33 @@ async function downloadTableEntries(formVals: formValues, serverConf: serverConf
 function handleDownloadBtn() {
     const values = getFormData("form");
     downloadTableEntries(values, { url: "192.168.132.156", port: 8000 });
+}
+
+function displayData(data: tableRow[]) {
+    var newTbody = document.createElement('tbody');
+    newTbody.classList.add("bg-white", "divide-y", "divide-gray-200");
+    var oldTbody = document.getElementById("table_body");
+
+
+    data.map((row) => {
+        var newRow = document.createElement('tr');
+        newRow.classList.add("bg-gray-100");
+        var idTd = document.createElement('td');
+        idTd.classList.add("px-6", "py-4", "whitespace-nowrap");
+        idTd.textContent = row.id.toString();
+        newRow.appendChild(idTd);
+        var datetimeTd = document.createElement('td');
+        datetimeTd.classList.add("px-6", "py-4", "whitespace-nowrap");
+        datetimeTd.textContent = row.date_time.toString();
+        newRow.appendChild(datetimeTd);
+        var isRedTd = document.createElement('td');
+        isRedTd.classList.add("px-6", "py-4", "whitespace-nowrap");
+        isRedTd.textContent = row.is_red.toString();
+        newRow.appendChild(isRedTd);
+        newTbody.appendChild(newRow);
+
+    })
+
+
+    oldTbody?.replaceWith(newTbody);
 }

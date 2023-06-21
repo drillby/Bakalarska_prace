@@ -35,6 +35,7 @@ function handleSubmit(event) {
     }
     getTableEntries(values, { url: "192.168.132.156", port: 8000 }).then((data) => {
         console.log(data);
+        displayData(data);
     });
 }
 function handleDateChange(event) {
@@ -90,13 +91,13 @@ function getTableEntries(formVals, serverConf) {
         if (formVals.on_date.getFullYear() !== 1970)
             params.append("on_date", formVals.on_date.toISOString());
         params.append("color", formVals.color.toString());
-        console.log(params.toString());
         // create response object
         const response = yield fetch(`http://${serverConf.url}:${serverConf.port}/get_data?${params}`);
         // create json object
         const json = yield response.json();
         // return json
-        return json;
+        // @ts-ignore
+        return json.data;
     });
 }
 function downloadTableEntries(formVals, serverConf) {
@@ -126,4 +127,30 @@ function downloadTableEntries(formVals, serverConf) {
 function handleDownloadBtn() {
     const values = getFormData("form");
     downloadTableEntries(values, { url: "192.168.132.156", port: 8000 });
+}
+function displayData(data) {
+    var newTbody = document.createElement('tbody');
+    newTbody.classList.add("bg-white", "divide-y", "divide-gray-200");
+    var oldTbody = document.getElementById("table_body");
+    console.log(data.length);
+    data.map((row) => {
+        var newRow = document.createElement('tr');
+        newRow.classList.add("bg-gray-100");
+        var idTd = document.createElement('td');
+        idTd.classList.add("px-6", "py-4", "whitespace-nowrap");
+        idTd.textContent = row.id.toString();
+        newRow.appendChild(idTd);
+        var datetimeTd = document.createElement('td');
+        datetimeTd.classList.add("px-6", "py-4", "whitespace-nowrap");
+        datetimeTd.textContent = row.date_time.toString();
+        newRow.appendChild(datetimeTd);
+        var isRedTd = document.createElement('td');
+        isRedTd.classList.add("px-6", "py-4", "whitespace-nowrap");
+        isRedTd.textContent = row.is_red.toString();
+        newRow.appendChild(isRedTd);
+        newTbody.appendChild(newRow);
+        console.log(newRow);
+    });
+    console.log(newTbody);
+    oldTbody === null || oldTbody === void 0 ? void 0 : oldTbody.replaceWith(newTbody);
 }
