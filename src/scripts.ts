@@ -8,7 +8,7 @@ function getFormData(id: string): formValues {
         from_date: new Date(formData.get("from_date") as string),
         to_date: new Date(formData.get("to_date") as string),
         on_date: new Date(formData.get("on_date") as string),
-        is_red: formData.get("is_red") === "on" ? true : false,
+        color: formData.get("color") as string,
     }
     return data;
 }
@@ -67,13 +67,12 @@ function clearData() {
     const from_datetime_el = document.getElementById("from_date") as HTMLInputElement;
     const to_datetime_el = document.getElementById("to_date") as HTMLInputElement;
     const on_datetime_el = document.getElementById("on_date") as HTMLInputElement;
-    const is_red_el = document.getElementById("is_red") as HTMLInputElement;
+    const color = document.getElementById("color") as HTMLSelectElement;
 
     from_datetime_el.value = "";
     to_datetime_el.value = "";
     on_datetime_el.value = "";
-    is_red_el.checked = false;
-
+    color.selectedIndex = 0;
     from_datetime_el.disabled = false;
     to_datetime_el.disabled = false;
     on_datetime_el.disabled = false;
@@ -93,7 +92,7 @@ async function getTableEntries(formVals: formValues, serverConf: serverConfig): 
         params.append("to_date", formVals.to_date.toISOString());
     if (formVals.on_date.getFullYear() !== 1970)
         params.append("on_date", formVals.on_date.toISOString());
-    params.append("is_red", formVals.is_red.toString());
+    params.append("color", formVals.color.toString());
 
     console.log(params.toString());
     // create response object
@@ -115,7 +114,7 @@ async function downloadTableEntries(formVals: formValues, serverConf: serverConf
         params.append("to_date", formVals.to_date.toISOString());
     if (formVals.on_date.getFullYear() !== 1970)
         params.append("on_date", formVals.on_date.toISOString());
-    params.append("is_red", formVals.is_red.toString());
+    params.append("color", formVals.color.toString());
 
     console.log(params.toString());
     // create response object

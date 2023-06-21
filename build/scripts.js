@@ -16,7 +16,7 @@ function getFormData(id) {
         from_date: new Date(formData.get("from_date")),
         to_date: new Date(formData.get("to_date")),
         on_date: new Date(formData.get("on_date")),
-        is_red: formData.get("is_red") === "on" ? true : false,
+        color: formData.get("color"),
     };
     return data;
 }
@@ -67,11 +67,11 @@ function clearData() {
     const from_datetime_el = document.getElementById("from_date");
     const to_datetime_el = document.getElementById("to_date");
     const on_datetime_el = document.getElementById("on_date");
-    const is_red_el = document.getElementById("is_red");
+    const color = document.getElementById("color");
     from_datetime_el.value = "";
     to_datetime_el.value = "";
     on_datetime_el.value = "";
-    is_red_el.checked = false;
+    color.selectedIndex = 0;
     from_datetime_el.disabled = false;
     to_datetime_el.disabled = false;
     on_datetime_el.disabled = false;
@@ -89,7 +89,7 @@ function getTableEntries(formVals, serverConf) {
             params.append("to_date", formVals.to_date.toISOString());
         if (formVals.on_date.getFullYear() !== 1970)
             params.append("on_date", formVals.on_date.toISOString());
-        params.append("is_red", formVals.is_red.toString());
+        params.append("color", formVals.color.toString());
         console.log(params.toString());
         // create response object
         const response = yield fetch(`http://${serverConf.url}:${serverConf.port}/get_data?${params}`);
@@ -110,7 +110,7 @@ function downloadTableEntries(formVals, serverConf) {
             params.append("to_date", formVals.to_date.toISOString());
         if (formVals.on_date.getFullYear() !== 1970)
             params.append("on_date", formVals.on_date.toISOString());
-        params.append("is_red", formVals.is_red.toString());
+        params.append("color", formVals.color.toString());
         console.log(params.toString());
         // create response object
         fetch(`http://${serverConf.url}:${serverConf.port}/download_data?${params}`).then(res => res.blob()).then(blob => {
