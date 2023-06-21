@@ -193,7 +193,18 @@ def download_from_db() -> Response:
 
 
 @app.route("/generate_dummy_data/<int:num_to_gen>", methods=["POST"])
-def gen_dummy_data(num_to_gen: int):
+def gen_dummy_data(num_to_gen: int) -> Response:
+    """
+    Generates dummy data and adds it to the database.
+    Typical endpoint call:
+    http://localhost:5000/generate_dummy_data/100 (generates 100 entries)
+
+    Args:
+        num_to_gen (int): The number of entries to generate.
+
+    Returns:
+        Response: A JSON response with a status message and the number of entries generated.
+    """
     if num_to_gen < 0:
         api_logger.warning("Negative num requested")
         return Response("Cannot create negative entries.", 400)
