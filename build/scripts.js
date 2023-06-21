@@ -9,6 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Retrieves form data from the specified HTML form element and returns it as an object of type `formValues`.
+ * @param id The ID of the HTML form element to retrieve data from.
+ * @returns An object of type `formValues` containing the form data.
+ */
 function getFormData(id) {
     let form = document.getElementById(id);
     let formData = new FormData(form);
@@ -20,6 +25,11 @@ function getFormData(id) {
     };
     return data;
 }
+/**
+ * Handles the form submission event. Retrieves form data and validates it before sending a request to the server to get table entries.
+ * @param event The form submission event.
+ * @returns Nothing.
+ */
 function handleSubmit(event) {
     event.preventDefault();
     const values = getFormData("form");
@@ -38,10 +48,16 @@ function handleSubmit(event) {
         alert("Datum 'Od' musí být před datem 'Do'");
         return;
     }
+    // retrieve table entries from server and display them
     getTableEntries(values, { url: "192.168.132.156", port: 8000 }).then((data) => {
         displayData(data);
     });
 }
+/**
+ * Handles the change event for the date inputs. Disables the appropriate date inputs based on which one was changed.
+ * @param event The change event.
+ * @returns Nothing.
+ */
 function handleDateChange(event) {
     // if from_datetime or to_datetime is changed, disable on_datetime
     // if on_datetime is changed, disable from_datetime and to_datetime
@@ -50,6 +66,7 @@ function handleDateChange(event) {
     const from_datetime_el = document.getElementById("from_date");
     const to_datetime_el = document.getElementById("to_date");
     const on_datetime_el = document.getElementById("on_date");
+    // if from_datetime or to_datetime are not empty, disenable on_datetime
     if (id === "from_date" || id === "to_date") {
         on_datetime_el.disabled = true;
     }
@@ -67,8 +84,11 @@ function handleDateChange(event) {
         to_datetime_el.disabled = false;
     }
 }
+/**
+ * Clears all data from the form on page load.
+ * @returns Nothing.
+ */
 function clearData() {
-    // this function clears all data from the form on page load
     const from_datetime_el = document.getElementById("from_date");
     const to_datetime_el = document.getElementById("to_date");
     const on_datetime_el = document.getElementById("on_date");
@@ -81,13 +101,18 @@ function clearData() {
     to_datetime_el.disabled = false;
     on_datetime_el.disabled = false;
 }
-// create method for getting table entries by given parameters: from_datetime, to_datetime, on_datetime, is_red
-// typical request looks like this http://192.168.132.103:8000/get_data?from_datetime=2021-01-01%2000:00:00
+/**
+ * Retrieves table entries from the server based on the specified form data and server configuration.
+ * @param formVals An object of type `formValues` containing the form data to use in the request.
+ * @param serverConf An object of type `serverConfig` containing the server configuration to use in the request.
+ * @returns A promise that resolves to an array of objects of type `tableRow` representing the retrieved table entries.
+ */
 function getTableEntries(formVals, serverConf) {
     return __awaiter(this, void 0, void 0, function* () {
         // create URLSearchParams object
         const params = new URLSearchParams();
         // add params to URLSearchParams object
+        // validate dates before adding them to params
         if (formVals.from_date.getFullYear() !== 1970)
             params.append("from_date", formVals.from_date.toISOString());
         if (formVals.to_date.getFullYear() !== 1970)
@@ -104,6 +129,12 @@ function getTableEntries(formVals, serverConf) {
         return json.data;
     });
 }
+/**
+ * Downloads table entries from the server based on the specified form data and server configuration.
+ * @param formVals An object of type `formValues` containing the form data to use in the request.
+ * @param serverConf An object of type `serverConfig` containing the server configuration to use in the request.
+ * @returns Nothing.
+ */
 function downloadTableEntries(formVals, serverConf) {
     return __awaiter(this, void 0, void 0, function* () {
         // create URLSearchParams object
@@ -127,14 +158,25 @@ function downloadTableEntries(formVals, serverConf) {
         });
     });
 }
+/**
+ * Handles the click event for the download button. Retrieves form data and initiates a download of table entries from the server.
+ * @returns Nothing.
+ */
 function handleDownloadBtn() {
     const values = getFormData("form");
     downloadTableEntries(values, { url: "192.168.132.156", port: 8000 });
 }
+/**
+ * Displays the given table data in the HTML table element with ID "table_body".
+ * @param data An array of objects of type `tableRow` representing the table data to display.
+ * @returns Nothing.
+ */
 function displayData(data) {
+    // create new tbody
     var newTbody = document.createElement('tbody');
     newTbody.classList.add("bg-white", "divide-y", "divide-gray-200");
     var oldTbody = document.getElementById("table_body");
+    // create table rows and append them to the new tbody
     data.map((row) => {
         var newRow = document.createElement('tr');
         newRow.classList.add("bg-gray-100");
@@ -152,8 +194,16 @@ function displayData(data) {
         newRow.appendChild(isRedTd);
         newTbody.appendChild(newRow);
     });
+    // replace old tbody with new tbody
     oldTbody === null || oldTbody === void 0 ? void 0 : oldTbody.replaceWith(newTbody);
 }
+/**
+ * Sends a request to the server to generate the specified number of dummy data entries.
+ * This function is used for testing purposes only.
+ * @param numOfEntries The number of dummy data entries to generate.
+ * @param serverConf An object of type `serverConfig` containing the server configuration to use in the request.
+ * @returns Nothing.
+ */
 function createDummyData(numOfEntries, serverConf) {
     fetch(`http://${serverConf.url}:${serverConf.port}/generate_dummy_data/${numOfEntries}`, { method: "POST" }).then(res => res.json()).then(json => {
         console.log(json);
