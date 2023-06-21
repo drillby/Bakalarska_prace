@@ -42,7 +42,7 @@ def get_from_db() -> Response:
         except ValueError:
             api_logger.error(f"Invalid from_datetime format: {from_datetime}")
             return Response(
-                "Invalid from_datetime format. Should be YYYY-MM-DD HH:MM:SS",
+                "Invalid from_datetime format. Should be ISO 8601 format with Z at the end (e.g. 2021-01-01T00:00:00Z)",
                 status=400,
             )
 
@@ -53,7 +53,8 @@ def get_from_db() -> Response:
         except ValueError:
             api_logger.error(f"Invalid to_datetime format: {to_datetime}")
             return Response(
-                "Invalid to_datetime format. Should be YYYY-MM-DD HH:MM:SS", status=400
+                "Invalid to_datetime format. Should be ISO 8601 format with Z at the end (e.g. 2021-01-01T00:00:00Z)",
+                status=400,
             )
 
     # validate on_datetime format and convert to datetime
@@ -63,7 +64,8 @@ def get_from_db() -> Response:
         except ValueError:
             api_logger.error(f"Invalid on_datetime format: {on_datetime}")
             return Response(
-                "Invalid on_datetime format. Should be YYYY-MM-DD HH:MM:SS", status=400
+                "Invalid on_datetime format. Should be ISO 8601 format with Z at the end (e.g. 2021-01-01T00:00:00Z)",
+                status=400,
             )
 
     # validate color format
@@ -101,7 +103,7 @@ def get_from_db() -> Response:
 
 @app.route("/download_data", methods=["GET"])
 def download_from_db() -> Response:
-    """REST endpoint for getting data from database
+    """REST endpoint for dowloading data from database
     Typical endpoint call:
     http://localhost:5000/download_data?from_date=2021-01-01T00:00:00Z&to_date=2021-01-01T23:59:59Z&color=all
 
@@ -131,7 +133,7 @@ def download_from_db() -> Response:
         except ValueError:
             api_logger.error(f"Invalid from_datetime format: {from_datetime}")
             return Response(
-                "Invalid from_datetime format. Should be YYYY-MM-DD HH:MM:SS",
+                "Invalid from_datetime format. Should be ISO 8601 format with Z at the end (e.g. 2021-01-01T00:00:00Z)",
                 status=400,
             )
 
@@ -142,7 +144,8 @@ def download_from_db() -> Response:
         except ValueError:
             api_logger.error(f"Invalid to_datetime format: {to_datetime}")
             return Response(
-                "Invalid to_datetime format. Should be YYYY-MM-DD HH:MM:SS", status=400
+                "Invalid to_datetime format. Should be ISO 8601 format with Z at the end (e.g. 2021-01-01T00:00:00Z)",
+                status=400,
             )
 
     # validate on_datetime format and convert to datetime
@@ -152,7 +155,8 @@ def download_from_db() -> Response:
         except ValueError:
             api_logger.error(f"Invalid on_datetime format: {on_datetime}")
             return Response(
-                "Invalid on_datetime format. Should be YYYY-MM-DD HH:MM:SS", status=400
+                "Invalid on_datetime format. Should be ISO 8601 format with Z at the end (e.g. 2021-01-01T00:00:00Z)",
+                status=400,
             )
 
     # validate color format
