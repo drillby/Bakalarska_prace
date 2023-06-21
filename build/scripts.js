@@ -33,8 +33,12 @@ function handleSubmit(event) {
         alert("Prosím vyplňte pole 'Od' a 'Do'");
         return;
     }
+    // if to_datetime is before from_datetime alert user
+    if (values.from_date > values.to_date) {
+        alert("Datum 'Od' musí být před datem 'Do'");
+        return;
+    }
     getTableEntries(values, { url: "192.168.132.156", port: 8000 }).then((data) => {
-        console.log(data);
         displayData(data);
     });
 }
@@ -112,7 +116,6 @@ function downloadTableEntries(formVals, serverConf) {
         if (formVals.on_date.getFullYear() !== 1970)
             params.append("on_date", formVals.on_date.toISOString());
         params.append("color", formVals.color.toString());
-        console.log(params.toString());
         // create response object
         fetch(`http://${serverConf.url}:${serverConf.port}/download_data?${params}`).then(res => res.blob()).then(blob => {
             const url = window.URL.createObjectURL(blob);
@@ -132,7 +135,6 @@ function displayData(data) {
     var newTbody = document.createElement('tbody');
     newTbody.classList.add("bg-white", "divide-y", "divide-gray-200");
     var oldTbody = document.getElementById("table_body");
-    console.log(data.length);
     data.map((row) => {
         var newRow = document.createElement('tr');
         newRow.classList.add("bg-gray-100");
@@ -149,8 +151,11 @@ function displayData(data) {
         isRedTd.textContent = row.is_red.toString();
         newRow.appendChild(isRedTd);
         newTbody.appendChild(newRow);
-        console.log(newRow);
     });
-    console.log(newTbody);
     oldTbody === null || oldTbody === void 0 ? void 0 : oldTbody.replaceWith(newTbody);
+}
+function createDummyData(numOfEntries, serverConf) {
+    fetch(`http://${serverConf.url}:${serverConf.port}/generate_dummy_data/${numOfEntries}`, { method: "POST" }).then(res => res.json()).then(json => {
+        console.log(json);
+    });
 }

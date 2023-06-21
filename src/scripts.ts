@@ -29,6 +29,13 @@ function handleSubmit(event: Event) {
         return;
     }
 
+    // if to_datetime is before from_datetime alert user
+    if (values.from_date > values.to_date) {
+        alert("Datum 'Od' musí být před datem 'Do'");
+        return;
+    }
+
+
     getTableEntries(values, { url: "192.168.132.156", port: 8000 }).then((data) => {
         displayData(data);
     });
