@@ -160,3 +160,10 @@ function displayData(data: tableRow[]) {
 
     oldTbody?.replaceWith(newTbody);
 }
+
+
+function createDummyData(numOfEntries: number, serverConf: serverConfig) {
+    fetch(`http://${serverConf.url}:${serverConf.port}/generate_dummy_data/${numOfEntries}`, { method: "POST" }).then(res => res.json()).then(json => {
+        console.log(json);
+    })
+}
