@@ -16,7 +16,7 @@ function getFormData(id) {
         from_date: new Date(formData.get("from_date")),
         to_date: new Date(formData.get("to_date")),
         on_date: new Date(formData.get("on_date")),
-        is_red: formData.get("is_red") === "true" ? true : false,
+        is_red: formData.get("is_red") === "on" ? true : false,
     };
     return data;
 }
@@ -25,7 +25,6 @@ function handleSubmit(event) {
     const values = getFormData("form");
     // if all date fields are empty alert user
     if (values.from_date.toDateString() === "Invalid Date" && values.to_date.toDateString() === "Invalid Date" && values.on_date.toDateString() === "Invalid Date") {
-        console.log("all empty");
         alert("Prosím vyplňte pole 'Od', 'Do', nebo 'Dne'");
         return;
     }
@@ -34,7 +33,7 @@ function handleSubmit(event) {
         alert("Prosím vyplňte pole 'Od' a 'Do'");
         return;
     }
-    getTableEntries(values, { url: "localhost", port: 8000 }).then((data) => {
+    getTableEntries(values, { url: "192.168.132.156", port: 8000 }).then((data) => {
         console.log(data);
     });
 }
@@ -83,7 +82,6 @@ function getTableEntries(formVals, serverConf) {
     return __awaiter(this, void 0, void 0, function* () {
         // create URLSearchParams object
         const params = new URLSearchParams();
-        console.log(formVals.from_date.toISOString());
         // add params to URLSearchParams object
         if (formVals.from_date.getFullYear() !== 1970)
             params.append("from_date", formVals.from_date.toISOString());
@@ -94,10 +92,38 @@ function getTableEntries(formVals, serverConf) {
         params.append("is_red", formVals.is_red.toString());
         console.log(params.toString());
         // create response object
-        const response = yield fetch(`${serverConf.url}:${serverConf.port}/get_data?${params}`);
+        const response = yield fetch(`http://${serverConf.url}:${serverConf.port}/get_data?${params}`);
         // create json object
         const json = yield response.json();
         // return json
         return json;
     });
+}
+function downloadTableEntries(formVals, serverConf) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // create URLSearchParams object
+        const params = new URLSearchParams();
+        // add params to URLSearchParams object
+        if (formVals.from_date.getFullYear() !== 1970)
+            params.append("from_date", formVals.from_date.toISOString());
+        if (formVals.to_date.getFullYear() !== 1970)
+            params.append("to_date", formVals.to_date.toISOString());
+        if (formVals.on_date.getFullYear() !== 1970)
+            params.append("on_date", formVals.on_date.toISOString());
+        params.append("is_red", formVals.is_red.toString());
+        console.log(params.toString());
+        // create response object
+        fetch(`http://${serverConf.url}:${serverConf.port}/download_data?${params}`).then(res => res.blob()).then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "data.csv";
+            a.click();
+            document.removeChild(a);
+        });
+    });
+}
+function handleDownloadBtn() {
+    const values = getFormData("form");
+    downloadTableEntries(values, { url: "192.168.132.156", port: 8000 });
 }

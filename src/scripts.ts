@@ -8,7 +8,7 @@ function getFormData(id: string): formValues {
         from_date: new Date(formData.get("from_date") as string),
         to_date: new Date(formData.get("to_date") as string),
         on_date: new Date(formData.get("on_date") as string),
-        is_red: formData.get("is_red") === "true" ? true : false,
+        is_red: formData.get("is_red") === "on" ? true : false,
     }
     return data;
 }
@@ -18,7 +18,6 @@ function handleSubmit(event: Event) {
     const values = getFormData("form");
     // if all date fields are empty alert user
     if (values.from_date.toDateString() === "Invalid Date" && values.to_date.toDateString() === "Invalid Date" && values.on_date.toDateString() === "Invalid Date") {
-        console.log("all empty");
         alert("Prosím vyplňte pole 'Od', 'Do', nebo 'Dne'");
         return;
     }
@@ -30,7 +29,7 @@ function handleSubmit(event: Event) {
         return;
     }
 
-    getTableEntries(values, { url: "192.168.132.103", port: 8000 }).then((data) => {
+    getTableEntries(values, { url: "192.168.132.156", port: 8000 }).then((data) => {
         console.log(data);
     });
 }
@@ -87,7 +86,6 @@ function clearData() {
 async function getTableEntries(formVals: formValues, serverConf: serverConfig): Promise<tableRow[]> {
     // create URLSearchParams object
     const params = new URLSearchParams();
-    console.log(formVals.from_date.toISOString());
     // add params to URLSearchParams object
     if (formVals.from_date.getFullYear() !== 1970)
         params.append("from_date", formVals.from_date.toISOString());
@@ -99,9 +97,39 @@ async function getTableEntries(formVals: formValues, serverConf: serverConfig): 
 
     console.log(params.toString());
     // create response object
-    const response = await fetch(`${serverConf.url}:${serverConf.port}/get_data?${params}`);
+    const response = await fetch(`http://${serverConf.url}:${serverConf.port}/get_data?${params}`);
     // create json object
     const json: tableRow[] = await response.json();
     // return json
     return json;
+}
+
+
+async function downloadTableEntries(formVals: formValues, serverConf: serverConfig) {
+    // create URLSearchParams object
+    const params = new URLSearchParams();
+    // add params to URLSearchParams object
+    if (formVals.from_date.getFullYear() !== 1970)
+        params.append("from_date", formVals.from_date.toISOString());
+    if (formVals.to_date.getFullYear() !== 1970)
+        params.append("to_date", formVals.to_date.toISOString());
+    if (formVals.on_date.getFullYear() !== 1970)
+        params.append("on_date", formVals.on_date.toISOString());
+    params.append("is_red", formVals.is_red.toString());
+
+    console.log(params.toString());
+    // create response object
+    fetch(`http://${serverConf.url}:${serverConf.port}/download_data?${params}`).then(res => res.blob()).then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = "data.csv";
+        a.click();
+        document.removeChild(a);
+    })
+}
+
+function handleDownloadBtn() {
+    const values = getFormData("form");
+    downloadTableEntries(values, { url: "192.168.132.156", port: 8000 });
 }
