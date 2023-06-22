@@ -1,114 +1,121 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BP - vizualizace dat</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="dist/index.js" type="module"></script>
-  </head>
-  <body>
-    <!-- create form for selecting and style it on one line with tailwindcss-->
-    <form method="get" class="flex justify-center" id="form">
-      <!-- add from datetime -->
-      <div class="m-4">
-        <label class="p-1 m-1" for="from">Od:</label>
-        <input
-          type="date"
-          name="from_date"
-          id="from_date"
-          class="border-2 border-gray-300 rounded-md p-1 m-1"
-        />
-      </div>
-      <div class="m-4">
-        <!-- add to datetime -->
-        <label class="p-1 m-1" for="to">Do:</label>
-        <input
-          type="date"
-          name="to_date"
-          id="to_date"
-          class="border-2 border-gray-300 rounded-md p-1 m-1"
-        />
-      </div>
-      <div class="m-4">
-        <!-- add on date -->
-        <label class="p-1 m-1" for="on">Dne:</label>
-        <input
-          type="date"
-          name="on_date"
-          id="on_date"
-          class="border-2 border-gray-300 rounded-md p-1 m-1"
-        />
-      </div>
-      <div class="m-4 pt-2">
-        <label class="p-1 m-1" for="is_red">Barvy</label>
-        <!-- <input
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>BP - vizualizace dat</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="dist/index.js" type="module"></script>
+	</head>
+	<body>
+		<noscript>
+			<div class="flex justify-center">
+				<h1 class="text-2xl">
+					Pro správnou funkčnost stránky je potřeba povolit JavaScript.
+				</h1>
+			</div>
+		</noscript>
+		<!-- create form for selecting and style it on one line with tailwindcss-->
+		<form method="get" class="flex justify-center" id="form">
+			<!-- add from datetime -->
+			<div class="m-4">
+				<label class="p-1 m-1" for="from">Od:</label>
+				<input
+					type="date"
+					name="from_date"
+					id="from_date"
+					class="border-2 border-gray-300 rounded-md p-1 m-1"
+				/>
+			</div>
+			<div class="m-4">
+				<!-- add to datetime -->
+				<label class="p-1 m-1" for="to">Do:</label>
+				<input
+					type="date"
+					name="to_date"
+					id="to_date"
+					class="border-2 border-gray-300 rounded-md p-1 m-1"
+				/>
+			</div>
+			<div class="m-4">
+				<!-- add on date -->
+				<label class="p-1 m-1" for="on">Dne:</label>
+				<input
+					type="date"
+					name="on_date"
+					id="on_date"
+					class="border-2 border-gray-300 rounded-md p-1 m-1"
+				/>
+			</div>
+			<div class="m-4 pt-2">
+				<label class="p-1 m-1" for="is_red">Barvy</label>
+				<!-- <input
 					type="checkbox"
 					name="is_red"
 					id="is_red"
 					class="p-1 m-1 border-gray-300 rounded"
 				/> -->
-        <select name="color" id="color">
-          <option value="all">Všechny</option>
-          <option value="red">Červená</option>
-          <option value="green">Zelená</option>
-        </select>
-      </div>
-      <div class="m-4">
-        <!-- add submit button -->
-        <input
-          type="submit"
-          value="Zobrazit"
-          class="border-2 border-gray-300 rounded-md p-1 m-1"
-        />
-      </div>
-    </form>
-    <!-- create scrollable table -->
-    <div class="h-72 overflow-auto">
-      <table class="min-w-full divide-y divide-gray-200">
-        <!-- Table header -->
-        <thead class="bg-gray-200">
-          <tr>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              ID
-            </th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Datetime
-            </th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Byla červená?
-            </th>
-            <!-- Add more header columns if needed -->
-          </tr>
-        </thead>
-        <!-- Table body -->
-        <tbody class="bg-white divide-y divide-gray-200" id="table_body">
-          <tr class="bg-gray-100">
-            <td class="px-6 py-4 whitespace-nowrap">Data se</td>
-            <td class="px-6 py-4 whitespace-nowrap">zobrazí po</td>
-            <td class="px-6 py-4 whitespace-nowrap">výběru datumu/ů</td>
-            <!-- Add more data columns if needed -->
-          </tr>
-          <!-- Add more data rows if needed -->
-        </tbody>
-      </table>
-    </div>
-    <div class="w-fit mx-auto mt-1">
-      <button
-        class="border-2 border-gray-300 rounded-md p-1 m-1 content-center"
-      >
-        Stáhnout jako CSV
-      </button>
-    </div>
-    <!-- create div with canvas -->
-    <div class="flex justify-center">
-      <canvas id="chart" width="800" height="400"></canvas>
-    </div>
-  </body>
+				<select name="color" id="color">
+					<option value="all">Všechny</option>
+					<option value="red">Červená</option>
+					<option value="green">Zelená</option>
+				</select>
+			</div>
+			<div class="m-4">
+				<!-- add submit button -->
+				<input
+					type="submit"
+					value="Zobrazit"
+					class="border-2 border-gray-300 rounded-md p-1 m-1"
+				/>
+			</div>
+		</form>
+		<!-- create scrollable table -->
+		<div class="h-72 overflow-auto">
+			<table class="min-w-full divide-y divide-gray-200">
+				<!-- Table header -->
+				<thead class="bg-gray-200">
+					<tr>
+						<th
+							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+						>
+							ID
+						</th>
+						<th
+							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+						>
+							Datetime
+						</th>
+						<th
+							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+						>
+							Byla červená?
+						</th>
+						<!-- Add more header columns if needed -->
+					</tr>
+				</thead>
+				<!-- Table body -->
+				<tbody class="bg-white divide-y divide-gray-200" id="table_body">
+					<tr class="bg-gray-100">
+						<td class="px-6 py-4 whitespace-nowrap">Data se</td>
+						<td class="px-6 py-4 whitespace-nowrap">zobrazí po</td>
+						<td class="px-6 py-4 whitespace-nowrap">výběru datumu/ů</td>
+						<!-- Add more data columns if needed -->
+					</tr>
+					<!-- Add more data rows if needed -->
+				</tbody>
+			</table>
+		</div>
+		<div class="w-fit mx-auto mt-1">
+			<button
+				class="border-2 border-gray-300 rounded-md p-1 m-1 content-center"
+			>
+				Stáhnout jako CSV
+			</button>
+		</div>
+		<!-- create div with canvas -->
+		<div class="flex justify-center">
+			<canvas id="chart" width="800" height="400"></canvas>
+		</div>
+	</body>
 </html>
