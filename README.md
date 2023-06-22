@@ -1,3 +1,7 @@
+# Poznámka:
+
+<b>Projekt je z organizačních a CI/CD důvodů rozdělen do 3 větví, pro robrazení kódu každé části (Arduino, frontend, backend) si vyberte příslušnou větev</b>
+
 # Bakalářská práce
 
 ## Název práce:
