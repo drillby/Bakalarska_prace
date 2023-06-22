@@ -59,7 +59,20 @@ export function displayData(data: tableRow[]) {
         newRow.appendChild(idTd);
         var datetimeTd = document.createElement('td');
         datetimeTd.classList.add("px-6", "py-4", "whitespace-nowrap");
-        datetimeTd.textContent = row.date_time.toString();
+        var date = new Date(row.date_time).toLocaleString();
+        // transform to 24-hour format
+        date = date.replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+) (AM|PM)/, function (match, p1, p2, p3, p4, p5, p6, p7) {
+            if (p7 == "PM") {
+                p4 = (parseInt(p4) + 12).toString();
+            }
+            return `${p1}/${p2}/${p3}, ${p4}:${p5}:${p6}`;
+        });
+        // transform to dd/mm/yyyy format
+        date = date.replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, function (match, p1, p2, p3, p4, p5, p6) {
+            return `${p2}/${p1}/${p3}, ${p4}:${p5}:${p6}`;
+        });
+
+        datetimeTd.textContent = date;
         newRow.appendChild(datetimeTd);
         var isRedTd = document.createElement('td');
         isRedTd.classList.add("px-6", "py-4", "whitespace-nowrap");

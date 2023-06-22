@@ -3,7 +3,7 @@
  */
 export type tableRow = {
     id: string,
-    date_time: Date,
+    date_time: string,
     is_red: boolean,
 }
 

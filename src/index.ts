@@ -2,9 +2,9 @@ import { downloadTableEntries, getTableEntries } from "./db_handler";
 import { clearData, displayData, getFormData } from "./els_handler";
 import { createChart } from "./graph_handler";
 
-window.addEventListener("load", () => {
-  clearData();
-});
+// window.addEventListener("load", () => {
+//   clearData();
+// });
 
 const form = document.getElementById("form") as HTMLFormElement;
 form.addEventListener("submit", e => {
