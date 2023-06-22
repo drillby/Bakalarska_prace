@@ -1,10 +1,9 @@
-import { downloadTableEntries, getTableEntries } from "./db_handler";
-import { clearData, displayData, getFormData } from "./els_handler";
-import { createChart } from "./graph_handler";
+import { downloadTableEntries, getTableEntries } from "./databaseHandler";
+import { clearData, displayData, getFormData } from "./elementsHandler";
 
-// window.addEventListener("load", () => {
-//   clearData();
-// });
+window.addEventListener("load", () => {
+  clearData();
+});
 
 const form = document.getElementById("form") as HTMLFormElement;
 form.addEventListener("submit", e => {
@@ -62,7 +61,6 @@ function handleSubmit(event: Event): void {
   // retrieve table entries from server and display them
   getTableEntries(values, { url: "192.168.132.156", port: 8000 }).then((data) => {
     displayData(data)
-    createChart(data)
   })
 
 }
@@ -95,7 +93,7 @@ function handleDateChange(event: Event) {
   if (from_datetime_el.value === "" && to_datetime_el.value === "") {
     on_datetime_el.disabled = false;
   }
-  else if (on_datetime_el.value === "") {
+  if (on_datetime_el.value === "") {
     from_datetime_el.disabled = false;
     to_datetime_el.disabled = false;
   }

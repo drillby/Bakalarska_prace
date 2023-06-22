@@ -46,6 +46,7 @@ export function displayData(data: tableRow[]) {
     // create new tbody
     var newTbody = document.createElement('tbody');
     newTbody.classList.add("bg-white", "divide-y", "divide-gray-200");
+    newTbody.id = "table_body";
     var oldTbody = document.getElementById("table_body") as HTMLTableSectionElement
 
 
@@ -60,13 +61,19 @@ export function displayData(data: tableRow[]) {
         var datetimeTd = document.createElement('td');
         datetimeTd.classList.add("px-6", "py-4", "whitespace-nowrap");
         var date = new Date(row.date_time).toLocaleString();
+        // subtract 2 hours from date to account for timezone difference
+        date = new Date(new Date(date).getTime() - 2 * 60 * 60 * 1000).toLocaleString();
         // transform to 24-hour format
         date = date.replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+) (AM|PM)/, function (match, p1, p2, p3, p4, p5, p6, p7) {
-            if (p7 == "PM") {
-                p4 = (parseInt(p4) + 12).toString();
+            if (p7 == "PM" && parseInt(p4) < 12) {
+                // return date and time in 24-hour format
+                return `${p1}/${p2}/${p3}, ${parseInt(p4) + 12}:${p5}:${p6}`;
             }
-            return `${p1}/${p2}/${p3}, ${p4}:${p5}:${p6}`;
+            else {
+                return `${p1}/${p2}/${p3}, ${p4}:${p5}:${p6}`;
+            }
         });
+
         // transform to dd/mm/yyyy format
         date = date.replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, function (match, p1, p2, p3, p4, p5, p6) {
             return `${p2}/${p1}/${p3}, ${p4}:${p5}:${p6}`;
