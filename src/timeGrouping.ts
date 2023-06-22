@@ -16,7 +16,7 @@ function getRedsAndGreens(data: tableRow[]): { reds: number, greens: number } {
     return { reds, greens };
 }
 
-function getRedsAndGreensByDay(data: tableRow[]) {
+function getRedsAndGreensByDay(data: tableRow[]): { date: string, reds: number, greens: number }[] {
     // change date_time to date
     for (let i = 0; i < data.length; i++) {
         data[i].date_time = new Date(data[i].date_time).toLocaleDateString();
@@ -49,7 +49,7 @@ function getRedsAndGreensByDay(data: tableRow[]) {
 }
 
 
-function getRedsandGreensByMonth(data: tableRow[]) {
+function getRedsandGreensByMonth(data: tableRow[]): { month: string, reds: number, greens: number }[] {
     var dataByDay = getRedsAndGreensByDay(data);
 
     // count how many reds and greens on each month
@@ -105,7 +105,7 @@ function getRedsandGreensByMonth(data: tableRow[]) {
     return redsAndGreensByMonth;
 }
 
-function getRedsAndGreensByWeek(data: tableRow[]) {
+function getRedsAndGreensByWeek(data: tableRow[]): { week: string, reds: number, greens: number }[] {
     var dataByDay = getRedsAndGreensByDay(data);
 
     // count how many reds and greens on each week
@@ -164,7 +164,7 @@ function getRedsAndGreensByWeek(data: tableRow[]) {
     return redsAndGreensByWeek;
 }
 
-function getRedsAndGreensByHour(data: tableRow[]) {
+function getRedsAndGreensByHour(data: tableRow[]): { hour: string, reds: number, greens: number }[] {
     // count how many reds and greens on each hour
     let reds = 0;
     let greens = 0;
