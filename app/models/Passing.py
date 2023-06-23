@@ -57,6 +57,7 @@ class Passing(db.Model):
         """
         return {
             "id": self.id,
-            "date_time": self.date_time,
+            # convert date_time that js can understand
+            "date_time": self.date_time.strftime("%Y-%m-%dT%H:%M:%S"),
             "is_red": self.is_red,
         }
