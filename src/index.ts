@@ -1,5 +1,8 @@
+import Chart from "chart.js/auto";
 import { downloadTableEntries, getTableEntries } from "./databaseHandler";
 import { clearData, displayData, getFormData } from "./elementsHandler";
+import { GraphHandler } from "./graphHandler";
+import { getRedsAndGreens, getRedsAndGreensByDay, getRedsAndGreensByHour, getRedsAndGreensByWeek, getRedsandGreensByMonth } from "./timeGrouping";
 
 window.addEventListener("load", () => {
   clearData();
@@ -61,8 +64,42 @@ function handleSubmit(event: Event): void {
   // retrieve table entries from server and display them
   getTableEntries(values, { url: "192.168.132.156", port: 8000 }).then((data) => {
     displayData(data)
-  })
+    // if canvas is not empty, destroy it
+    if (document.getElementById("summaryChart") !== null) {
+      Chart.getChart('summaryChart')?.destroy();
+    }
 
+    if (document.getElementById("otherChart") !== null) {
+      Chart.getChart('otherChart')?.destroy();
+    }
+
+    // display summary graph
+    var sumData = getRedsAndGreens(data)
+    GraphHandler.displaySummaryGraph(sumData)
+
+    var hourData = getRedsAndGreensByHour(data)
+    var dayData = getRedsAndGreensByDay(data)
+    var weekData = getRedsAndGreensByWeek(data)
+    var monthData = getRedsandGreensByMonth(data)
+
+
+    if (hourData.length <= 24 && !on_datetime_el.disabled) {
+      GraphHandler.displayRedsAndGreensByHour(hourData)
+      console.log("hour")
+    }
+    else if (dayData.length <= 25) {
+      GraphHandler.displayRedsAndGreensByDay(dayData)
+      console.log("day")
+    }
+    else if (weekData.length <= 25) {
+      GraphHandler.displayRedsAndGreensByWeek(weekData)
+      console.log("week")
+    }
+    else {
+      GraphHandler.displayRedsAndGreensByMonth(monthData)
+      console.log("month")
+    }
+  });
 }
 
 /**

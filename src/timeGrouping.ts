@@ -1,6 +1,6 @@
 import { tableRow } from "./types/databaseTypes";
 
-function getRedsAndGreens(data: tableRow[]): { reds: number, greens: number } {
+export function getRedsAndGreens(data: tableRow[]): { reds: number, greens: number } {
     // count how many reds and greens are there
     let reds = 0;
     let greens = 0;
@@ -16,7 +16,7 @@ function getRedsAndGreens(data: tableRow[]): { reds: number, greens: number } {
     return { reds, greens };
 }
 
-function getRedsAndGreensByDay(data: tableRow[]): { date: string, reds: number, greens: number }[] {
+export function getRedsAndGreensByDay(data: tableRow[]): { date: string, reds: number, greens: number }[] {
     // change date_time to date
     for (let i = 0; i < data.length; i++) {
         data[i].date_time = new Date(data[i].date_time).toLocaleDateString();
@@ -49,7 +49,7 @@ function getRedsAndGreensByDay(data: tableRow[]): { date: string, reds: number, 
 }
 
 
-function getRedsandGreensByMonth(data: tableRow[]): { month: string, reds: number, greens: number }[] {
+export function getRedsandGreensByMonth(data: tableRow[]): { month: string, reds: number, greens: number }[] {
     var dataByDay = getRedsAndGreensByDay(data);
 
     // count how many reds and greens on each month
@@ -101,11 +101,10 @@ function getRedsandGreensByMonth(data: tableRow[]): { month: string, reds: numbe
         var bDate = new Date(b.month.split(" ")[1], Object.keys(months).find(key => months[key] === b.month.split(" ")[0]) as unknown as number);
         return aDate.getTime() - bDate.getTime();
     });
-    console.log(redsAndGreensByMonth);
     return redsAndGreensByMonth;
 }
 
-function getRedsAndGreensByWeek(data: tableRow[]): { week: string, reds: number, greens: number }[] {
+export function getRedsAndGreensByWeek(data: tableRow[]): { week: string, reds: number, greens: number }[] {
     var dataByDay = getRedsAndGreensByDay(data);
 
     // count how many reds and greens on each week
@@ -159,12 +158,10 @@ function getRedsAndGreensByWeek(data: tableRow[]): { week: string, reds: number,
         }
     });
 
-    console.log(redsAndGreensByWeek);
-
     return redsAndGreensByWeek;
 }
 
-function getRedsAndGreensByHour(data: tableRow[]): { hour: string, reds: number, greens: number }[] {
+export function getRedsAndGreensByHour(data: tableRow[]): { hour: string, reds: number, greens: number }[] {
     // count how many reds and greens on each hour
     let reds = 0;
     let greens = 0;

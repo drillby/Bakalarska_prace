@@ -4,6 +4,7 @@ export default {
 		public: { url: "/", static: true },
 		src: { url: "/dist" },
 	},
+	knownEntrypoints: ["chart.js/auto"],
 	plugins: [
 		[
 			"@snowpack/plugin-typescript",
@@ -19,7 +20,9 @@ export default {
 	],
 	optimize: {
 		/* Example: Bundle your final build: */
-		// "bundle": true,
+		bundle: true,
+		minify: true,
+		target: "es2017",
 	},
 	packageOptions: {
 		/* ... */

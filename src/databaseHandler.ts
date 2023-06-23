@@ -26,6 +26,7 @@ export async function getTableEntries(formVals: formValues, serverConf: serverCo
     const json: tableRow[] = await response.json();
     // return json
     // @ts-ignore
+    console.log(json.data);
     return json.data;
 }
 
@@ -48,6 +49,7 @@ export async function downloadTableEntries(formVals: formValues, serverConf: ser
         params.append("on_date", formVals.on_date.toISOString());
     params.append("color", formVals.color.toString());
 
+
     // create response object
     fetch(`http://${serverConf.url}:${serverConf.port}/download_data?${params}`).then(res => res.blob()).then(blob => {
         const url = window.URL.createObjectURL(blob);
@@ -55,7 +57,7 @@ export async function downloadTableEntries(formVals: formValues, serverConf: ser
         a.href = url;
         a.download = "data.csv";
         a.click();
-        document.removeChild(a);
+        a.remove();
     })
 }
 
@@ -69,6 +71,5 @@ export async function downloadTableEntries(formVals: formValues, serverConf: ser
  */
 export function createDummyData(numOfEntries: number, serverConf: serverConfig) {
     fetch(`http://${serverConf.url}:${serverConf.port}/generate_dummy_data/${numOfEntries}`, { method: "POST" }).then(res => res.json()).then(json => {
-        console.log(json);
     })
 }
