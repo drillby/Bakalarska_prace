@@ -7,3 +7,5 @@ thesis
 commands.txt
 cert
 logs
+build
+package-lock.json
