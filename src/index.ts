@@ -77,6 +77,7 @@ function handleSubmit(event: Event): void {
     var sumData = getRedsAndGreens(data)
     GraphHandler.displaySummaryGraph(sumData)
 
+
     var hourData = getRedsAndGreensByHour(data)
     var dayData = getRedsAndGreensByDay(data)
     var weekData = getRedsAndGreensByWeek(data)

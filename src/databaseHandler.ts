@@ -26,7 +26,6 @@ export async function getTableEntries(formVals: formValues, serverConf: serverCo
     const json: tableRow[] = await response.json();
     // return json
     // @ts-ignore
-    console.log(json.data);
     return json.data;
 }
 

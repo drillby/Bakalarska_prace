@@ -35,6 +35,7 @@ export function getRedsAndGreensByDay(data: tableRow[]): { date: string, reds: n
         }
 
         if (i == data.length - 1 || data[i].date_time != data[i + 1].date_time) {
+            data[i].date_time = new Date(data[i].date_time).toLocaleDateString();
             // transform date_time to dd/mm/yyyy
             data[i].date_time = data[i].date_time.replace(/(\d+)\/(\d+)\/(\d+)/, function (match, p1, p2, p3) {
                 return `${p2}/${p1}/${p3}`;
@@ -171,7 +172,7 @@ export function getRedsAndGreensByHour(data: tableRow[]): { hour: string, reds: 
         reds += data[i].is_red ? 1 : 0;
         greens += data[i].is_red ? 0 : 1;
 
-        var hour = data[i].date_time.split(" ")[4].split(":")[0];
+        var hour = data[i].date_time.split(" ")[1].split(":")[0];
         var idx = redsAndGreensByHour.findIndex(x => x.hour == hour);
 
         if (idx != -1) {
