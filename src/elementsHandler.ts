@@ -82,10 +82,18 @@ export function displayData(data: tableRow[]) {
 
         datetimeTd.textContent = date;
         newRow.appendChild(datetimeTd);
-        var isRedTd = document.createElement('td');
-        isRedTd.classList.add("px-6", "py-4", "whitespace-nowrap");
-        isRedTd.textContent = row.is_red.toString();
-        newRow.appendChild(isRedTd);
+        var colorTd = document.createElement('td');
+        // create rounded colored circle to represent color
+        var colorCircle = document.createElement('div');
+        colorCircle.classList.add("rounded-full", "h-6", "w-6");
+        colorCircle.style.backgroundColor = row.is_red ? "red" : "green";
+        colorTd.classList.add("px-6", "py-4", "whitespace-nowrap");
+        colorTd.appendChild(colorCircle);
+        newRow.appendChild(colorTd);
+        // var isRedTd = document.createElement('td');
+        // isRedTd.classList.add("px-6", "py-4", "whitespace-nowrap");
+        // isRedTd.textContent = row.is_red.toString();
+        // newRow.appendChild(isRedTd);
         newTbody.appendChild(newRow);
 
     })

@@ -64,7 +64,14 @@ export class GraphHandler {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
             }
         });
     }
@@ -79,7 +86,18 @@ export class GraphHandler {
         var redsAndGreensByHourChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: data.map(x => x.hour + " hodin"),
+                labels: data.map(x => {
+                    if (x.hour == "1") {
+                        x.hour += " hodina";
+                    }
+                    else if (x.hour == "2" || x.hour == "3" || x.hour == "4") {
+                        x.hour += " hodiny";
+                    }
+                    else {
+                        x.hour += " hodin";
+                    }
+                    return x.hour;
+                }),
                 datasets: [{
                     label: 'Červená',
                     data: data.map(x => x.reds),
@@ -97,15 +115,22 @@ export class GraphHandler {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
             }
         });
     }
 
-/**
- * Displays a bar graph of the number of red and green items for each day in the given data.
- * @param data An array of objects containing the date and the number of red and green items.
- */
+    /**
+     * Displays a bar graph of the number of red and green items for each day in the given data.
+     * @param data An array of objects containing the date and the number of red and green items.
+     */
     public static displayRedsAndGreensByDay(data: { date: string, reds: number, greens: number }[]) {
         // create chart
         var ctx = document.getElementById('otherChart') as HTMLCanvasElement;
@@ -130,15 +155,22 @@ export class GraphHandler {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
             }
         });
     }
 
-/**
- * Displays a bar graph of the number of red and green items for each month in the given data.
- * @param data An array of objects containing the month and the number of red and green items.
- */
+    /**
+     * Displays a bar graph of the number of red and green items for each month in the given data.
+     * @param data An array of objects containing the month and the number of red and green items.
+     */
     public static displayRedsAndGreensByMonth(data: { month: string, reds: number, greens: number }[]) {
         // create chart
         var ctx = document.getElementById('otherChart') as HTMLCanvasElement;
@@ -163,7 +195,14 @@ export class GraphHandler {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
             }
         });
     }

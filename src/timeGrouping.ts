@@ -137,11 +137,11 @@ export function getRedsAndGreensByWeek(data: tableRow[]): { week: string, reds: 
 
     let redsAndGreensByWeek: { week: string, reds: number, greens: number }[] = [];
 
-/**
- * Returns the week number of the given date.
- * @param date A string representing the date in the format "dd/mm/yyyy".
- * @returns The week number of the given date.
- */
+    /**
+     * Returns the week number of the given date.
+     * @param date A string representing the date in the format "dd/mm/yyyy".
+     * @returns The week number of the given date.
+     */
     function getWeekNumber(date: string) {
         // format date to mm/dd/yyyy
         date = date.replace(/(\d+)\/(\d+)\/(\d+)/, function (match, p1, p2, p3) {
@@ -206,7 +206,7 @@ export function getRedsAndGreensByHour(data: tableRow[]): { hour: string, reds: 
         reds += data[i].is_red ? 1 : 0;
         greens += data[i].is_red ? 0 : 1;
 
-        var hour = data[i].date_time.split("T")[1].split(":")[0];
+        var hour = data[i].date_time.split("T")[1].split(":")[0][0] != "0" ? data[i].date_time.split("T")[1].split(":")[0] : data[i].date_time.split("T")[1].split(":")[0][1];
         var idx = redsAndGreensByHour.findIndex(x => x.hour == hour);
 
         if (idx != -1) {
@@ -220,5 +220,10 @@ export function getRedsAndGreensByHour(data: tableRow[]): { hour: string, reds: 
         greens = 0;
 
     }
+
+    redsAndGreensByHour.sort(function (a, b) {
+        return parseInt(a.hour) - parseInt(b.hour);
+    });
+
     return redsAndGreensByHour;
 }
