@@ -1,7 +1,13 @@
 import { tableRow } from "./types/databaseTypes";
 
+/**
+ * Returns the number of reds and greens in the given data.
+ * @param data An array of tableRow objects.
+ * @returns An object containing the number of reds and greens.
+ */
 export function getRedsAndGreens(data: tableRow[]): { reds: number, greens: number } {
     // count how many reds and greens are there
+    data = [...data]
     let reds = 0;
     let greens = 0;
 
@@ -16,11 +22,13 @@ export function getRedsAndGreens(data: tableRow[]): { reds: number, greens: numb
     return { reds, greens };
 }
 
+/**
+ * Returns the number of reds and greens on each day in the given data.
+ * @param data An array of tableRow objects.
+ * @returns An array of objects containing the date and the number of reds and greens.
+ */
 export function getRedsAndGreensByDay(data: tableRow[]): { date: string, reds: number, greens: number }[] {
-    // change date_time to date
-    for (let i = 0; i < data.length; i++) {
-        data[i].date_time = new Date(data[i].date_time).toLocaleDateString();
-    }
+    data = [...data]
 
     // count how many reds and greens on each day
     let reds = 0;
@@ -35,13 +43,16 @@ export function getRedsAndGreensByDay(data: tableRow[]): { date: string, reds: n
         }
 
         if (i == data.length - 1 || data[i].date_time != data[i + 1].date_time) {
-            data[i].date_time = new Date(data[i].date_time).toLocaleDateString();
-            // transform date_time to dd/mm/yyyy
-            data[i].date_time = data[i].date_time.replace(/(\d+)\/(\d+)\/(\d+)/, function (match, p1, p2, p3) {
-                return `${p2}/${p1}/${p3}`;
-            });
+            // transform date_time to dd/mm/yyyy from ISO
+            var date = new Date(data[i].date_time);
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            var dateStr = day + "/" + month + "/" + year;
 
-            redsAndGreensByDay.push({ date: data[i].date_time, reds, greens });
+            redsAndGreensByDay.push({ date: dateStr, reds, greens });
+
+            // redsAndGreensByDay.push({ date: data[i].date_time, reds, greens });
             reds = 0;
             greens = 0;
         }
@@ -50,7 +61,13 @@ export function getRedsAndGreensByDay(data: tableRow[]): { date: string, reds: n
 }
 
 
+/**
+ * Returns the number of reds and greens on each month in the given data.
+ * @param data An array of tableRow objects.
+ * @returns An array of objects containing the month name and the number of reds and greens.
+ */
 export function getRedsandGreensByMonth(data: tableRow[]): { month: string, reds: number, greens: number }[] {
+    data = [...data]
     var dataByDay = getRedsAndGreensByDay(data);
 
     // count how many reds and greens on each month
@@ -80,7 +97,7 @@ export function getRedsandGreensByMonth(data: tableRow[]): { month: string, reds
         greens += dataByDay[i].greens;
 
         if (i == dataByDay.length - 1 || dataByDay[i].date.split("/")[1] != dataByDay[i + 1].date.split("/")[1]) {
-            var monthName = months[dataByDay[i].date.split("/")[1]];
+            var monthName: string = months[dataByDay[i].date.split("/")[1]];
             var year = dataByDay[i].date.split("/")[2];
 
             var idx = redsAndGreensByMonth.findIndex(x => x.month == `${monthName} ${year}`);
@@ -105,7 +122,13 @@ export function getRedsandGreensByMonth(data: tableRow[]): { month: string, reds
     return redsAndGreensByMonth;
 }
 
+/**
+ * Returns the number of reds and greens on each week in the given data.
+ * @param data An array of tableRow objects.
+ * @returns An array of objects containing the week number and the number of reds and greens.
+ */
 export function getRedsAndGreensByWeek(data: tableRow[]): { week: string, reds: number, greens: number }[] {
+    data = [...data]
     var dataByDay = getRedsAndGreensByDay(data);
 
     // count how many reds and greens on each week
@@ -114,6 +137,11 @@ export function getRedsAndGreensByWeek(data: tableRow[]): { week: string, reds: 
 
     let redsAndGreensByWeek: { week: string, reds: number, greens: number }[] = [];
 
+/**
+ * Returns the week number of the given date.
+ * @param date A string representing the date in the format "dd/mm/yyyy".
+ * @returns The week number of the given date.
+ */
     function getWeekNumber(date: string) {
         // format date to mm/dd/yyyy
         date = date.replace(/(\d+)\/(\d+)\/(\d+)/, function (match, p1, p2, p3) {
@@ -162,7 +190,13 @@ export function getRedsAndGreensByWeek(data: tableRow[]): { week: string, reds: 
     return redsAndGreensByWeek;
 }
 
+/**
+ * Returns the number of reds and greens on each hour in the given data.
+ * @param data An array of tableRow objects.
+ * @returns An array of objects containing the hour and the number of reds and greens.
+ */
 export function getRedsAndGreensByHour(data: tableRow[]): { hour: string, reds: number, greens: number }[] {
+    data = [...data]
     // count how many reds and greens on each hour
     let reds = 0;
     let greens = 0;
@@ -172,7 +206,7 @@ export function getRedsAndGreensByHour(data: tableRow[]): { hour: string, reds: 
         reds += data[i].is_red ? 1 : 0;
         greens += data[i].is_red ? 0 : 1;
 
-        var hour = data[i].date_time.split(" ")[1].split(":")[0];
+        var hour = data[i].date_time.split("T")[1].split(":")[0];
         var idx = redsAndGreensByHour.findIndex(x => x.hour == hour);
 
         if (idx != -1) {

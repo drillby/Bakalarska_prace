@@ -43,6 +43,7 @@ export function clearData(): void {
  * @returns Nothing.
  */
 export function displayData(data: tableRow[]) {
+    data = [...data]
     // create new tbody
     var newTbody = document.createElement('tbody');
     newTbody.classList.add("bg-white", "divide-y", "divide-gray-200");

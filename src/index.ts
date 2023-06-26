@@ -4,19 +4,23 @@ import { clearData, displayData, getFormData } from "./elementsHandler";
 import { GraphHandler } from "./graphHandler";
 import { getRedsAndGreens, getRedsAndGreensByDay, getRedsAndGreensByHour, getRedsAndGreensByWeek, getRedsandGreensByMonth } from "./timeGrouping";
 
+// clear data on page load
 window.addEventListener("load", () => {
   clearData();
 });
 
+// handle form submission
 const form = document.getElementById("form") as HTMLFormElement;
 form.addEventListener("submit", e => {
   handleSubmit(e);
 });
 
+// grab date input elements
 const from_datetime_el = document.getElementById("from_date") as HTMLInputElement;
 const to_datetime_el = document.getElementById("to_date") as HTMLInputElement;
 const on_datetime_el = document.getElementById("on_date") as HTMLInputElement;
 
+// handle date change events
 from_datetime_el.addEventListener("change", e => {
   handleDateChange(e);
 });
@@ -29,6 +33,7 @@ on_datetime_el.addEventListener("change", e => {
   handleDateChange(e);
 });
 
+// handle download button click
 const download_button = document.getElementById("download_btn") as HTMLButtonElement;
 download_button.addEventListener("click", e => {
   handleDownloadBtn();
@@ -77,28 +82,25 @@ function handleSubmit(event: Event): void {
     var sumData = getRedsAndGreens(data)
     GraphHandler.displaySummaryGraph(sumData)
 
-
+    // Get data for different time periods
     var hourData = getRedsAndGreensByHour(data)
     var dayData = getRedsAndGreensByDay(data)
     var weekData = getRedsAndGreensByWeek(data)
     var monthData = getRedsandGreensByMonth(data)
 
 
+    // Determine which data to display based on the length of the data arrays
     if (hourData.length <= 24 && !on_datetime_el.disabled) {
       GraphHandler.displayRedsAndGreensByHour(hourData)
-      console.log("hour")
     }
     else if (dayData.length <= 25) {
       GraphHandler.displayRedsAndGreensByDay(dayData)
-      console.log("day")
     }
     else if (weekData.length <= 25) {
       GraphHandler.displayRedsAndGreensByWeek(weekData)
-      console.log("week")
     }
     else {
       GraphHandler.displayRedsAndGreensByMonth(monthData)
-      console.log("month")
     }
   });
 }
