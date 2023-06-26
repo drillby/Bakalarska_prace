@@ -68,8 +68,8 @@ export class GraphHandler {
                 scales: {
                     y: {
                         ticks: {
-                            stepSize: 1
-                        }
+                            stepSize: 1,
+                        },
                     }
                 }
             }
