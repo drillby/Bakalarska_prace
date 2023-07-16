@@ -68,6 +68,12 @@ def get_from_db() -> Response:
                 status=400,
             )
 
+    if from_datetime and to_datetime and on_datetime:
+        return Response(
+            "You can't use from_datetime, to_datetime and on_datetime at the same time",
+            status=400,
+        )
+
     # validate color format
     if color not in ["all", "red", "green"]:
         return Response("Invalid is_red format. Should be True or False", status=400)
@@ -94,11 +100,14 @@ def get_from_db() -> Response:
     # execute query
     query: List[Passing] = query.all()
 
-    return jsonify(
+    res = jsonify(
         {
             "data": [passing.to_dict() for passing in query],
-        }
+        },
     )
+    res.status_code = 201
+
+    return res
 
 
 @app.route("/download_data", methods=["GET"])
