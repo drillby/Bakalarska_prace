@@ -3,3 +3,7 @@ build
 node_modules
 package-lock.json
 .venv
+cert
+app
+logs
+__pycache__
