@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>BP - chyba</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="dist/error.js" type="module"></script>
+	</head>
+	<body>
+		<noscript>
+			<div
+				style="
+					background-color: #f8d7da;
+					border: 1px solid #f5c6cb;
+					color: #721c24;
+					padding: 10px;
+				"
+			>
+				<h1>Pro správnou funkčnost stránky je potřeba povolit JavaScript.</h1>
+			</div>
+		</noscript>
+		<!-- generate error page and style it with tailwindcss -->
+		<div class="flex justify-center">
+			<div class="m-4">
+				<h1 class="text-4xl" id="resCode">404</h1>
+				<h2 class="text-2xl" id="errorText">Stránka nenalezena</h2>
+				<p class="text-xl" id="errorSubText">
+					Stránka, kterou hledáte neexistuje.
+				</p>
+			</div>
+		</div>
+		<!-- add redirect button to "/" -->
+		<div class="flex justify-center">
+			<a
+				href="/"
+				class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+			>
+				Zpět na hlavní stránku
+			</a>
+		</div>
+	</body>
+</html>
