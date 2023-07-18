@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { serverConfig, tableRow } from "./types/databaseTypes";
 import { formValues } from "./types/formTypes";
 
@@ -23,10 +22,7 @@ export async function getTableEntries(formVals: formValues, serverConf: serverCo
 
     // create response object
     const response = await fetch(`http://${serverConf.url}:${serverConf.port}/get_data?${params}`);
-    if (response.status !== 200) {
-        Cookies.set("resCode", `${response.status}`);
-        Cookies.set("resText", `${response.statusText}`);
-    }
+
     // create json object
     const json: tableRow[] = await response.json();
     // @ts-ignore
