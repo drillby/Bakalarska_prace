@@ -5,6 +5,7 @@ from typing import List
 
 import pandas as pd
 from flask import Response, jsonify, request, send_file
+from sqlalchemy import desc
 
 from app import api_logger, app, db
 from app.models.Passing import Passing
@@ -41,10 +42,14 @@ def get_from_db() -> Response:
             )
         except ValueError:
             api_logger.error(f"Invalid from_datetime format: {from_datetime}")
-            return Response(
-                "Invalid from_datetime format. Should be ISO 8601 format with Z at the end (e.g. 2021-01-01T00:00:00Z)",
-                status=400,
+            response = jsonify(
+                {
+                    "error_text": "Nesprávný formát u atributu from_date.",
+                    "error_subtext": "Očekáván ISO 8601 formát se Z na konci (např. 2021-01-01T00:00:00Z)",
+                }
             )
+            response.status_code = 400
+            return response
 
     # validate to_datetime format and convert to datetime
     if to_datetime:
@@ -52,10 +57,14 @@ def get_from_db() -> Response:
             to_datetime = datetime.datetime.fromisoformat(to_datetime.replace("Z", ""))
         except ValueError:
             api_logger.error(f"Invalid to_datetime format: {to_datetime}")
-            return Response(
-                "Invalid to_datetime format. Should be ISO 8601 format with Z at the end (e.g. 2021-01-01T00:00:00Z)",
-                status=400,
+            response = jsonify(
+                {
+                    "error_text": "Nesprávný formát u atributu to_datetime.",
+                    "error_subtext": "Očekáván ISO 8601 formát se Z na konci (např. 2021-01-01T00:00:00Z)",
+                }
             )
+            response.status_code = 400
+            return response
 
     # validate on_datetime format and convert to datetime
     if on_datetime:
@@ -63,20 +72,25 @@ def get_from_db() -> Response:
             on_datetime = datetime.datetime.fromisoformat(on_datetime.replace("Z", ""))
         except ValueError:
             api_logger.error(f"Invalid on_datetime format: {on_datetime}")
-            return Response(
-                "Invalid on_datetime format. Should be ISO 8601 format with Z at the end (e.g. 2021-01-01T00:00:00Z)",
-                status=400,
+            response = jsonify(
+                {
+                    "error_text": "Nesprávný formát u atributu on_datetime.",
+                    "error_subtext": "Očekáván ISO 8601 formát se Z na konci (např. 2021-01-01T00:00:00Z)",
+                }
             )
-
-    if from_datetime and to_datetime and on_datetime:
-        return Response(
-            "You can't use from_datetime, to_datetime and on_datetime at the same time",
-            status=400,
-        )
+            response.status_code = 400
+            return response
 
     # validate color format
     if color not in ["all", "red", "green"]:
-        return Response("Invalid is_red format. Should be True or False", status=400)
+        response = jsonify(
+            {
+                "error_text": "Nesprávný formát u atributu is_red.",
+                "error_subtext": "Očekáván string s jednou z těchto hodnot - red, green, all",
+            },
+        )
+        response.status_code = 400
+        return response
 
     # create query and filter it
     query = db.session.query(Passing)
@@ -98,12 +112,14 @@ def get_from_db() -> Response:
 
     api_logger.info(f"Recieved query: {query}")
     # execute query
-    query: List[Passing] = query.all()
+    query: List[Passing] = query.order_by(desc(Passing.date_time)).all()
+
+    print([passing.to_dict() for passing in query])
 
     res = jsonify(
         {
             "data": [passing.to_dict() for passing in query],
-        },
+        }
     )
     res.status_code = 201
 
@@ -141,10 +157,14 @@ def download_from_db() -> Response:
             )
         except ValueError:
             api_logger.error(f"Invalid from_datetime format: {from_datetime}")
-            return Response(
-                "Invalid from_datetime format. Should be ISO 8601 format with Z at the end (e.g. 2021-01-01T00:00:00Z)",
-                status=400,
+            response = jsonify(
+                {
+                    "error_text": "Nesprávný formát u atributu from_date.",
+                    "error_subtext": "Očekáván ISO 8601 formát se Z na konci (např. 2021-01-01T00:00:00Z)",
+                }
             )
+            response.status_code = 400
+            return response
 
     # validate to_datetime format and convert to datetime
     if to_datetime:
@@ -152,10 +172,14 @@ def download_from_db() -> Response:
             to_datetime = datetime.datetime.fromisoformat(to_datetime.replace("Z", ""))
         except ValueError:
             api_logger.error(f"Invalid to_datetime format: {to_datetime}")
-            return Response(
-                "Invalid to_datetime format. Should be ISO 8601 format with Z at the end (e.g. 2021-01-01T00:00:00Z)",
-                status=400,
+            response = jsonify(
+                {
+                    "error_text": "Nesprávný formát u atributu to_datetime.",
+                    "error_subtext": "Očekáván ISO 8601 formát se Z na konci (např. 2021-01-01T00:00:00Z)",
+                }
             )
+            response.status_code = 400
+            return response
 
     # validate on_datetime format and convert to datetime
     if on_datetime:
@@ -163,14 +187,25 @@ def download_from_db() -> Response:
             on_datetime = datetime.datetime.fromisoformat(on_datetime.replace("Z", ""))
         except ValueError:
             api_logger.error(f"Invalid on_datetime format: {on_datetime}")
-            return Response(
-                "Invalid on_datetime format. Should be ISO 8601 format with Z at the end (e.g. 2021-01-01T00:00:00Z)",
-                status=400,
+            response = jsonify(
+                {
+                    "error_text": "Nesprávný formát u atributu on_datetime.",
+                    "error_subtext": "Očekáván ISO 8601 formát se Z na konci (např. 2021-01-01T00:00:00Z)",
+                }
             )
+            response.status_code = 400
+            return response
 
     # validate color format
     if color not in ["all", "red", "green"]:
-        return Response("Invalid is_red format. Should be True or False", status=400)
+        response = jsonify(
+            {
+                "error_text": "Nesprávný formát u atributu is_red.",
+                "error_subtext": "Očekáván string s jednou z těchto hodnot - red, green, all",
+            },
+        )
+        response.status_code = 400
+        return response
 
     # create query and filter it
     query = db.session.query(Passing)
@@ -220,7 +255,13 @@ def gen_dummy_data(num_to_gen: int) -> Response:
     """
     if num_to_gen < 0:
         api_logger.warning("Negative num requested")
-        return Response("Cannot create negative entries.", 400)
+        response = jsonify(
+            {
+                "error_text": "Neočekávaný počet záznamů",
+                "error_subtext": "Minilální počet záznamů pro vytvoření je 1",
+            },
+        )
+        response.status_code = 400
 
     for _ in range(num_to_gen):
         # generate random datetime in last year
@@ -235,9 +276,11 @@ def gen_dummy_data(num_to_gen: int) -> Response:
         db.session.add(passing)
         api_logger.info(f"Added entry to database: {repr(passing)}")
     db.session.commit()
-    return jsonify(
+    response = jsonify(
         {
             "status": "ok",
             "message": f"Generated {num_to_gen} entries",
         }
     )
+    response.status_code = 201
+    return response
