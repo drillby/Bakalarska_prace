@@ -3,6 +3,7 @@ import { downloadTableEntries, getTableEntries } from "./databaseHandler";
 import { clearData, displayData, getFormData } from "./elementsHandler";
 import { GraphHandler } from "./graphHandler";
 import { getRedsAndGreens, getRedsAndGreensByDay, getRedsAndGreensByHour, getRedsAndGreensByWeek, getRedsandGreensByMonth } from "./timeGrouping";
+import { fallbackHTTPError } from "./error";
 
 // clear data on page load
 window.addEventListener("load", () => {
@@ -66,8 +67,9 @@ function handleSubmit(event: Event): void {
     return;
   }
 
+
   // retrieve table entries from server and display them
-  getTableEntries(values, { url: "192.168.132.156", port: 8000 }).then((data) => {
+  getTableEntries(values, { url: "192.168.132.156", port: 8000 }, fallbackHTTPError).then((data) => {
     displayData(data)
     // if canvas is not empty, destroy it
     if (document.getElementById("summaryChart") !== null) {

@@ -7,7 +7,7 @@ import { formValues } from "./types/formTypes";
  * @param serverConf An object of type `serverConfig` containing the server configuration to use in the request.
  * @returns A promise that resolves to an array of objects of type `tableRow` representing the retrieved table entries.
  */
-export async function getTableEntries(formVals: formValues, serverConf: serverConfig): Promise<tableRow[]> {
+export async function getTableEntries(formVals: formValues, serverConf: serverConfig, fallback: Function): Promise<tableRow[]> {
     // create URLSearchParams object
     const params = new URLSearchParams();
     // add params to URLSearchParams object
@@ -23,6 +23,13 @@ export async function getTableEntries(formVals: formValues, serverConf: serverCo
     // create response object
     const response = await fetch(`http://${serverConf.url}:${serverConf.port}/get_data?${params}`);
 
+    // if response is not ok, throw error
+    if (!response.ok) {
+        const code = response.status;
+        const res_json: { error_subtext: string, error_text: string } = await response.json();
+        fallback({ statusCode: code, message: res_json.error_text, subMessage: res_json.error_subtext })
+        throw new Error(response.statusText);
+    }
     // create json object
     const json: tableRow[] = await response.json();
     // @ts-ignore
