@@ -33,14 +33,14 @@ uint16_t ProximitySensorController::measure(uint8_t measurement_time)
     return (time / 2) / 29.1;
 }
 
-bool ProximitySensorController::compare(uint16_t mesured_len)
+bool ProximitySensorController::compare(uint16_t mesured_len, uint16_t delay_between_trig)
 {
     bool inBounds = mesured_len <= base_len - mi_offset && mesured_len >= base_len - ma_offset;
     bool wasPrevious = _prev_state <= base_len - mi_offset && _prev_state >= base_len - ma_offset;
     _prev_state = mesured_len;
 
     uint16_t now = millis();
-    bool time = now - last_trig >= 500;
+    bool time = now - last_trig >= delay_between_trig;
     if (inBounds)
     {
         last_trig = now;

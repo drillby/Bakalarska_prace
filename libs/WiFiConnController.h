@@ -11,7 +11,7 @@ public:
     /// @param ssid název WiFi sítě
     /// @param pw heslo do WiFi sítě
     WiFiConnController(String ssid, String pw, uint16_t connection_check_delay = 1000);
-    /// @brief pokusí se připojit Arduino k WiFi, musí být zavolána v setup(), připojuje pouze k sítím zabezpečených pomocí WPA, zbylá zabezpečení nemá smysl řešit
+    /// @brief pokusí se připojit Arduino k WiFi, musí být zavolána v setup(), připojuje pouze k sítím zabezpečených pomocí WPA2
     /// @param num_of_tries kolikrát se pokusí připojit k WiFi síti, prodleva mezi pokusy je 10s
     /// @return None
     void connect(uint8_t num_of_tries);

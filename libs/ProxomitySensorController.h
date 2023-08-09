@@ -19,8 +19,9 @@ public:
     void init();
     /// @brief porovnává zda senzor zaznamenal pohyb od posledního měření a zda uběhla požadovaná doba, požadovaná doba je zde z důvodu odstranění chyb v měření
     /// @param mesured_len zvdálenost na porovnání
-    /// @return true pokud vzdálenost je v rozsahu a předchozí stav nebyl a uběhla minimálně požadovaná doba (0.5s)
-    bool compare(uint16_t mesured_len);
+    /// @param delay_between_trig po jaké době (ms) se bude nový průjezd brát jako validní
+    /// @return true pokud vzdálenost je v rozsahu a předchozí stav nebyl a uběhla minimálně požadovaná doba (delay_between_trig)
+    bool compare(uint16_t mesured_len, uint16_t delay_between_trig = 500);
     uint8_t t_pin;
     uint8_t e_pin;
     uint16_t mi_offset;
