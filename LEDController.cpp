@@ -21,18 +21,7 @@ void LEDController::changeState(uint8_t new_state)
     return;
 }
 
-bool LEDController::onIntervalPassed(unsigned long interval)
-{
-    unsigned long curr_time = millis();
-    if (curr_time - _prev_time >= interval)
-    {
-        _prev_time = curr_time;
-        return true;
-    }
-    return false;
-}
-
-bool LEDController::offIntervalPassed(unsigned long interval)
+bool LEDController::intervalPassed(unsigned long interval)
 {
     unsigned long curr_time = millis();
     if (curr_time - _prev_time >= interval)

@@ -140,25 +140,25 @@ void loop()
 
   // červená
   if (!CervenaLED.is_active && !ZelenaLED.is_active &&
-      !OrangovaLED.is_active && CervenaLED.offIntervalPassed(CERVENA_INTERVAL))
+      !OrangovaLED.is_active && CervenaLED.intervalPassed(CERVENA_INTERVAL))
   {
     CervenaLED.changeState(HIGH);
   }
   else if (CervenaLED.is_active && !OrangovaLED.is_active &&
-           CervenaLED.onIntervalPassed(CERVENA_INTERVAL))
+           CervenaLED.intervalPassed(CERVENA_INTERVAL))
   {
     CervenaLED.changeState(LOW);
   }
 
   // červená + oranžová
   if (c_o && !CervenaLED.is_active && !ZelenaLED.is_active &&
-      !OrangovaLED.is_active && OrangovaLED.offIntervalPassed(CERVENA_ORANZOVA_INTERVAL))
+      !OrangovaLED.is_active && OrangovaLED.intervalPassed(CERVENA_ORANZOVA_INTERVAL))
   {
     CervenaLED.changeState(HIGH);
     OrangovaLED.changeState(HIGH);
   }
   else if (c_o && OrangovaLED.is_active && CervenaLED.is_active &&
-           OrangovaLED.onIntervalPassed(CERVENA_ORANZOVA_INTERVAL))
+           OrangovaLED.intervalPassed(CERVENA_ORANZOVA_INTERVAL))
   {
     CervenaLED.changeState(LOW);
     OrangovaLED.changeState(LOW);
@@ -167,23 +167,23 @@ void loop()
 
   // zelená
   if (!ZelenaLED.is_active && !CervenaLED.is_active && !OrangovaLED.is_active &&
-      ZelenaLED.offIntervalPassed(ZELENA_INTERVAL))
+      ZelenaLED.intervalPassed(ZELENA_INTERVAL))
   {
     ZelenaLED.changeState(HIGH);
     MQTTSender.poll();
   }
-  else if (ZelenaLED.is_active && ZelenaLED.onIntervalPassed(ZELENA_INTERVAL))
+  else if (ZelenaLED.is_active && ZelenaLED.intervalPassed(ZELENA_INTERVAL))
   {
     ZelenaLED.changeState(LOW);
   }
 
   // oranžová
   if (!c_o && !CervenaLED.is_active && !ZelenaLED.is_active && !OrangovaLED.is_active &&
-      OrangovaLED.offIntervalPassed(ORANZOVA_INTERVAL))
+      OrangovaLED.intervalPassed(ORANZOVA_INTERVAL))
   {
     OrangovaLED.changeState(HIGH);
   }
-  else if (!c_o && OrangovaLED.is_active && OrangovaLED.onIntervalPassed(ORANZOVA_INTERVAL))
+  else if (!c_o && OrangovaLED.is_active && OrangovaLED.intervalPassed(ORANZOVA_INTERVAL))
   {
     OrangovaLED.changeState(LOW);
     c_o = true;

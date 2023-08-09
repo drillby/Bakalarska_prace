@@ -19,14 +19,10 @@ public:
     /// @brief slouží ke změně stavu LED
     /// @param new_state nový stav LED, může být 1, nebo 0
     void changeState(uint8_t new_state);
-    /// @brief kontroluje zda uběhl interval během kterého má LED svítit
-    /// @param interval doba v ms po kterou má být LED rozsvícená
+    /// @brief kontroluje zda uběhl interval během kterého má LED držet svůj stav
+    /// @param interval doba v ms po kterou má být LED v daném stavu
     /// @return true pokud interval doby zapnutí uběhl
-    bool onIntervalPassed(unsigned long interval);
-    /// @brief kontroluje zda uběhl interval během kterého má LED být zhasnutá
-    /// @param interval doba v ms po kterou má být LED zhasnutá
-    /// @return true pokud interval doby vyppnutí uběhl
-    bool offIntervalPassed(unsigned long interval);
+    bool intervalPassed(unsigned long interval);
 
 private:
     /// @brief čas kdy se uskutečnílo předchozí měření času intervalu
