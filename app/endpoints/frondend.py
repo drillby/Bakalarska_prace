@@ -114,14 +114,12 @@ def get_from_db() -> Response:
     # execute query
     query: List[Passing] = query.order_by(desc(Passing.date_time)).all()
 
-    print([passing.to_dict() for passing in query])
-
     res = jsonify(
         {
             "data": [passing.to_dict() for passing in query],
         }
     )
-    res.status_code = 201
+    res.status_code = 200
 
     return res
 
