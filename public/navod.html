@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>BP - návod</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+	</head>
+	<body class="bg-gray-100">
+		<div class="w-fit m-auto mt-4">
+			<a
+				href="./index.html"
+				class="text-white bg-blue-500 rounded-md hover:bg-blue-600 p-1 m-1 content-center hover:cursor-pointer"
+				>Hlavní stránka</a
+			>
+		</div>
+		<div class="flex mt-4">
+			<div class="w-1/2">
+				<div class="w-3/4 m-auto mx-auto">
+					<h1 class="text-xl underline underline-offset-8 text-center">
+						Návod na použití stránky
+					</h1>
+					<p class="mt-4 text-justify">
+						Webová stránka obsahuje 3 vstupní pole pro výběr datumu a jeden pro
+						výběr barvy. Je možnost vybrat rozmezí dat pomocí pole "Od" a "Do"
+						nebo vybrat konkrétní datum pomocí pole "Dne". Po vybrání data se
+						zobrazí tabulka a grafy s daty z vybraného období. Pokud je vybrána
+						barva, zobrazí se grafy a tabulka pouze s daty, které mají vybranou
+						barvu. Pokud je u barev zaškrtnuto "Všechny", zobrazí se grafy a
+						tabulka se všemi daty.
+					</p>
+					<p class="mt-4 text-justify">
+						Po kliknutí na tlačítko "Zobrazit" se zobrazí dva grafy. První graf
+						obsahuje suamarizaci všechny záznamů z vybraného období v podobě
+						koláčového grafu. Druhý graf obsahuje detailnější informace zvoleném
+						časovém období, jsou v něm zobrazena data o průjezdech v několika
+						měřítkách. Měřítko je vybíráno automaticky podle rozsahu dat.
+					</p>
+					<p class="mt-4 text-justify">
+						Mezi tabulkou a sumarizačním grafem se nachází tlačítko "Stáhnout
+						jako CSV", po kliknutí na toto tlačítko data ve zvoelném rozsahu
+						stáhnout jao soubor ve formátu CSV.
+					</p>
+				</div>
+			</div>
+			<div class="w-1/2 text-center">
+				<div class="w-3/4 m-auto mx-auto">
+					<h1 class="text-xl underline underline-offset-8 text-center">
+						Zadání
+					</h1>
+					<p class="mt-4 text-justify">
+						Vaším úkolem je implementovat jeden z níže popsaných komunikačních
+						protokolů, tak aby spolu bezdrátově v reálném čase komunikovala
+						deska Arduino a Flask server. Deska Arduino bude měřit a odesílat
+						data o průjezdech aut na křižovatce, v odeslaných datech bude
+						informace o tom jaká barva byla na semaforu v momentě průjezdu.
+						Flask server bude tato data přijímat a ukládat do databáze.
+					</p>
+					<p class="m-4">Struktura databázové tabulky je následující:</p>
+					<table
+						class="table-auto border-collapse border border-gray-500 m-auto"
+					>
+						<thead>
+							<tr>
+								<th class="border border-gray-500">id</th>
+								<th class="border border-gray-500">datetime</th>
+								<th class="border border-gray-500">color</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="border border-gray-500">UUID</td>
+								<td class="border border-gray-500">DateTime</td>
+								<td class="border border-gray-500">boolean</td>
+							</tr>
+						</tbody>
+					</table>
+					<h2 class="text-l underline underline-offset-8 text-center mt-4">
+						Komunikační protokoly
+					</h2>
+					<p class="mt-4 text-justify">
+						Níže jsou teoreticky popsané komunikační protokoly, které mohou být
+						použity pro implementaci bezdrátové komunikace v reálném čase.
+					</p>
+					<h3 class="text-l underline underline-offset-8 text-center mt-4">
+						HTTP
+					</h3>
+					<p class="mt-4 text-justify">
+						HTTP (Hypertext Transfer Protocol) je komunikační protokol používaný
+						pro přenos dat mezi klientem a serverem na internetu. Tento protokol
+						umožňuje klientům, například webovým prohlížečům, komunikovat s
+						webovými servery a načítat různé zdroje, například webové stránky,
+						obrázky, videa, koncové body API a další.
+					</p>
+					<p class="mt-4 text-justify">
+						Základní princip protokolu HTTP spočívá v tom, že klient odešle
+						serveru požadavek HTTP, ve kterém uvede, co požaduje. Server pak
+						tento požadavek zpracuje a odešle zpět odpověď HTTP obsahující
+						požadovaná data nebo informace o zpracování požadavku.
+					</p>
+					<p class="mt-4 text-justify">
+						Požadavek HTTP se skládá z několika částí, včetně metody požadavku
+						(GET, POST, PUT, DELETE atd.), cílové adresy URL, hlaviček požadavku
+						(které mohou obsahovat různé informace, například soubory cookie
+						nebo ověřovací údaje) a volitelného těla požadavku, které může
+						obsahovat data odesílaná serveru.
+					</p>
+					<p class="mt-4 text-justify">
+						Odpověď HTTP obsahuje stavový kód, který udává, zda byl požadavek
+						úspěšně zpracován (např. stavový kód 200 OK), nebo zda došlo k chybě
+						(např. stavový kód 404 Not Found nebo 500 Internal Server Error).
+						Odpověď může také obsahovat hlavičky odpovědi a tělo odpovědi
+						obsahující požadovaná data.
+					</p>
+					<h3 class="text-l underline underline-offset-8 text-center mt-4">
+						WebSockets
+					</h3>
+					<p class="mt-4 text-justify">
+						WebSockets je protokol používaný pro obousměrnou komunikaci mezi
+						webovým prohlížečem a webovým serverem. Tento protokol je postavený
+						na HTTP protokolu, ale na rozdíl od tradičního protokolu HTTP, který
+						je založen na jednosměrném modelu, umožňují WebSockets neustálou a
+						interaktivní komunikaci mezi klientem a serverem.
+					</p>
+					<p class="mt-4 text-justify">
+						WebSockets jsou navrženy tak, aby umožňovaly rychlou a efektivní
+						komunikaci v reálném čase. Jakmile je spojení mezi klientem a
+						serverem navázáno, zůstává otevřené a umožňuje okamžité odesílání a
+						přijímání zpráv bez nutnosti opakovaného vytváření nových požadavků
+						a odpovědí.
+					</p>
+					<p class="mt-4 text-justify">
+						Výhodou WebSockets je nízká latence a nižší zatěžování sítě, protože
+						se vyhýbají zbytečnému opakovanému navazování spojení. To je
+						užitečné zejména pro aplikace, které vyžadují rychlou a nepřetržitou
+						komunikaci, jako jsou online chaty, hry v reálném čase, nástroje pro
+						spolupráci nebo sledování událostí v reálném čase.
+					</p>
+					<h3 class="text-l underline underline-offset-8 text-center mt-4">
+						MQTT
+					</h3>
+					<p class="mt-4 text-justify">
+						MQTT (Message Queuing Telemetry Transport) je komunikační protokol
+						určený k výměně zpráv mezi zařízeními v síti. Byl vyvinut pro
+						situace, kdy je vyžadován efektivní a spolehlivý přenos dat s
+						minimální režií sítě. MQTT se široce používá pro internet věcí (IoT)
+						a umožňuje zařízením komunikovat mezi sebou a s centrálním serverem.
+					</p>
+					<p class="mt-4 text-justify">
+						V komunikaci MQTT existují dva hlavní prvky - klienti a
+						zprostředkovatelé (brokeři). Klienti jsou zařízení nebo aplikace,
+						které odesílají nebo přijímají zprávy. Brokeři fungují jako
+						prostředníci, kteří usnadňují komunikaci mezi klienty. Klienti
+						posílají zprávy brokerovi a broker pak tyto zprávy doručuje dalším
+						klientům, kteří o ně mají zájem. Tento komunikační přístup umožňuje
+						jednoduché publikování a přihlašování zpráv, takže je pro prostředí
+						internetu věcí vysoce efektivní.
+					</p>
+					<p class="mt-4 text-justify">
+						MQTT je založen na modelu Publish/Subscribe, kdy se klienti
+						přihlašují k odběru konkrétních témat, aby dostávali zprávy, které
+						je zajímají, a publikují zprávy do předem definovaných kanálů
+						(témat). Tímto způsobem mohou klienti mezi sebou sdílet data a
+						informace.
+					</p>
+					<p class="mt-4 mb-4 text-justify">
+						Další výhodou protokolu MQTT je nízká šířka pásma a spotřeba
+						energie, což je zásadní pro zařízení s omezenými zdroji, jako jsou
+						například senzory v sítích internetu věcí. Zprávy MQTT jsou velmi
+						malé a protokol je optimalizován tak, aby minimalizoval zbytečnou
+						komunikaci.
+					</p>
+					<p class="mt-4 mb-4 text-justify">
+						MQTT brokera si můžet zprovoznit sami, nebo využít veřejné broekry,
+						napříkald
+						<span class="underline">
+							<a href="https://test.mosquitto.org">test.mosquitto.org/</a></span
+						>
+					</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
