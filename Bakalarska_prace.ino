@@ -1,4 +1,4 @@
-// sudo minicom -D /dev/ttyACM0 -b 115200
+// sudo minicom -D /dev/ttyACM0 -b 115200 - pro připojení terminalu k Arduinu přes USB
 
 #include "libs/LEDController.h"
 #include "libs/WiFiConnController.h"
