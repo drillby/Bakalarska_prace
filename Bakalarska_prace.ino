@@ -20,9 +20,9 @@ String wifi_ssid = WIFI_SSID;
 String wiif_pw = WIFI_PW;
 WiFiConnController ConnController(wifi_ssid, wiif_pw);
 
-uint8_t local_server[4] = LOCAL_SERVER;
-IPAddress server_address(local_server[0], local_server[1], local_server[2], local_server[3]);
-APIController FlaskAPI(server_address, SERVER_PORT);
+// uint8_t local_server[4] = LOCAL_SERVER;
+// IPAddress server_address(local_server[0], local_server[1], local_server[2], local_server[3]);
+APIController FlaskAPI(SERVER_ADDRESS, SERVER_PORT);
 
 uint8_t mqtt_server[4] = MQTT_LOCAL;
 IPAddress mqtt_ip(mqtt_server[0], mqtt_server[1], mqtt_server[2], mqtt_server[3]);
