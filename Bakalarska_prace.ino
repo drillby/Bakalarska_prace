@@ -39,7 +39,7 @@ void setup()
   CervenaLED.init();
   OrangovaLED.init();
   ZelenaLED.init();
-  c_o = false;
+  c_o = true;
 
   LEDController LEDs_check_up[3] = {CervenaLED, OrangovaLED, ZelenaLED};
   uint8_t LEDs_check_size = sizeof(LEDs_check_up) / sizeof(LEDController);
