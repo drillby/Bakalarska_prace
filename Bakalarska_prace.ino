@@ -194,7 +194,7 @@ void loop()
   if (SensorController.compare(mesured_height))
   {
     String req_body = "{\"is_red_light\":" +
-                      String(CervenaLED.is_active && !OrangovaLED.is_active) + "}";
+                      String((CervenaLED.is_active && OrangovaLED.is_active) || CervenaLED.is_active) + "}";
     MQTTSender.send(req_body);
   }
 }
