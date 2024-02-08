@@ -222,6 +222,10 @@ void loop()
   {
 #ifdef DEBUG
     Serial.println("Pohyb zaznamenán");
+    Serial.println("Výška: " + String(mesured_height) + " cm");
+    Serial.println("Čas: " + String(millis()) + " ms");
+    Serial.println("Barva: " + String((CervenaLED.is_active && OrangovaLED.is_active) || CervenaLED.is_active));
+
 #endif
     String req_body = "{\"is_red_light\":" +
                       String((CervenaLED.is_active && OrangovaLED.is_active) || CervenaLED.is_active) + "}";
