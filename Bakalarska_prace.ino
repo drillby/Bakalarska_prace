@@ -27,7 +27,7 @@ WiFiConnController ConnController(wifi_ssid, wiif_pw);
 APIController FlaskAPI(SERVER_ADDRESS, SERVER_PORT);
 
 uint8_t mqtt_server[4] = MQTT_LOCAL;
-IPAddress mqtt_ip(mqtt_server[0], mqtt_server[1], mqtt_server[2], mqtt_server[3]);
+// IPAddress mqtt_ip(mqtt_server[0], mqtt_server[1], mqtt_server[2], mqtt_server[3]);
 MQTTController MQTTSender(MQTT_SERVER, MQTT_PORT, MQTT_TOPIC);
 
 ProximitySensorController SensorController(TRIGGER, ECHO, TRIGGER_OFFSET_MIN, TRIGGER_OFFSET_MAX);
