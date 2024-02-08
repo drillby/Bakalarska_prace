@@ -22,6 +22,7 @@ public:
     /// @param delay_between_trig po jaké době (ms) se bude nový průjezd brát jako validní
     /// @return true pokud vzdálenost je v rozsahu a předchozí stav nebyl a uběhla minimálně požadovaná doba (delay_between_trig)
     bool compare(uint16_t mesured_len, uint16_t delay_between_trig = 500);
+    uint16_t get_base_len() { return base_len; }
     uint8_t t_pin;
     uint8_t e_pin;
     uint16_t mi_offset;
