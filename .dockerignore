@@ -1,0 +1,10 @@
+.venv
+build
+cert
+logs
+node_modules
+thesis
+.gitignore
+package-lock.json
+README.md
+LICENSE
