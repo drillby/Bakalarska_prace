@@ -2,9 +2,9 @@ import ssl
 
 
 class ServerConfig:
-    IP_ADDRESS = "192.168.132.103"
+    IP_ADDRESS = "127.0.0.1"
     TESTING = False
-    PORT = 8000
+    PORT = 5000
     DEBUG = True
     RELOADER = False
     CORS_CONFIG = {

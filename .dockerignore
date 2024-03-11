@@ -1,0 +1,10 @@
+.github
+.venv
+.vscode
+build
+node_modules
+thesis
+.gitignore
+LICENSE
+package-lock.json
+README.md
